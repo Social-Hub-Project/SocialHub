@@ -1,0 +1,23 @@
+package com.application.socialhub.service;
+
+import com.application.socialhub.model.User;
+import com.application.socialhub.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+}
