@@ -1,94 +1,80 @@
 package com.application.socialhub.model;
 
 import jakarta.persistence.Entity;
-
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(
+        name = "my_user",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "customer_email_unique",
+                        columnNames = "email"
+                )
+        }
+)
 public class User {
 
+    @Id
+    @SequenceGenerator(
+            name = "my_user_id_seq",
+            sequenceName = "my_user_id_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "my_user_id_seq"
+    )
     private long id;
 
+    @Column(
+            nullable = false
+    )
+    @Enumerated(EnumType.STRING)
     private Role role;
-
-    private Sex sex;
-
+    @Column(
+            nullable = false
+    )
     private String email;
-
+    @Column(
+            nullable = false
+    )
     private String password;
-
+    @Column(
+            nullable = false
+    )
     private Boolean active;
-
-    private String name;
-
-    private String surname;
-
-    private LocalDate birthday;
-
-    private String residence;
-
-    private Boolean blocked;
-
-    private String profilePhotoSource;
-
-    private String bgPhotoSource;
 
     private LocalDate createdAt;
 
     public User() {
     }
 
-    public User(Role role,
-                Sex sex,
-                String email,
-                String password,
-                Boolean active,
-                String name,
-                String surname,
-                LocalDate birthday,
-                String residence,
-                Boolean blocked,
-                String profilePhotoSource,
-                String bgPhotoSource) {
+    public User( Role role,
+                 String email,
+                 String password,
+                 Boolean active,
+                 LocalDate createdAt) {
         this.role = role;
-        this.sex = sex;
         this.email = email;
         this.password = password;
         this.active = active;
-        this.name = name;
-        this.surname = surname;
-        this.birthday = birthday;
-        this.residence = residence;
-        this.blocked = blocked;
-        this.profilePhotoSource = profilePhotoSource;
-        this.bgPhotoSource = bgPhotoSource;
+        this.createdAt = createdAt;
     }
 
-    public User(Long id,
+    public User(long id,
                 Role role,
-                Sex sex,
                 String email,
                 String password,
                 Boolean active,
-                String name,
-                String surname,
-                LocalDate birthday,
-                String residence,
-                Boolean blocked,
-                String profilePhotoSource,
-                String bgPhotoSource) {
+                LocalDate createdAt) {
         this.id = id;
         this.role = role;
-        this.sex = sex;
         this.email = email;
         this.password = password;
         this.active = active;
-        this.name = name;
-        this.surname = surname;
-        this.birthday = birthday;
-        this.residence = residence;
-        this.blocked = blocked;
-        this.profilePhotoSource = profilePhotoSource;
-        this.bgPhotoSource = bgPhotoSource;
+        this.createdAt = createdAt;
     }
 
     public long getId() {
@@ -105,14 +91,6 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public Sex getSex() {
-        return sex;
-    }
-
-    public void setSex(Sex sex) {
-        this.sex = sex;
     }
 
     public String getEmail() {
@@ -139,62 +117,6 @@ public class User {
         this.active = active;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getResidence() {
-        return residence;
-    }
-
-    public void setResidence(String residence) {
-        this.residence = residence;
-    }
-
-    public Boolean getBlocked() {
-        return blocked;
-    }
-
-    public void setBlocked(Boolean blocked) {
-        this.blocked = blocked;
-    }
-
-    public String getProfilePhotoSource() {
-        return profilePhotoSource;
-    }
-
-    public void setProfilePhotoSource(String profilePhotoSource) {
-        this.profilePhotoSource = profilePhotoSource;
-    }
-
-    public String getBgPhotoSource() {
-        return bgPhotoSource;
-    }
-
-    public void setBgPhotoSource(String bgPhotoSource) {
-        this.bgPhotoSource = bgPhotoSource;
-    }
-
     public LocalDate getCreatedAt() {
         return createdAt;
     }
@@ -208,17 +130,9 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", role=" + role +
-                ", sex=" + sex +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", active=" + active +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", birthday=" + birthday +
-                ", residence='" + residence + '\'' +
-                ", blocked=" + blocked +
-                ", profilePhotoSource='" + profilePhotoSource + '\'' +
-                ", bgPhotoSource='" + bgPhotoSource + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }

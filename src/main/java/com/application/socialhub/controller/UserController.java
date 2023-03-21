@@ -1,6 +1,6 @@
 package com.application.socialhub.controller;
 
-import com.application.socialhub.model.User;
+import com.application.socialhub.dto.UserDTO;
 import com.application.socialhub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/users")
+@RequestMapping(path = "/users")
 public class UserController {
     private final UserService userService;
 
@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
-        return  userService.getUsers();
+    public List<UserDTO> getAllUsers() {
+        return  userService.getAllUsers();
     }
 }

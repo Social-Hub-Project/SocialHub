@@ -1,10 +1,12 @@
 package com.application.socialhub.dto;
 
+import com.application.socialhub.model.Role;
+
 public record UserDTO(
         String email,
-        String name,
-        String surname,
+        Role role,
         Boolean active
+
 ) {
 
 }
