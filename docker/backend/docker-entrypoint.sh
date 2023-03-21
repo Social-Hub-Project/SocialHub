@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "spring.jpa.hibernate.ddl-auto=update" > application.properties
+echo "spring.jpa.hibernate.ddl-auto=create-drop" > application.properties
 echo "spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect" >> application.properties
 echo "spring.datasource.url=jdbc:postgresql://$DB_HOST:$DB_PORT/$DB_NAME" >> application.properties
 

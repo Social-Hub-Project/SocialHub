@@ -31,7 +31,12 @@ public class UserConfig {
                     true,
                     LocalDate.of(2002, MARCH, 12));
 
-            userRepository.saveAll(List.of(adam, anna));
+            User marek = new User(Role.USER,
+                    "marek@email.com",
+                    "marek",
+                    true,
+                    LocalDate.of(2001, MARCH, 14));
+            userRepository.saveAll(List.of(adam, anna, marek));
         };
     }
 
