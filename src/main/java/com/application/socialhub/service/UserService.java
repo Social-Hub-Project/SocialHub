@@ -5,11 +5,15 @@ import com.application.socialhub.dto.UserDTO;
 import com.application.socialhub.dto.UserRegistrationRequest;
 import com.application.socialhub.dtoMappers.UserDTOMapper;
 import com.application.socialhub.dtoMappers.UserDetailsDTOMapper;
+import com.application.socialhub.exception.DuplicateResourceException;
+import com.application.socialhub.model.Role;
 import com.application.socialhub.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,11 +24,17 @@ public class UserService {
     private final UserDetailsDTOMapper userDetailsDTOMapper;
     private final UserDTOMapper userDTOMapper;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserService(@Qualifier("jpa") UserDAO userDAO, UserDetailsDTOMapper userDetailsDTOMapper, UserDTOMapper userDTOMapper) {
+    public UserService(@Qualifier("jpa") UserDAO userDAO,
+                       UserDetailsDTOMapper userDetailsDTOMapper,
+                       UserDTOMapper userDTOMapper,
+                       PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.userDetailsDTOMapper = userDetailsDTOMapper;
         this.userDTOMapper = userDTOMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserDTO> getAllUsers() {
@@ -39,7 +49,7 @@ public class UserService {
 
             String email = request.email();
             //TODO create method below and passwordEncoder
-            if (userDAO.existsCustomerWithEmail(email)) {
+            if (userDAO.existsUserWithEmail(email)) {
                 throw new DuplicateResourceException(
                         "email already taken"
                 );
@@ -47,13 +57,18 @@ public class UserService {
 
 
             User user = new User(
-                    request.name(),
+                    Role.USER,
                     request.email(),
+                    request.name(),
                     passwordEncoder.encode(request.password()),
-                    request.age(),
-                    request.sex());
+                    true,
+                    LocalDate.now(),
+                    true,
+                    false
+                    );
 
-        userDAO.insertCustomer(user);
+
+        userDAO.insertUser(user);
 
     }
 }

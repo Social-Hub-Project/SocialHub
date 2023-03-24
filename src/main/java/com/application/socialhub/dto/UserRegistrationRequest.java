@@ -12,6 +12,5 @@ public record UserRegistrationRequest(
         Sex sex,
         String residence,
         LocalDate dateOfBirth
-
         ) {
 }

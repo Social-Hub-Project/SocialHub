@@ -15,7 +15,7 @@ import java.util.Collections;
         name = "my_user",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "customer_email_unique",
+                        name = "my_user_email_unique",
                         columnNames = "email"
                 )
         }
@@ -113,7 +113,9 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return email;
+        // email because we use "public UserDetails loadUserByUsername(String email)"
+        // this method will search for getUsername() in DB, but we compare emails not names.
     }
 
     @Override

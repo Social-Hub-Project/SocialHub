@@ -7,5 +7,10 @@ import java.util.Optional;
 
 public interface UserDAO {
     List<User> selectAllUsers();
-    Optional<User> selectUserByEmail(String email);
+
+    Optional<User> findUserByEmail(String email);
+
+    boolean existsUserWithEmail(String email);
+
+    void insertUser(User user);
 }
