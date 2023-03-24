@@ -8,15 +8,12 @@ public class UserDetails {
 
     private long id_user;
 
-    private String name;
 
     private String surname;
 
     private LocalDate dateOfBirth;
 
     private String residence;
-
-    private Boolean blocked;
 
     private String profilePhotoSource;
 
@@ -30,21 +27,17 @@ public class UserDetails {
     }
 
     public UserDetails(long id_user,
-                       String name,
                        String surname,
                        LocalDate dateOfBirth,
                        String residence,
-                       Boolean blocked,
                        String profilePhotoSource,
                        String bgPhotoSource,
                        Sex sex,
                        LocalDate createdAt) {
         this.id_user = id_user;
-        this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
         this.residence = residence;
-        this.blocked = blocked;
         this.profilePhotoSource = profilePhotoSource;
         this.bgPhotoSource = bgPhotoSource;
         this.sex = sex;
@@ -53,22 +46,18 @@ public class UserDetails {
 
     public UserDetails(long id,
                        long id_user,
-                       String name,
                        String surname,
                        LocalDate dateOfBirth,
                        String residence,
-                       Boolean blocked,
                        String profilePhotoSource,
                        String bgPhotoSource,
                        Sex sex,
                        LocalDate createdAt) {
         this.id = id;
         this.id_user = id_user;
-        this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
         this.residence = residence;
-        this.blocked = blocked;
         this.profilePhotoSource = profilePhotoSource;
         this.bgPhotoSource = bgPhotoSource;
         this.sex = sex;
@@ -89,14 +78,6 @@ public class UserDetails {
 
     public void setId_user(long id_user) {
         this.id_user = id_user;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getSurname() {
@@ -121,14 +102,6 @@ public class UserDetails {
 
     public void setResidence(String residence) {
         this.residence = residence;
-    }
-
-    public Boolean getBlocked() {
-        return blocked;
-    }
-
-    public void setBlocked(Boolean blocked) {
-        this.blocked = blocked;
     }
 
     public String getProfilePhotoSource() {
@@ -167,11 +140,9 @@ public class UserDetails {
     public String toString() {
         return "UserDetails{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", birthday=" + dateOfBirth +
+                ", dateOfBirth=" + dateOfBirth +
                 ", residence='" + residence + '\'' +
-                ", blocked=" + blocked +
                 ", profilePhotoSource='" + profilePhotoSource + '\'' +
                 ", bgPhotoSource='" + bgPhotoSource + '\'' +
                 ", sex=" + sex +

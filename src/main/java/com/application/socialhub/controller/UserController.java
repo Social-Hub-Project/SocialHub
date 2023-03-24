@@ -1,16 +1,16 @@
 package com.application.socialhub.controller;
 
 import com.application.socialhub.dto.UserDTO;
+import com.application.socialhub.dto.UserRegistrationRequest;
 import com.application.socialhub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/users")
+@RequestMapping
 public class UserController {
     private final UserService userService;
 
@@ -19,8 +19,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/user")
     public List<UserDTO> getAllUsers() {
         return  userService.getAllUsers();
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerCustomer(
+            @RequestBody UserRegistrationRequest request) {
+        userService.addUser(request);
+        String jwtToken = jwtUtil.issueToken(request.email(), "ROLE_USER");
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .build();
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository("jpa")
 public class UserJPADataAccessService implements UserDAO{
@@ -21,5 +22,10 @@ public class UserJPADataAccessService implements UserDAO{
     public List<User> selectAllUsers() {
         Page<User> page = userRepository.findAll(Pageable.ofSize(1000));
         return page.getContent();
+    }
+
+    @Override
+    public Optional<User> selectUserByEmail(String email) {
+        return userRepository.selectUserByEmail(email);
     }
 }

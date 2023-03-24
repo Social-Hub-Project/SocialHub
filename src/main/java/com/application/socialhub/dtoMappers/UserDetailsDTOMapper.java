@@ -10,7 +10,6 @@ public class UserDetailsDTOMapper implements Function<UserDetails, UserDetailsDT
     @Override
     public UserDetailsDTO apply(UserDetails userDetails) {
         return new UserDetailsDTO(
-                userDetails.getName(),
                 userDetails.getSurname(),
                 userDetails.getDateOfBirth(),
                 userDetails.getResidence(),

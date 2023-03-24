@@ -2,7 +2,13 @@ package com.application.socialhub.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(
@@ -14,7 +20,7 @@ import java.time.LocalDate;
                 )
         }
 )
-public class User {
+public class User implements UserDetails {
 
     @Id
     @SequenceGenerator(
@@ -37,6 +43,12 @@ public class User {
             nullable = false
     )
     private String email;
+
+    @Column(
+            nullable = false
+    )
+    private String name;
+
     @Column(
             nullable = false
     )
@@ -45,36 +57,112 @@ public class User {
             nullable = false
     )
     private Boolean active;
-
     private LocalDate createdAt;
+
+    private Boolean enabled;
+
+
+    private Boolean locked;
 
     public User() {
     }
 
     public User( Role role,
                  String email,
+                 String name,
                  String password,
                  Boolean active,
-                 LocalDate createdAt) {
+                 LocalDate createdAt,
+                 Boolean enabled,
+                 Boolean locked) {
         this.role = role;
         this.email = email;
+        this.name = name;
         this.password = password;
         this.active = active;
         this.createdAt = createdAt;
+        this.enabled = enabled;
+        this.locked = locked;
     }
 
     public User(long id,
                 Role role,
                 String email,
+                String name,
                 String password,
                 Boolean active,
-                LocalDate createdAt) {
+                LocalDate createdAt,
+                Boolean enabled,
+                Boolean locked) {
         this.id = id;
         this.role = role;
         this.email = email;
+        this.name = name;
         this.password = password;
         this.active = active;
         this.createdAt = createdAt;
+        this.enabled = enabled;
+        this.locked = locked;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
+        return Collections.singletonList(authority);
+    }
+
+    @Override
+    public String getUsername() {
+        return name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 
     public long getId() {
@@ -99,10 +187,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {

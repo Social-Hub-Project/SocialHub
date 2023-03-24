@@ -21,21 +21,30 @@ public class UserConfig {
         return args -> {
             User adam = new User(Role.USER,
                     "adam@email.com",
+                    "adam",
                     "password",
                     true,
-                    LocalDate.of(2000, JANUARY, 6));
+                    LocalDate.of(2000, JANUARY, 6),
+                    true,
+                    false);
 
             User anna = new User(Role.USER,
                     "anna@email.com",
+                    "anna",
                     "anna1",
                     true,
-                    LocalDate.of(2002, MARCH, 12));
+                    LocalDate.of(2002, MARCH, 12),
+                    true,
+                    false);
 
             User marek = new User(Role.USER,
                     "marek@email.com",
                     "marek",
+                    "admin",
                     true,
-                    LocalDate.of(2001, MARCH, 14));
+                    LocalDate.of(2001, MARCH, 14),
+                    true,
+                    false);
             userRepository.saveAll(List.of(adam, anna, marek));
         };
     }
