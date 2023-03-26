@@ -12,31 +12,24 @@ import java.util.Optional;
 @Repository("jpa")
 public class UserJPADataAccessService implements UserDAO{
 
-    private final UserRepository userRepository;
-
-    public UserJPADataAccessService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public List<User> selectAllUsers() {
-        Page<User> page = userRepository.findAll(Pageable.ofSize(1000));
-        return page.getContent();
+        return null;
     }
 
     @Override
     public Optional<User> findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+        return Optional.empty();
     }
 
     @Override
     public boolean existsUserWithEmail(String email) {
-        return userRepository.existsUserWithEmail(email);
+        return false;
     }
 
     @Override
     public void insertUser(User user) {
-        userRepository.save(user);
 
     }
 }

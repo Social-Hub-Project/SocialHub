@@ -57,7 +57,7 @@ public class User implements UserDetails {
             nullable = false
     )
     private Boolean active;
-    private LocalDate createdAt;
+    private String createdAt;
 
     private Boolean enabled;
 
@@ -72,17 +72,14 @@ public class User implements UserDetails {
                  String name,
                  String password,
                  Boolean active,
-                 LocalDate createdAt,
-                 Boolean enabled,
-                 Boolean locked) {
+                 String createdAt
+                ) {
         this.role = role;
         this.email = email;
         this.name = name;
         this.password = password;
         this.active = active;
         this.createdAt = createdAt;
-        this.enabled = enabled;
-        this.locked = locked;
     }
 
     public User(long id,
@@ -91,9 +88,8 @@ public class User implements UserDetails {
                 String name,
                 String password,
                 Boolean active,
-                LocalDate createdAt,
-                Boolean enabled,
-                Boolean locked) {
+                String createdAt
+                ) {
         this.id = id;
         this.role = role;
         this.email = email;
@@ -101,8 +97,6 @@ public class User implements UserDetails {
         this.password = password;
         this.active = active;
         this.createdAt = createdAt;
-        this.enabled = enabled;
-        this.locked = locked;
     }
 
     @Override
@@ -203,11 +197,11 @@ public class User implements UserDetails {
         this.active = active;
     }
 
-    public LocalDate getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 

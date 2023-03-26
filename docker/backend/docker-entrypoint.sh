@@ -3,6 +3,7 @@
 echo "spring.jpa.hibernate.ddl-auto=create-drop" > application.properties
 echo "spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect" >> application.properties
 echo "spring.datasource.url=jdbc:postgresql://$DB_HOST:$DB_PORT/$DB_NAME" >> application.properties
+echo "spring.jpa.show-sql=true" >> application.properties
 
 echo "spring.datasource.username=$POSTGRES_USER" >> application.properties
 echo "spring.datasource.password=$POSTGRES_PASSWORD" >> application.properties

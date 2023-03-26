@@ -27,7 +27,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(@Qualifier("jpa") UserDAO userDAO,
+    public UserService(@Qualifier("jdbc") UserDAO userDAO,
                        UserDetailsDTOMapper userDetailsDTOMapper,
                        UserDTOMapper userDTOMapper,
                        PasswordEncoder passwordEncoder) {
@@ -62,9 +62,7 @@ public class UserService {
                     request.name(),
                     passwordEncoder.encode(request.password()),
                     true,
-                    LocalDate.now(),
-                    true,
-                    false
+                    LocalDate.now().toString()
                     );
 
 

@@ -24,27 +24,24 @@ public class UserConfig {
                     "adam",
                     "password",
                     true,
-                    LocalDate.of(2000, JANUARY, 6),
-                    true,
-                    false);
+                    LocalDate.of(2000, JANUARY, 6).toString()
+            );
 
             User anna = new User(Role.USER,
                     "anna@email.com",
                     "anna",
                     "anna1",
                     true,
-                    LocalDate.of(2002, MARCH, 12),
-                    true,
-                    false);
+                    LocalDate.of(2002, MARCH, 12).toString()
+            );
 
             User marek = new User(Role.USER,
                     "marek@email.com",
                     "marek",
                     "admin",
                     true,
-                    LocalDate.of(2001, MARCH, 14),
-                    true,
-                    false);
+                    LocalDate.of(2001, MARCH, 14).toString()
+            );
             userRepository.saveAll(List.of(adam, anna, marek));
         };
     }
