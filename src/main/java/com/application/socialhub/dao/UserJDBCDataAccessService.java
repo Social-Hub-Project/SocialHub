@@ -23,7 +23,13 @@ public class UserJDBCDataAccessService implements UserDAO{
 
     @Override
     public List<User> selectAllUsers() {
-        return null;
+        var sql = """
+                SELECT id, name, email, password
+                FROM my_user
+                LIMIT 1000
+                """;
+
+        return jdbcTemplate.query(sql, userRowMapper);
     }
 
 
@@ -42,11 +48,31 @@ public class UserJDBCDataAccessService implements UserDAO{
 
     @Override
     public boolean existsUserWithEmail(String email) {
-        return false;
+        var sql = """
+                SELECT count(id)
+                FROM my_user
+                WHERE email = ?
+                """;
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
     }
 
     @Override
     public void insertUser(User user) {
+        var sql = """
+                INSERT INTO my_user(id, role, name, email, password, created_at)
+                VALUES (nextval('my_user_id_seq'), ?, ?, ?, ?, ?)
+                """;
 
+        int result = jdbcTemplate.update(
+                sql,
+                user.getRole().toString(),
+                user.getName(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getCreatedAt()
+        );
+
+        System.out.println("insertUser result " + result);
     }
 }

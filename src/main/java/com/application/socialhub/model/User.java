@@ -26,7 +26,8 @@ public class User implements UserDetails {
     @SequenceGenerator(
             name = "my_user_id_seq",
             sequenceName = "my_user_id_seq",
-            allocationSize = 1
+            allocationSize = 1,
+            initialValue = 0
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -53,14 +54,11 @@ public class User implements UserDetails {
             nullable = false
     )
     private String password;
-    @Column(
-            nullable = false
-    )
+
     private Boolean active;
     private String createdAt;
 
     private Boolean enabled;
-
 
     private Boolean locked;
 
@@ -71,15 +69,16 @@ public class User implements UserDetails {
                  String email,
                  String name,
                  String password,
-                 Boolean active,
                  String createdAt
                 ) {
         this.role = role;
         this.email = email;
         this.name = name;
         this.password = password;
-        this.active = active;
         this.createdAt = createdAt;
+        this.active = false;
+        this.enabled = false;
+        this.locked = false;
     }
 
     public User(long id,
@@ -87,7 +86,6 @@ public class User implements UserDetails {
                 String email,
                 String name,
                 String password,
-                Boolean active,
                 String createdAt
                 ) {
         this.id = id;
@@ -95,8 +93,10 @@ public class User implements UserDetails {
         this.email = email;
         this.name = name;
         this.password = password;
-        this.active = active;
+        this.active = false;
         this.createdAt = createdAt;
+        this.enabled = false;
+        this.locked = false;
     }
 
     @Override

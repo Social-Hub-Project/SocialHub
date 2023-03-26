@@ -21,7 +21,6 @@ public class UserRowMapper implements RowMapper<User> {
                 rs.getString("email"),
                 rs.getString("name"),
                 rs.getString("password"),
-                rs.getBoolean("active"),
                 rs.getString("createdAt")
         );
     }

@@ -23,7 +23,6 @@ public class UserConfig {
                     "adam@email.com",
                     "adam",
                     "password",
-                    true,
                     LocalDate.of(2000, JANUARY, 6).toString()
             );
 
@@ -31,7 +30,6 @@ public class UserConfig {
                     "anna@email.com",
                     "anna",
                     "anna1",
-                    true,
                     LocalDate.of(2002, MARCH, 12).toString()
             );
 
@@ -39,7 +37,6 @@ public class UserConfig {
                     "marek@email.com",
                     "marek",
                     "admin",
-                    true,
                     LocalDate.of(2001, MARCH, 14).toString()
             );
             userRepository.saveAll(List.of(adam, anna, marek));

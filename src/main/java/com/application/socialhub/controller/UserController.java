@@ -24,6 +24,22 @@ public class UserController {
         return  userService.getAllUsers();
     }
 
+    @GetMapping("/example")
+    public String example() {
+        return  "example";
+    }
+    @GetMapping("/login")
+    public String login() {
+
+        return  "login here";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+
+        return  "register here";
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> registerCustomer(@RequestBody UserRegistrationRequest request) {
         userService.addUser(request);

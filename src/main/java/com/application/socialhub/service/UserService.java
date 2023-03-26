@@ -61,12 +61,10 @@ public class UserService {
                     request.email(),
                     request.name(),
                     passwordEncoder.encode(request.password()),
-                    true,
                     LocalDate.now().toString()
                     );
 
 
-        userDAO.insertUser(user);
-
+            userDAO.insertUser(user);
     }
 }
