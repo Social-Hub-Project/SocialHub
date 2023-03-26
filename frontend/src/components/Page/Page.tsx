@@ -31,12 +31,6 @@ export default class Page extends Component<PageProps> {
     return (
       <div className={style.app}>
 
-        {this.props.titlebar &&
-          <div className={style.titleBar}>
-            <span>{this.props.title}</span>
-          </div>
-        }
-
         {this.props.content ?
           <div className={[
             style.content,
