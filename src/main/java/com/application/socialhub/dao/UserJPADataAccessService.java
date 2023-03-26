@@ -32,4 +32,9 @@ public class UserJPADataAccessService implements UserDAO{
     public void insertUser(User user) {
 
     }
+
+    @Override
+    public void save(User user) {
+
+    }
 }

@@ -2,6 +2,7 @@ package com.application.socialhub.controller;
 
 import com.application.socialhub.dto.UserDTO;
 import com.application.socialhub.dto.UserRegistrationRequest;
+import com.application.socialhub.service.RegistrationService;
 import com.application.socialhub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,9 +15,13 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
+    private final RegistrationService registrationService;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,
+                          RegistrationService registrationService) {
         this.userService = userService;
+        this.registrationService = registrationService;
     }
 
     @GetMapping("/user")
@@ -29,20 +34,20 @@ public class UserController {
         return  "example";
     }
     @GetMapping("/login")
-    public String login() {
+    public String loginView() {
 
         return  "login here";
     }
 
     @GetMapping("/register")
-    public String register() {
+    public String registerView() {
 
         return  "register here";
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerCustomer(@RequestBody UserRegistrationRequest request) {
-        userService.addUser(request);
+    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest request) {
+        registrationService.register(request);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION)
