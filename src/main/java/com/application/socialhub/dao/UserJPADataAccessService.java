@@ -2,8 +2,6 @@ package com.application.socialhub.dao;
 
 import com.application.socialhub.model.User;
 import com.application.socialhub.repository.UserRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,6 +10,11 @@ import java.util.Optional;
 @Repository("jpa")
 public class UserJPADataAccessService implements UserDAO{
 
+    private final UserRepository userRepository;
+
+    public UserJPADataAccessService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<User> selectAllUsers() {
@@ -37,4 +40,10 @@ public class UserJPADataAccessService implements UserDAO{
     public void save(User user) {
 
     }
+
+    @Override
+    public int enableUser(String email) {
+        return userRepository.enableUser(email);
+    }
+
 }

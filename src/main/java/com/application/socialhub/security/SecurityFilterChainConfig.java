@@ -35,7 +35,8 @@ public class SecurityFilterChainConfig {
                 .requestMatchers(
                         HttpMethod.GET,
                         "/register",
-                        "/login"
+                        "/login",
+                        "/register/**"
                 )
                 .permitAll()
                 .anyRequest()

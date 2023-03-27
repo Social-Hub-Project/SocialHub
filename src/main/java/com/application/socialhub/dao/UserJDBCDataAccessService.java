@@ -80,4 +80,9 @@ public class UserJDBCDataAccessService implements UserDAO{
     public void save(User user) {
 
     }
+
+    @Override
+    public int enableUser(String email) {
+        return 0;
+    }
 }

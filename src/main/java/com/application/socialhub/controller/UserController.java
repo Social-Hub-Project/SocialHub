@@ -53,4 +53,10 @@ public class UserController {
                 .header(HttpHeaders.AUTHORIZATION)
                 .build();
     }
+
+    @GetMapping(path = "/register/confirm")
+    public String confirm(@RequestParam("token") String token) {
+        System.out.println("confirm token");
+        return registrationService.confirmToken(token);
+    }
 }

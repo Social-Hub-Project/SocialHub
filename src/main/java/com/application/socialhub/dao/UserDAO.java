@@ -15,4 +15,6 @@ public interface UserDAO {
     void insertUser(User user);
 
     void save(User user);
+
+    int enableUser(String email);
 }
