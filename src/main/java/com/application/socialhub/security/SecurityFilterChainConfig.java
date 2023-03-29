@@ -9,15 +9,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityFilterChainConfig {
 
     private final AuthenticationProvider authenticationProvider;
+    private final JWTAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityFilterChainConfig(AuthenticationProvider authenticationProvider) {
+    public SecurityFilterChainConfig(AuthenticationProvider authenticationProvider,
+                                     JWTAuthenticationFilter jwtAuthenticationFilter) {
         this.authenticationProvider = authenticationProvider;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
@@ -46,6 +50,7 @@ public class SecurityFilterChainConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling();
         return http.build();
     }

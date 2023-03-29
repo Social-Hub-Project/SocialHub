@@ -24,6 +24,15 @@ public class EmailService implements EmailSender{
         this.mailSender.setHost("smtp.wp.pl");
         this.mailSender.setPort(587);
 
+        /*
+        *            DON'T COMMIT THIS CHANGES!!!!!!!!!!!!!
+        *
+        * Change password and username to your own valid email and password,
+        * I don't know why this doesn't work with newly created emails...
+        * I guess it is related to giving access to less secure applications on email server side.
+        *
+        * Don't forget to change lines "smtp.wp.pl"  and "helper.setFrom("socialhubapplication@wp.pl");"
+        * */
         this.mailSender.setPassword("password");
         this.mailSender.setUsername("socialhubapplication@wp.pl");
 
