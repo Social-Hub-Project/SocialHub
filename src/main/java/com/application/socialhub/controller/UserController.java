@@ -1,12 +1,9 @@
 package com.application.socialhub.controller;
 
 import com.application.socialhub.dto.UserDTO;
-import com.application.socialhub.dto.UserRegistrationRequest;
 import com.application.socialhub.service.RegistrationService;
 import com.application.socialhub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +11,6 @@ import java.util.List;
 @RestController
 public class UserController {
     private final UserService userService;
-
     private final RegistrationService registrationService;
 
     @Autowired
@@ -33,30 +29,14 @@ public class UserController {
     public String example() {
         return  "example";
     }
-    @GetMapping("/login")
-    public String loginView() {
-
-        return  "login here";
-    }
 
     @GetMapping("/register")
     public String registerView() {
-
         return  "register here";
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest request) {
-        registrationService.register(request);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION)
-                .build();
-    }
-
-    @GetMapping(path = "/register/confirm")
+    @GetMapping(path = "/confirmToken")
     public String confirm(@RequestParam("token") String token) {
-        System.out.println("confirm token");
         return registrationService.confirmToken(token);
     }
 }
