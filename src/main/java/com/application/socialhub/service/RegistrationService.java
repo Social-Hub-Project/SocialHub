@@ -7,6 +7,9 @@ import com.application.socialhub.model.ConfirmationToken;
 import com.application.socialhub.model.Role;
 import com.application.socialhub.model.User;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +21,6 @@ import java.util.UUID;
 @Service
 public class RegistrationService {
 
-    private final UserService userService;
     private final EmailValidatorService emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final UserDAO userDAO;
@@ -26,12 +28,10 @@ public class RegistrationService {
     private final EmailSender emailSender;
 
     public RegistrationService(@Qualifier("jpa") UserDAO userDAO,
-                               UserService userService,
                                EmailValidatorService emailValidator,
                                ConfirmationTokenService confirmationTokenService,
                                PasswordEncoder passwordEncoder,
                                EmailSender emailSender) {
-        this.userService = userService;
         this.emailValidator = emailValidator;
         this.confirmationTokenService = confirmationTokenService;
         this.userDAO = userDAO;
@@ -39,7 +39,7 @@ public class RegistrationService {
         this.emailSender = emailSender;
     }
 
-    public void register(UserRegistrationRequest request) {
+    public ResponseEntity<Object> register(UserRegistrationRequest request) {
 
         if (!emailValidator.test(request.email())) {
             throw new IllegalStateException("email not valid");
@@ -49,7 +49,7 @@ public class RegistrationService {
             // TODO check of attributes are the same and
             // TODO if email not confirmed send confirmation email.
 
-            throw new DuplicateResourceException("email already taken");
+            throw new DuplicateResourceException("email" + request.email() +" already taken");
         }
 
         User user = new User(
@@ -74,9 +74,13 @@ public class RegistrationService {
         userDAO.save(user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-        String link = "http://localhost:8080/register/confirm?token=" + token;
+        String link = "http://localhost:8080/auth/confirmToken?token=" + token;
 
         emailSender.send(request.email(), buildEmail(request.name(), link));
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.AUTHORIZATION)
+//                .build();
+        return new ResponseEntity<>("User registered successfully" + user, HttpStatus.OK);
     }
 
     @Transactional

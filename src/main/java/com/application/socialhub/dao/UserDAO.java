@@ -16,5 +16,9 @@ public interface UserDAO {
 
     void save(User user);
 
-    int enableUser(String email);
+    void enableUser(String email);
+
+    boolean selectUserEnabled(String email);
+
+    boolean selectExistsEmail(String email);
 }

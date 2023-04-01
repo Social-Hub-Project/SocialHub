@@ -6,9 +6,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 @Entity
 @Table(
@@ -141,14 +141,6 @@ public class User implements UserDetails {
         return name;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public Boolean getLocked() {
-        return locked;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -215,5 +207,18 @@ public class User implements UserDetails {
                 ", active=" + active +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId() == user.getId() && getRole() == user.getRole() && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getName(), user.getName()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getActive(), user.getActive()) && Objects.equals(getCreatedAt(), user.getCreatedAt()) && Objects.equals(isEnabled(), user.isEnabled()) && Objects.equals(locked, user.locked);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getRole(), getEmail(), getName(), getPassword(), getActive(), getCreatedAt(), isEnabled(), locked);
     }
 }
