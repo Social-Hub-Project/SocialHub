@@ -104,9 +104,9 @@ export const isAdmin = (): boolean => {
     return userState.role === Role.ROLE_ADMIN;
 };
 
-export const login = async (username: string, password: string, navigate: NavigateFunction): Promise<string | void> => {
+export const login = async (email: string, password: string, navigate: NavigateFunction): Promise<string | void> => {
     const body = new FormData();
-    body.append('username', username);
+    body.append('email', email);
     body.append('password', password);
 
     const requestOptions = {
