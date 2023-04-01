@@ -16,16 +16,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("UPDATE User a " +
             "SET a.enabled = TRUE WHERE a.email = ?1")
-    void enableUser(String email);
-
-    @Transactional
-    @Query("SELECT u.enabled FROM User u WHERE u.email = ?1")
-    Boolean selectUserEnabled(String email);
-
-    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN " +
-            "TRUE ELSE FALSE END " +
-            "FROM User u " +
-            "WHERE u.email = ?1"
-    )
-    Boolean selectExistsEmail(String email);
+    int enableUser(String email);
 }

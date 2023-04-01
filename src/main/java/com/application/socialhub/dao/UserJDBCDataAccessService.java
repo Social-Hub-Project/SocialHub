@@ -82,16 +82,7 @@ public class UserJDBCDataAccessService implements UserDAO{
     }
 
     @Override
-    public void enableUser(String email) {
-    }
-
-    @Override
-    public boolean selectUserEnabled(String email) {
-        return false;
-    }
-
-    @Override
-    public boolean selectExistsEmail(String email) {
-        return false;
+    public int enableUser(String email) {
+        return 0;
     }
 }

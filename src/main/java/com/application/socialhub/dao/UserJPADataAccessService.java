@@ -42,18 +42,8 @@ public class UserJPADataAccessService implements UserDAO{
     }
 
     @Override
-    public void enableUser(String email) {
-         userRepository.enableUser(email);
-    }
-
-    @Override
-    public boolean selectUserEnabled(String email) {
-        return userRepository.selectUserEnabled(email);
-    }
-
-    @Override
-    public boolean selectExistsEmail(String email) {
-        return userRepository.selectExistsEmail(email);
+    public int enableUser(String email) {
+        return userRepository.enableUser(email);
     }
 
 }
