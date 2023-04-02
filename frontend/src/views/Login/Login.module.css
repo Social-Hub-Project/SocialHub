@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.formContainer {
+    width: 100vw;
+    justify-content: space-evenly;
+    display: flex;
+    justify-self: center;
+    flex-direction: row;
+}
+
+.linkAnchor {
+    text-align: right;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: black;
+    text-decoration: none;
+}
+
+.registerInput {
+    margin-bottom: 20px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 40px;
+    /* identical to box height */
+
+
+    color: #000000;
+
+}
+
+.rightBar {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
