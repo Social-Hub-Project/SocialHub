@@ -29,18 +29,14 @@ public class SecurityFilterChainConfig {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
-    //TODO tutaj dodać
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/auth/**",
-                        "/register",
-                        "/register/**",
-                        "/app/**"
+                        "/auth/**"
                 )
                 .permitAll()
                 .anyRequest()

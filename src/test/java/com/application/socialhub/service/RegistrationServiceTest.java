@@ -3,111 +3,138 @@ package com.application.socialhub.service;
 import com.application.socialhub.dao.UserDAO;
 import com.application.socialhub.dto.UserRegistrationRequest;
 import com.application.socialhub.exception.DuplicateResourceException;
-import com.application.socialhub.model.ConfirmationToken;
 import com.application.socialhub.model.Role;
 import com.application.socialhub.model.User;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Service
-public class RegistrationService {
+import static com.application.socialhub.model.Sex.MALE;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
-    private final EmailValidatorService emailValidator;
-    private final ConfirmationTokenService confirmationTokenService;
-    private final UserDAO userDAO;
-    private final PasswordEncoder passwordEncoder;
-    private final EmailSender emailSender;
+@ExtendWith(MockitoExtension.class)
+class RegistrationServiceTest {
 
-    public RegistrationService(@Qualifier("jpa") UserDAO userDAO,
-                               EmailValidatorService emailValidator,
-                               ConfirmationTokenService confirmationTokenService,
-                               PasswordEncoder passwordEncoder,
-                               EmailSender emailSender) {
-        this.emailValidator = emailValidator;
-        this.confirmationTokenService = confirmationTokenService;
-        this.userDAO = userDAO;
-        this.passwordEncoder = passwordEncoder;
-        this.emailSender = emailSender;
+    @Mock
+    private EmailValidatorService emailValidator;
+    @Mock
+    private ConfirmationTokenService confirmationTokenService;
+    @Mock
+    private UserDAO userDAO;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+    @Mock
+    private EmailSender emailSender;
+
+    private RegistrationService underTest;
+
+    @BeforeEach
+    void setUp() {
+        underTest = new RegistrationService(userDAO,
+                emailValidator,
+                confirmationTokenService,
+                passwordEncoder,
+                emailSender);
     }
 
-    public ResponseEntity<Object> register(UserRegistrationRequest request) {
+    @Test
+    void registerShouldCreateUser() {
 
-        if (!emailValidator.test(request.email())) {
-            throw new IllegalStateException("email not valid");
-        }
-
-        if (userDAO.existsUserWithEmail(request.email())) {
-            // TODO check of attributes are the same and
-            // TODO if email not confirmed send confirmation email.
-
-            throw new DuplicateResourceException("email" + request.email() +" already taken");
-        }
-
-        User user = new User(
-                Role.USER,
-                request.email(),
-                request.name(),
-                passwordEncoder.encode(request.password()),
-                LocalDate.now().toString()
+        // given
+        UserRegistrationRequest request = new UserRegistrationRequest(
+                "Dominik",
+                "Kowal",
+                "dkowal@gmail.com",
+                "password",
+                MALE,
+                "Kraków",
+                "12-02-2000"
         );
 
+        User user = new User(Role.USER,
+                "dkowal@gmail.com",
+                "Dominik",
+                passwordEncoder.encode("password"),
+                LocalDate.now().toString());
 
+        given(emailValidator.test(anyString()))
+                .willReturn(true);
 
-        String token = UUID.randomUUID().toString();
+        given(userDAO.existsUserWithEmail(anyString()))
+                .willReturn(false);
 
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
-                user
+        // when
+        underTest.register(request);
+
+        // then
+        ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
+
+        verify(userDAO).save(userArgumentCaptor.capture());
+
+        User capturedUser = userArgumentCaptor.getValue();
+        assertEquals(capturedUser, user);
+    }
+
+    @Test
+    @Disabled
+    void willThrowWhenEmailIsNotValid() {
+        //TODO
+
+        // given
+
+        // when
+
+        // then
+    }
+
+    @Test
+    void willThrowWhenEmailIsTaken() {
+        // given
+        UserRegistrationRequest request = new UserRegistrationRequest(
+                "Dominik",
+                "Kowal",
+                "dkowal@gmail.com",
+                "password",
+                MALE,
+                "Kraków",
+                "12-02-2000"
         );
+        given(emailValidator.test(anyString()))
+                .willReturn(true);
 
-        userDAO.save(user);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        given(userDAO.existsUserWithEmail(anyString()))
+                .willReturn(true);
 
-        String link = "http://localhost:8080/auth/confirmToken?token=" + token;
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.register(request))
+                .isInstanceOf(DuplicateResourceException.class)
+                .hasMessageContaining("email" + request.email() +" already taken");
 
-        emailSender.send(request.email(), buildEmail(request.name(), link));
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.AUTHORIZATION)
-//                .build();
-        return new ResponseEntity<>("User registered successfully" + user, HttpStatus.OK);
+        verify(userDAO, never()).save(any());
     }
 
-    @Transactional
-    public String confirmToken(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenService
-                .getToken(token)
-                .orElseThrow(() ->
-                        new IllegalStateException("token not found"));
+    @Test
+    @Disabled
+    void shouldBuildValidConfirmationEmail() {
 
-        if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
-        }
-
-        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
-
-        if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
-        }
-
-        confirmationTokenService.setConfirmedAt(token);
-        userDAO.enableUser(confirmationToken.getUser().getEmail());
-
-        return "confirmed";
-    }
-
-    private String buildEmail(String name, String link) {
-        return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
+        //given
+        String name = "Jacek";
+        String link = "http://localhost:8080/auth/confirmToken?token=";
+        String expectedEmail = "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
                 "\n" +
@@ -173,5 +200,8 @@ public class RegistrationService {
                 "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">\n" +
                 "\n" +
                 "</div></div>";
+
+        //when
+        //underTest.buildEmail(name, link);
     }
 }
