@@ -27,7 +27,7 @@ function Register() {
             surname: surname.current?.value,
             residence: residence.current?.value,
             sex: sex.current?.value,
-            birthday: birthday.current?.value,
+            dateOfBirth: birthday.current?.value,
             email: email.current?.value,
             password: password.current?.value,
             passwordConfirmation: passwordConfirmation.current?.value,
@@ -35,12 +35,17 @@ function Register() {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
             body: JSON.stringify(body),
+
         };
 
         try {
-            const response = await fetch(fetchUrl, requestOptions);
+            const response = await fetch("http://127.0.0.1:8080/auth/register", requestOptions);
             if (!response.ok) throw response;
 
             navigate('/login');

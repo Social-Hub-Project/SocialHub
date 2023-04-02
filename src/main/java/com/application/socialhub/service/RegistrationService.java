@@ -70,16 +70,15 @@ public class RegistrationService {
                 LocalDateTime.now().plusMinutes(15),
                 user
         );
+        user.setEnabled(true);
 
         userDAO.save(user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
         String link = "http://localhost:8080/auth/confirmToken?token=" + token;
 
-        emailSender.send(request.email(), buildEmail(request.name(), link));
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.AUTHORIZATION)
-//                .build();
+        //emailSender.send(request.email(), buildEmail(request.name(), link));
+
         return new ResponseEntity<>("User registered successfully" + user, HttpStatus.OK);
     }
 

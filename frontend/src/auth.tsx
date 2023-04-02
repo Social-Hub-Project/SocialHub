@@ -1,6 +1,6 @@
 import { NavigateFunction } from 'react-router-dom';
 
-const loginUrl = `${process.env.REACT_APP_BACKEND_URL}/login`;
+const loginUrl = `${process.env.REACT_APP_BACKEND_URL}/auth/login`;
 const logoutUrl = `${process.env.REACT_APP_BACKEND_URL}/logout`;
 const fetchUserUrl = `${process.env.REACT_APP_BACKEND_URL}/user`;
 
