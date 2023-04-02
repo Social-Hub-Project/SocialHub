@@ -29,7 +29,7 @@ public class SecurityFilterChainConfig {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
-
+    //TODO tutaj dodać
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -39,7 +39,8 @@ public class SecurityFilterChainConfig {
                 .requestMatchers(
                         "/auth/**",
                         "/register",
-                        "/register/**"
+                        "/register/**",
+                        "/app/**"
                 )
                 .permitAll()
                 .anyRequest()
