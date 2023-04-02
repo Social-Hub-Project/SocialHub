@@ -1,0 +1,43 @@
+package com.application.socialhub.controller;
+
+import com.application.socialhub.dto.AuthenticationRequest;
+import com.application.socialhub.dto.AuthenticationResponse;
+import com.application.socialhub.dto.UserRegistrationRequest;
+import com.application.socialhub.service.AuthenticationService;
+import com.application.socialhub.service.RegistrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/auth")
+public class AuthenticationController {
+    private final AuthenticationService authenticationService;
+    private final RegistrationService registrationService;
+
+    Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+
+    public AuthenticationController(AuthenticationService authenticationService,
+                                    RegistrationService registrationService) {
+        this.authenticationService = authenticationService;
+        this.registrationService = registrationService;
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
+        logger.info("User has successfully logged in" + request.toString());
+        return authenticationService.login(request);
+    }
+
+    @PostMapping("register")
+    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest request) {
+        logger.info("User has successfully registered the account");
+        return registrationService.register(request);
+    }
+
+    @GetMapping(path = "confirmToken")
+    public String confirm(@RequestParam("token") String token) {
+        return registrationService.confirmToken(token);
+    }
+}
