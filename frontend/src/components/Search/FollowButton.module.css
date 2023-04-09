@@ -1,0 +1,10 @@
+.buttonGreen {
+    background: #F0F7FF;
+    border-radius: 6px;
+    width: 100px;
+    height: 30px;
+    cursor: pointer;
+    color: #1877F2;
+    border: none;
+    display: inline-block;
+}
