@@ -3,7 +3,6 @@ import com.application.socialhub.dto.UserRegistrationRequest;
 import com.application.socialhub.model.Role;
 import com.application.socialhub.model.User;
 import com.application.socialhub.repository.UserRepository;
-import com.github.javafaker.Faker;
 
 import com.application.socialhub.service.AuthenticationService;
 import com.application.socialhub.service.RegistrationService;
@@ -18,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class AuthenticationControllerIntegrationTests {
     @Autowired
     private UserRepository userRepository;
 
-    private final Faker faker = new Faker();
+
 
     @Test
     void canRegisterNewStudent() throws Exception {
@@ -63,9 +63,9 @@ public class AuthenticationControllerIntegrationTests {
 
         User user = new User(Role.USER,
                 "adam@gmail.com",
-                "Adam",
                 "password",
-                LocalDateTime.now().toString());
+                true,
+                LocalDate.now());
 
 //        // when
 //        ResultActions resultActions = mockMvc

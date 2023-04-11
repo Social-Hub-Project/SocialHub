@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import static java.time.Month.MARCH;
+
 @Component
 public class UserRowMapper implements RowMapper<User> {
 
@@ -16,12 +18,11 @@ public class UserRowMapper implements RowMapper<User> {
     @Override
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new User(
-                rs.getLong("id"),
-                Role.valueOf(rs.getString("role")),
+                Role.USER,
                 rs.getString("email"),
-                rs.getString("name"),
                 rs.getString("password"),
-                rs.getString("createdAt")
+                rs.getBoolean("active"),
+                LocalDate.of(2001, MARCH, 14)
         );
     }
 }

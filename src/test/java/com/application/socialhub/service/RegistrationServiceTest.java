@@ -66,9 +66,9 @@ class RegistrationServiceTest {
 
         User user = new User(Role.USER,
                 "dkowal@gmail.com",
-                "Dominik",
                 passwordEncoder.encode("password"),
-                LocalDate.now().toString());
+                true,
+                LocalDate.now());
 
         given(emailValidator.test(anyString()))
                 .willReturn(true);

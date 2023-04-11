@@ -60,14 +60,13 @@ public class UserJDBCDataAccessService implements UserDAO{
     @Override
     public void insertUser(User user) {
         var sql = """
-                INSERT INTO my_user(id, role, name, email, password, created_at)
+                INSERT INTO my_user(id, role, email, password, created_at)
                 VALUES (nextval('my_user_id_seq'), ?, ?, ?, ?, ?)
                 """;
 
         int result = jdbcTemplate.update(
                 sql,
                 user.getRole().toString(),
-                user.getName(),
                 user.getEmail(),
                 user.getPassword(),
                 user.getCreatedAt()

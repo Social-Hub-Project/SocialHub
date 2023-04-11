@@ -15,11 +15,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Modifying
     @Query("UPDATE User a " +
-            "SET a.enabled = TRUE WHERE a.email = ?1")
+            "SET a.active = TRUE WHERE a.email = ?1")
     void enableUser(String email);
 
     @Transactional
-    @Query("SELECT u.enabled FROM User u WHERE u.email = ?1")
+    @Query("SELECT u.active FROM User u WHERE u.email = ?1")
     Boolean selectUserEnabled(String email);
 
     @Query("SELECT CASE WHEN COUNT(u) > 0 THEN " +
@@ -28,4 +28,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "WHERE u.email = ?1"
     )
     Boolean selectExistsEmail(String email);
+
+
 }

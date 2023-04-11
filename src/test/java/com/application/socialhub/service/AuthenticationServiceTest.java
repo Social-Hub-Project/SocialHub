@@ -18,6 +18,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+
+import java.time.LocalDate;
+
+import static java.time.Month.MARCH;
 import static org.mockito.Mockito.*;
 import static com.application.socialhub.model.Role.USER;
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,7 +62,7 @@ class AuthenticationServiceTest {
 
         AuthenticationRequest request = new AuthenticationRequest("test@test.com", "test123");
 
-        User user = new User(USER,"test@test.com", "Test", "User", "test123");
+        User user = new User(USER,"test@test.com", "Test", true,LocalDate.of(2001, MARCH, 14));
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));
 

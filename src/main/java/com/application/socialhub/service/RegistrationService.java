@@ -55,9 +55,9 @@ public class RegistrationService {
         User user = new User(
                 Role.USER,
                 request.email(),
-                request.name(),
                 passwordEncoder.encode(request.password()),
-                LocalDate.now().toString()
+                true,
+                LocalDate.now()
         );
 
 

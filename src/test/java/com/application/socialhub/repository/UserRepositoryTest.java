@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.time.LocalDate;
+
+import static java.time.Month.MARCH;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
@@ -28,9 +31,9 @@ class UserRepositoryTest {
         User user = new User(
                 Role.USER,
                 email,
-                "Kamila",
                 "password",
-                "01-04-2023"
+                true,
+                LocalDate.of(2001, MARCH, 14)
         );
         underTest.save(user);
 
@@ -49,9 +52,9 @@ class UserRepositoryTest {
         User user = new User(
                 Role.USER,
                 email,
-                "Kamila",
                 "password",
-                "01-04-2023"
+                true,
+                LocalDate.of(2001, MARCH, 14)
         );
         underTest.save(user);
 
@@ -71,9 +74,9 @@ class UserRepositoryTest {
         User user = new User(
                 Role.USER,
                 email,
-                "Kamila",
                 "password",
-                "01-04-2023"
+                true,
+                LocalDate.of(2001, MARCH, 14)
         );
         underTest.save(user);
 
