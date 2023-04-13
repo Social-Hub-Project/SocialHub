@@ -60,6 +60,18 @@ public class User implements UserDetails {
     )
     private LocalDate createdAt;
 
+    private Boolean enabled;
+
+    public User(long id, Role role, String email, String password, Boolean active, Boolean enabled, LocalDate createdAt) {
+        this.id = id;
+        this.role = role;
+        this.email = email;
+        this.password = password;
+        this.active = active;
+        this.enabled = enabled;
+        this.createdAt = createdAt;
+    }
+
     public User(Role role, String email, String password, Boolean active, LocalDate createdAt) {
         this.role = role;
         this.email = email;
@@ -77,6 +89,14 @@ public class User implements UserDetails {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Role getRole() {
@@ -150,7 +170,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
-
 
     @Override
     public String toString() {

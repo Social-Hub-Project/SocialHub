@@ -36,14 +36,14 @@ public class Followers {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
             nullable = false,
-            name = "id_followe"
+            name = "id_follower"
     )
-    private User user_f;
+    private User follower;
 
-    public Followers(Date created_at, User user, User user_f) {
+    public Followers(Date created_at, User user, User follower) {
         this.created_at = created_at;
         this.user = user;
-        this.user_f = user_f;
+        this.follower = follower;
     }
 
     public Followers() {
@@ -74,11 +74,11 @@ public class Followers {
     }
 
     public User getUser_f() {
-        return user_f;
+        return follower;
     }
 
-    public void setUser_f(User user_f) {
-        this.user_f = user_f;
+    public void setUser_f(User follower) {
+        this.follower = follower;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class Followers {
                 "id=" + id +
                 ", created_at=" + created_at +
                 ", user=" + user +
-                ", user_f=" + user_f +
+                ", follower=" + follower +
                 '}';
     }
 }
