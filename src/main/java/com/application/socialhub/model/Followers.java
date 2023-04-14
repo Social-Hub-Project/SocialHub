@@ -32,17 +32,17 @@ public class Followers {
             nullable = false,
             name = "id_user"
     )
-    private User user;
+    private UserEntity userEntity;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
             nullable = false,
             name = "id_follower"
     )
-    private User follower;
+    private UserEntity follower;
 
-    public Followers(Date created_at, User user, User follower) {
+    public Followers(Date created_at, UserEntity userEntity, UserEntity follower) {
         this.created_at = created_at;
-        this.user = user;
+        this.userEntity = userEntity;
         this.follower = follower;
     }
 
@@ -65,19 +65,19 @@ public class Followers {
         this.created_at = created_at;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
-    public User getUser_f() {
+    public UserEntity getUser_f() {
         return follower;
     }
 
-    public void setUser_f(User follower) {
+    public void setUser_f(UserEntity follower) {
         this.follower = follower;
     }
 
@@ -86,7 +86,7 @@ public class Followers {
         return "Followers{" +
                 "id=" + id +
                 ", created_at=" + created_at +
-                ", user=" + user +
+                ", user=" + userEntity +
                 ", follower=" + follower +
                 '}';
     }

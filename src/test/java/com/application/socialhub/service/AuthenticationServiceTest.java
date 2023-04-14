@@ -3,9 +3,9 @@ package com.application.socialhub.service;
 import com.application.socialhub.dto.AuthenticationRequest;
 import com.application.socialhub.dto.AuthenticationResponse;
 import com.application.socialhub.dto.UserDTO;
-import com.application.socialhub.dtoMappers.UserDTOMapper;
+import com.application.socialhub.dtoMappers.UserEntityDTOMapper;
 import com.application.socialhub.exception.AuthenticationFailedException;
-import com.application.socialhub.model.User;
+import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.util.JWTUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class AuthenticationServiceTest {
     @Mock
     private AuthenticationManager authenticationManager;
     @Mock
-    private UserDTOMapper userDTOMapper;
+    private UserEntityDTOMapper userEntityDTOMapper;
     @Mock
     private JWTUtil jwtUtil;
 
@@ -40,7 +40,7 @@ class AuthenticationServiceTest {
 
     @BeforeEach
     void setUp() {
-        underTest = new AuthenticationService(authenticationManager, userDTOMapper, jwtUtil);
+        underTest = new AuthenticationService(authenticationManager, userEntityDTOMapper, jwtUtil);
     }
 
     @Test
@@ -62,11 +62,11 @@ class AuthenticationServiceTest {
 
         AuthenticationRequest request = new AuthenticationRequest("test@test.com", "test123");
 
-        User user = new User(USER,"test@test.com", "Test", true,LocalDate.of(2001, MARCH, 14));
+        UserEntity userEntity = new UserEntity(USER,"test@test.com", "Test", true,LocalDate.of(2001, MARCH, 14));
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
-                .thenReturn(new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()));
+                .thenReturn(new UsernamePasswordAuthenticationToken(userEntity, userEntity.getPassword(), userEntity.getAuthorities()));
 
-        when(userDTOMapper.apply(any(User.class))).thenReturn(new UserDTO("test@test.com", USER, true));
+        when(userEntityDTOMapper.apply(any(UserEntity.class))).thenReturn(new UserDTO("test@test.com", USER, true));
 
         String token = "test.token.string";
         when(jwtUtil.issueToken(anyString(), anyString())).thenReturn(token);
@@ -76,7 +76,7 @@ class AuthenticationServiceTest {
         // Then
 
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verify(userDTOMapper).apply(any(User.class));
+        verify(userEntityDTOMapper).apply(any(UserEntity.class));
         verify(jwtUtil).issueToken(anyString(), anyString());
 
         AuthenticationResponse expectedResponse = new AuthenticationResponse(token, new UserDTO("test@test.com", USER, true));
@@ -100,7 +100,7 @@ class AuthenticationServiceTest {
             underTest.login(request);
         });
         verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
-        verifyNoInteractions(userDTOMapper, jwtUtil);
+        verifyNoInteractions(userEntityDTOMapper, jwtUtil);
     }
 
     @Test
@@ -110,7 +110,7 @@ class AuthenticationServiceTest {
         // Then
         assertThrows(NullPointerException.class, () -> underTest.login(null));
 
-        verifyNoInteractions(authenticationManager, userDTOMapper, jwtUtil);
+        verifyNoInteractions(authenticationManager, userEntityDTOMapper, jwtUtil);
     }
 
 }

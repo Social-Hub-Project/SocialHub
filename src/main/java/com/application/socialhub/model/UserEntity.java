@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,7 +21,7 @@ import java.util.Objects;
                 )
         }
 )
-public class User implements UserDetails {
+public class UserEntity implements UserDetails {
 
     @Id
     @SequenceGenerator(
@@ -62,7 +61,7 @@ public class User implements UserDetails {
 
     private Boolean enabled;
 
-    public User(long id, Role role, String email, String password, Boolean active, Boolean enabled, LocalDate createdAt) {
+    public UserEntity(long id, Role role, String email, String password, Boolean active, Boolean enabled, LocalDate createdAt) {
         this.id = id;
         this.role = role;
         this.email = email;
@@ -72,15 +71,16 @@ public class User implements UserDetails {
         this.createdAt = createdAt;
     }
 
-    public User(Role role, String email, String password, Boolean active, LocalDate createdAt) {
+    public UserEntity(Role role, String email, String password, Boolean active, LocalDate createdAt) {
         this.role = role;
         this.email = email;
         this.password = password;
         this.active = active;
         this.createdAt = createdAt;
+        this.enabled = false;
     }
 
-    public User() {
+    public UserEntity() {
     }
 
     public long getId() {
@@ -153,22 +153,22 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 
     @Override
@@ -181,5 +181,25 @@ public class User implements UserDetails {
                 ", active=" + active +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if(o == null) return false;
+        if (getClass() != o.getClass()) return false;
+        UserEntity other = (UserEntity) o;
+        return getId() == other.getId() &&
+                getRole() == other.getRole() &&
+                Objects.equals(getEmail(), other.getEmail()) &&
+                Objects.equals(getPassword(), other.getPassword()) &&
+                Objects.equals(getActive(), other.getActive()) &&
+                Objects.equals(getCreatedAt(), other.getCreatedAt()) &&
+                Objects.equals(isEnabled(), other.isEnabled());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getRole(), getEmail(), getPassword(), getActive(), getCreatedAt(), isEnabled());
     }
 }

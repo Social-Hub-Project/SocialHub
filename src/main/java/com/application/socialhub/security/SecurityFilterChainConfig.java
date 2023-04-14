@@ -35,21 +35,20 @@ public class SecurityFilterChainConfig {
         http
                 .csrf().disable()
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests()
-                .requestMatchers(
-                        "/auth/**"
-                )
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint);
+                .httpBasic();
+
         return http.build();
     }
 }

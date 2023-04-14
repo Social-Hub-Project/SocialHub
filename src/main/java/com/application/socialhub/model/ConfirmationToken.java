@@ -1,6 +1,5 @@
 package com.application.socialhub.model;
 
-import com.application.socialhub.model.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -36,16 +35,16 @@ public class ConfirmationToken {
             nullable = false,
             name = "my_user_id"
     )
-    private User user;
+    private UserEntity userEntity;
 
     public ConfirmationToken(String token,
                              LocalDateTime createdAt,
                              LocalDateTime expiresAt,
-                             User user) {
+                             UserEntity userEntity) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
-        this.user = user;
+        this.userEntity = userEntity;
     }
 
     public ConfirmationToken() {
@@ -91,11 +90,11 @@ public class ConfirmationToken {
         this.confirmedAt = confirmedAt;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 }

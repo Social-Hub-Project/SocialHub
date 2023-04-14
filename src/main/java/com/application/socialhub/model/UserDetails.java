@@ -59,9 +59,9 @@ public class UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = false,
             name = "id_user")
-    private User user;
+    private UserEntity userEntity;
 
-    public UserDetails(String name, String surname, Date dateOfBirth, String residence, boolean blocked, String profilePhotoSource, String bgPhotoSource, Sex sex, LocalDate createdAt, User user) {
+    public UserDetails(String name, String surname, Date dateOfBirth, String residence, boolean blocked, String profilePhotoSource, String bgPhotoSource, Sex sex, LocalDate createdAt, UserEntity userEntity) {
         this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
@@ -71,7 +71,7 @@ public class UserDetails {
         this.bgPhotoSource = bgPhotoSource;
         this.sex = sex;
         this.createdAt = createdAt;
-        this.user = user;
+        this.userEntity = userEntity;
     }
 
     public UserDetails() {
@@ -149,12 +149,12 @@ public class UserDetails {
         this.createdAt = createdAt;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     @Override
@@ -170,7 +170,7 @@ public class UserDetails {
                 ", bgPhotoSource='" + bgPhotoSource + '\'' +
                 ", sex=" + sex +
                 ", createdAt=" + createdAt +
-                ", user=" + user +
+                ", user=" + userEntity +
                 '}';
     }
 }

@@ -1,7 +1,7 @@
 package com.application.socialhub.dtoMappers;
 
 import com.application.socialhub.model.Role;
-import com.application.socialhub.model.User;
+import com.application.socialhub.model.UserEntity;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -12,12 +12,12 @@ import java.time.LocalDate;
 import static java.time.Month.MARCH;
 
 @Component
-public class UserRowMapper implements RowMapper<User> {
+public class UserRowMapper implements RowMapper<UserEntity> {
 
 
     @Override
-    public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new User(
+    public UserEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new UserEntity(
                 Role.USER,
                 rs.getString("email"),
                 rs.getString("password"),

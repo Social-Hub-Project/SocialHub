@@ -1,11 +1,15 @@
 package com.application.socialhub.security;
 
+import com.application.socialhub.controller.AuthenticationController;
+import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.service.UserServiceDetails;
 import com.application.socialhub.util.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,12 +25,12 @@ import java.io.IOException;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
-    private final UserDetailsService userDetailsService;
+    private final UserServiceDetails userServiceDetails;
 
     public JWTAuthenticationFilter(JWTUtil jwtUtil,
                                    UserServiceDetails userServiceDetails) {
         this.jwtUtil = jwtUtil;
-        this.userDetailsService = userServiceDetails;
+        this.userServiceDetails = userServiceDetails;
     }
 
     @Override
@@ -44,17 +48,15 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt = authHeader.substring(7);
         String subject = jwtUtil.getSubject(jwt);//email in our case
-
         if (subject != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
-            if (jwtUtil.isTokenValid(jwt, userDetails.getUsername())) {
+            UserEntity userEntity = userServiceDetails.loadUserByUsername(subject);
+            if (jwtUtil.isTokenValid(jwt, userEntity.getEmail())) {
 
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
+                        userEntity, null, userEntity.getAuthorities());
 
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }

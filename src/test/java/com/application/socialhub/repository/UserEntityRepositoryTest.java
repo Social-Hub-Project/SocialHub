@@ -1,7 +1,7 @@
 package com.application.socialhub.repository;
 
 import com.application.socialhub.model.Role;
-import com.application.socialhub.model.User;
+import com.application.socialhub.model.UserEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +11,11 @@ import java.time.LocalDate;
 
 import static java.time.Month.MARCH;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @DataJpaTest
-class UserRepositoryTest {
+class UserEntityRepositoryTest {
 
     @Autowired
     private UserRepository underTest;
@@ -28,14 +30,14 @@ class UserRepositoryTest {
         // given
         String email = "kamila@gmail.com";
 
-        User user = new User(
+        UserEntity userEntity = new UserEntity(
                 Role.USER,
                 email,
                 "password",
                 true,
                 LocalDate.of(2001, MARCH, 14)
         );
-        underTest.save(user);
+        underTest.save(userEntity);
 
         // when
         boolean exists = underTest.selectExistsEmail(email);
@@ -49,14 +51,14 @@ class UserRepositoryTest {
         // given
         String email = "kamila@gmail.com";
 
-        User user = new User(
+        UserEntity userEntity = new UserEntity(
                 Role.USER,
                 email,
                 "password",
                 true,
                 LocalDate.of(2001, MARCH, 14)
         );
-        underTest.save(user);
+        underTest.save(userEntity);
 
         // when
         underTest.enableUser(email);
@@ -71,18 +73,59 @@ class UserRepositoryTest {
         // given
         String email = "kamila@gmail.com";
 
-        User user = new User(
+        UserEntity userEntity = new UserEntity(
                 Role.USER,
                 email,
                 "password",
                 true,
                 LocalDate.of(2001, MARCH, 14)
         );
-        underTest.save(user);
+        underTest.save(userEntity);
 
         // when
         boolean enabled = underTest.selectUserEnabled(email);
         // then
         assertThat(enabled).isFalse();
+    }
+    @Test
+    void foundUserByEmail() {
+        // given
+        String email = "kamila@gmail.com";
+
+        UserEntity userEntity = new UserEntity(
+                Role.USER,
+                email,
+                "password",
+                true,
+                LocalDate.of(2001, MARCH, 14)
+        );
+        underTest.save(userEntity);
+
+        // when
+        UserEntity user = underTest.findUserByEmail(email);
+        // then
+        assertEquals(user, userEntity);
+    }
+
+    @Test
+    void didNotFoundUserByEmail() {
+        // given
+        String emailTest = "kamil@gmail.com";
+        String email = "kamila@gmail.com";
+
+
+        UserEntity userEntity = new UserEntity(
+                Role.USER,
+                email,
+                "password",
+                true,
+                LocalDate.of(2001, MARCH, 14)
+        );
+        underTest.save(userEntity);
+
+        // when
+        UserEntity user = underTest.findUserByEmail(emailTest);
+        // then
+        assertNotEquals(user, userEntity);
     }
 }

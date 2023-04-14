@@ -37,7 +37,7 @@ public class Comment {
             nullable = false,
             name = "id_user"
     )
-    private User user;
+    private UserEntity userEntity;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
             nullable = false,
@@ -45,10 +45,10 @@ public class Comment {
     )
     private Post post;
 
-    public Comment(String content, Date created_at, User user, Post post) {
+    public Comment(String content, Date created_at, UserEntity userEntity, Post post) {
         this.content = content;
         this.created_at = created_at;
-        this.user = user;
+        this.userEntity = userEntity;
         this.post = post;
     }
 
@@ -81,12 +81,12 @@ public class Comment {
         this.created_at = created_at;
     }
 
-    public com.application.socialhub.model.User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     public Post getPost() {
@@ -103,7 +103,7 @@ public class Comment {
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", created_at=" + created_at +
-                ", user=" + user +
+                ", user=" + userEntity +
                 ", post=" + post +
                 '}';
     }

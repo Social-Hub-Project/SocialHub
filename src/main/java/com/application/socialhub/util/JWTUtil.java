@@ -1,10 +1,13 @@
 package com.application.socialhub.util;
 
 
+import com.application.socialhub.security.JWTAuthenticationFilter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -69,6 +72,7 @@ public class JWTUtil {
     }
 
     public boolean isTokenValid(String jwt, String username) {
+
         String subject = getSubject(jwt);
         return subject.equals(username) && !isTokenExpired(jwt);
     }

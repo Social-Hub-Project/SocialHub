@@ -41,7 +41,7 @@ public class Rating {
              nullable = false,
              name = "id_user"
      )
-     private User user;
+     private UserEntity userEntity;
      @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
      @JoinColumn(
              nullable = false,
@@ -49,11 +49,11 @@ public class Rating {
      )
      private Post post;
 
-     public Rating(boolean value, Date modified_at, Date created_at, User user, Post post) {
+     public Rating(boolean value, Date modified_at, Date created_at, UserEntity userEntity, Post post) {
           this.value = value;
           this.modified_at = modified_at;
           this.created_at = created_at;
-          this.user = user;
+          this.userEntity = userEntity;
           this.post = post;
      }
 
@@ -92,12 +92,12 @@ public class Rating {
           this.created_at = created_at;
      }
 
-     public User getUser() {
-          return user;
+     public UserEntity getUser() {
+          return userEntity;
      }
 
-     public void setUser(User user) {
-          this.user = user;
+     public void setUser(UserEntity userEntity) {
+          this.userEntity = userEntity;
      }
 
      public Post getPost() {
@@ -115,7 +115,7 @@ public class Rating {
                   ", value=" + value +
                   ", modified_at=" + modified_at +
                   ", created_at=" + created_at +
-                  ", user=" + user +
+                  ", user=" + userEntity +
                   ", post=" + post +
                   '}';
      }

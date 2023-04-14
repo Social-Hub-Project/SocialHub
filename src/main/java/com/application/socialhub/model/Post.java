@@ -47,7 +47,7 @@ public class Post {
             nullable = false,
             name = "id_user"
     )
-    private User user;
+    private UserEntity userEntity;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -58,12 +58,12 @@ public class Post {
     private Set<Category> categories = new HashSet<>();
 
 
-    public Post(String description, boolean blocked, Date create_at, String photo_source, User user, Set<Category> categories) {
+    public Post(String description, boolean blocked, Date create_at, String photo_source, UserEntity userEntity, Set<Category> categories) {
         this.description = description;
         this.blocked = blocked;
         this.create_at = create_at;
         this.photo_source = photo_source;
-        this.user = user;
+        this.userEntity = userEntity;
         this.categories = categories;
     }
 
@@ -110,11 +110,11 @@ public class Post {
         this.photo_source = photo_source;
     }
 
-    public User getUser() {
-        return user;
+    public UserEntity getUser() {
+        return userEntity;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 }
