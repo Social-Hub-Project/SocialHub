@@ -2,7 +2,7 @@ package com.application.socialhub.dao;
 
 
 import com.application.socialhub.dtoMappers.UserRowMapper;
-import com.application.socialhub.model.User;
+import com.application.socialhub.model.UserEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -22,9 +22,9 @@ public class UserJDBCDataAccessService implements UserDAO{
     }
 
     @Override
-    public List<User> selectAllUsers() {
+    public List<UserEntity> selectAllUsers() {
         var sql = """
-                SELECT id, name, email, password
+                SELECT id, email, password, active
                 FROM my_user
                 LIMIT 1000
                 """;
@@ -35,7 +35,7 @@ public class UserJDBCDataAccessService implements UserDAO{
 
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
+    public Optional<UserEntity> findUserByEmail(String email) {
         var sql = """
                 SELECT id, name, email, password
                 FROM my_user
@@ -58,26 +58,7 @@ public class UserJDBCDataAccessService implements UserDAO{
     }
 
     @Override
-    public void insertUser(User user) {
-        var sql = """
-                INSERT INTO my_user(id, role, name, email, password, created_at)
-                VALUES (nextval('my_user_id_seq'), ?, ?, ?, ?, ?)
-                """;
-
-        int result = jdbcTemplate.update(
-                sql,
-                user.getRole().toString(),
-                user.getName(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getCreatedAt()
-        );
-
-        System.out.println("insertUser result " + result);
-    }
-
-    @Override
-    public void save(User user) {
+    public void save(UserEntity userEntity) {
 
     }
 

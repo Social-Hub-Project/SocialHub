@@ -3,60 +3,58 @@ package com.application.socialhub.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/app")
 public class MainFunctionController {
 
-    @GetMapping("/app/getFriendsList")
+    @GetMapping("/getFriendsList")
     public ResponseEntity<String> getFriendsList(){
         String str= "getFriendsList";
         return new ResponseEntity<>(str, HttpStatus.OK);
     }
 
-    @GetMapping("/app/getSearchedPeople")
+    @GetMapping("/getSearchedPeople")
     public ResponseEntity<String> getSearchedPeople(){
         String str= "getSearchedPeople";
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @GetMapping("/app/getPosts")
+    @GetMapping("/getPosts")
     public ResponseEntity<String> getPosts(){
         String str= "getPosts";
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @GetMapping("/app/getLastEvents")
+    @GetMapping("/getLastEvents")
     public ResponseEntity<String> getLastEvents(){
         String str= "getLastEvents";
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @PostMapping("/app/likePost")
+    @PostMapping("/likePost")
     public ResponseEntity<String> likePost(@RequestBody String str){
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @PostMapping("/app/dislikePost")
+    @PostMapping("/dislikePost")
     public ResponseEntity<String> dislikePost(@RequestBody String str){
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
 
-    @PostMapping("/app/commentPost")
+    @PostMapping("/commentPost")
     public ResponseEntity<String> commentPost(@RequestBody String str){
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @PostMapping("/app/followUser")
+    @PostMapping("/followUser")
     public ResponseEntity<String> followUser(@RequestBody String str){
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @PostMapping("/app/createPost")
+    @PostMapping("/createPost")
     public ResponseEntity<String> createPost (@RequestBody String str){
         return new ResponseEntity<>(str,HttpStatus.OK);
     }

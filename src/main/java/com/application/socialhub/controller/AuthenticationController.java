@@ -26,13 +26,12 @@ public class AuthenticationController {
 
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
-        logger.info("User has successfully logged in" + request.toString());
+
         return authenticationService.login(request);
     }
 
     @PostMapping("register")
     public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest request) {
-        logger.info("User has successfully registered the account");
         return registrationService.register(request);
     }
 

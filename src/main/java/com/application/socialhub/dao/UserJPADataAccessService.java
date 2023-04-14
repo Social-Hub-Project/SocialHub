@@ -1,6 +1,6 @@
 package com.application.socialhub.dao;
 
-import com.application.socialhub.model.User;
+import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,13 +17,13 @@ public class UserJPADataAccessService implements UserDAO{
     }
 
     @Override
-    public List<User> selectAllUsers() {
-        return null;
+    public List<UserEntity> selectAllUsers() {
+        return this.userRepository.findAll();
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
-        return Optional.empty();
+    public Optional<UserEntity> findUserByEmail(String email) {
+        return Optional.ofNullable(userRepository.findUserByEmail(email));
     }
 
     @Override
@@ -32,13 +32,8 @@ public class UserJPADataAccessService implements UserDAO{
     }
 
     @Override
-    public void insertUser(User user) {
-
-    }
-
-    @Override
-    public void save(User user) {
-
+    public void save(UserEntity userEntity) {
+        userRepository.save(userEntity);
     }
 
     @Override

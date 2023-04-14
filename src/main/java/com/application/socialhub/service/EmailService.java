@@ -22,7 +22,7 @@ public class EmailService implements EmailSender{
 
         this.mailSender = mailSender;
         this.mailSender.setHost("smtp.wp.pl");
-        this.mailSender.setPort(587);
+        this.mailSender.setPort(465);
 
         /*
         *            DON'T COMMIT THIS CHANGES!!!!!!!!!!!!!

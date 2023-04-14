@@ -5,9 +5,8 @@ import com.application.socialhub.dto.UserRegistrationRequest;
 import com.application.socialhub.exception.DuplicateResourceException;
 import com.application.socialhub.model.ConfirmationToken;
 import com.application.socialhub.model.Role;
-import com.application.socialhub.model.User;
+import com.application.socialhub.model.UserEntity;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,16 +47,15 @@ public class RegistrationService {
         if (userDAO.existsUserWithEmail(request.email())) {
             // TODO check of attributes are the same and
             // TODO if email not confirmed send confirmation email.
-
-            throw new DuplicateResourceException("email" + request.email() +" already taken");
+            return new ResponseEntity<>("Email is taken!", HttpStatus.BAD_REQUEST);
         }
 
-        User user = new User(
+        UserEntity userEntity = new UserEntity(
                 Role.USER,
                 request.email(),
-                request.name(),
                 passwordEncoder.encode(request.password()),
-                LocalDate.now().toString()
+                true,
+                LocalDate.now()
         );
 
 
@@ -68,18 +66,18 @@ public class RegistrationService {
                 token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
-                user
+                userEntity
         );
-        user.setEnabled(true);
+        userEntity.setEnabled(true);
+        userDAO.save(userEntity);
 
-        userDAO.save(user);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
+//        confirmationTokenService.saveConfirmationToken(confirmationToken);
+//
+//        String link = "http://localhost:8080/auth/confirmToken?token=" + token;
+//
+//        emailSender.send(request.email(), buildEmail(request.name(), link));
 
-        String link = "http://localhost:8080/auth/confirmToken?token=" + token;
-
-        //emailSender.send(request.email(), buildEmail(request.name(), link));
-
-        return new ResponseEntity<>("User registered successfully" + user, HttpStatus.OK);
+        return new ResponseEntity<>("User registered successfully" + userEntity, HttpStatus.OK);
     }
 
     @Transactional
