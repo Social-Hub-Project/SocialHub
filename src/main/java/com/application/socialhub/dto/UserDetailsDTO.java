@@ -4,7 +4,7 @@ import com.application.socialhub.model.Sex;
 
 public record UserDetailsDTO(
         String surname,
-        java.sql.Date dateOfBirth,
+        java.time.LocalDate dateOfBirth,
         String residence,
         Sex sex
 ){

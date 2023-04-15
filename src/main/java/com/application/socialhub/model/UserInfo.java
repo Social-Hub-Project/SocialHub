@@ -3,12 +3,12 @@ package com.application.socialhub.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.sql.Date;
+
 @Entity
 @Table(
         name = "user_details"
 )
-public class UserDetails {
+public class UserInfo {
     @Id
     @SequenceGenerator(
             name = "my_user_det_id_seq",
@@ -32,7 +32,7 @@ public class UserDetails {
     @Column(
             nullable = false
     )
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     @Column(
             nullable = false
     )
@@ -42,11 +42,13 @@ public class UserDetails {
     )
     private boolean blocked;
     @Column(
-            nullable = true
+            nullable = true,
+            columnDefinition = "TEXT"
     )
     private String profilePhotoSource;
     @Column(
-            nullable = true
+            nullable = true,
+            columnDefinition = "TEXT"
     )
     private String bgPhotoSource;
     @Enumerated(EnumType.STRING)
@@ -56,12 +58,10 @@ public class UserDetails {
     )
     private LocalDate createdAt;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false,
-            name = "id_user")
-    private UserEntity userEntity;
 
-    public UserDetails(String name, String surname, Date dateOfBirth, String residence, boolean blocked, String profilePhotoSource, String bgPhotoSource, Sex sex, LocalDate createdAt, UserEntity userEntity) {
+
+    public UserInfo(String name, String surname, LocalDate dateOfBirth, String residence, boolean blocked,
+                    String profilePhotoSource, String bgPhotoSource, Sex sex, LocalDate createdAt) {
         this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
@@ -71,10 +71,9 @@ public class UserDetails {
         this.bgPhotoSource = bgPhotoSource;
         this.sex = sex;
         this.createdAt = createdAt;
-        this.userEntity = userEntity;
     }
 
-    public UserDetails() {
+    public UserInfo() {
     }
 
     public String getName() {
@@ -93,11 +92,11 @@ public class UserDetails {
         this.surname = surname;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -149,13 +148,6 @@ public class UserDetails {
         this.createdAt = createdAt;
     }
 
-    public UserEntity getUser() {
-        return userEntity;
-    }
-
-    public void setUser(UserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
 
     @Override
     public String toString() {
@@ -170,7 +162,7 @@ public class UserDetails {
                 ", bgPhotoSource='" + bgPhotoSource + '\'' +
                 ", sex=" + sex +
                 ", createdAt=" + createdAt +
-                ", user=" + userEntity +
+//                ", user=" + userEntity +
                 '}';
     }
 }

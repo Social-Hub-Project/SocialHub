@@ -4,6 +4,7 @@ package com.application.socialhub.model;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 
 @Entity
@@ -31,7 +32,7 @@ public class Comment {
     @Column(
             nullable = false
     )
-    private Date created_at;
+    private LocalDate created_at;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(
             nullable = false,
@@ -45,7 +46,7 @@ public class Comment {
     )
     private Post post;
 
-    public Comment(String content, Date created_at, UserEntity userEntity, Post post) {
+    public Comment(String content, LocalDate created_at, UserEntity userEntity, Post post) {
         this.content = content;
         this.created_at = created_at;
         this.userEntity = userEntity;
@@ -73,11 +74,11 @@ public class Comment {
         this.content = content;
     }
 
-    public Date getCreated_at() {
+    public LocalDate getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(LocalDate created_at) {
         this.created_at = created_at;
     }
 

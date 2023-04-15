@@ -6,6 +6,7 @@ import com.application.socialhub.exception.DuplicateResourceException;
 import com.application.socialhub.model.ConfirmationToken;
 import com.application.socialhub.model.Role;
 import com.application.socialhub.model.UserEntity;
+import com.application.socialhub.model.UserInfo;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,12 +51,24 @@ public class RegistrationService {
             return new ResponseEntity<>("Email is taken!", HttpStatus.BAD_REQUEST);
         }
 
+        UserInfo userInfo = new UserInfo(
+                request.name(),
+                request.surname(),
+                LocalDate.now(),
+                request.residence(),
+                false,
+                "123",
+                "456",
+                request.sex(),
+                LocalDate.now()
+        );
+
         UserEntity userEntity = new UserEntity(
                 Role.USER,
                 request.email(),
                 passwordEncoder.encode(request.password()),
                 true,
-                LocalDate.now()
+                LocalDate.now(),true,userInfo
         );
 
 

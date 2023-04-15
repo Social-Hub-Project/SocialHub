@@ -1,19 +1,19 @@
 package com.application.socialhub.dtoMappers;
 
 import com.application.socialhub.dto.UserDetailsDTO;
-import com.application.socialhub.model.UserDetails;
+import com.application.socialhub.model.UserInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 @Service
-public class UserDTOMapper implements Function<UserDetails, UserDetailsDTO> {
+public class UserDTOMapper implements Function<UserInfo, UserDetailsDTO> {
     @Override
-    public UserDetailsDTO apply(UserDetails userDetails) {
+    public UserDetailsDTO apply(UserInfo userInfo) {
         return new UserDetailsDTO(
-                userDetails.getSurname(),
-                userDetails.getDateOfBirth(),
-                userDetails.getResidence(),
-                userDetails.getSex()
+                userInfo.getSurname(),
+                userInfo.getDateOfBirth(),
+                userInfo.getResidence(),
+                userInfo.getSex()
         );
     }
 }
