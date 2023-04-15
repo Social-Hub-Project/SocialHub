@@ -1,7 +1,9 @@
 package com.application.socialhub.dtoMappers;
 
 import com.application.socialhub.model.Role;
+import com.application.socialhub.model.Sex;
 import com.application.socialhub.model.UserEntity;
+import com.application.socialhub.model.UserInfo;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +24,18 @@ public class UserRowMapper implements RowMapper<UserEntity> {
                 rs.getString("email"),
                 rs.getString("password"),
                 rs.getBoolean("active"),
-                LocalDate.of(2001, MARCH, 14)
+                LocalDate.of(2001, MARCH, 14),
+                true,
+                new UserInfo(rs.getString("name"),
+                        rs.getString("surname"),
+                        LocalDate.now(),
+                        rs.getString("residence"),
+                        rs.getBoolean("blocked"),
+                        rs.getString("profilePhotoSource"),
+                        rs.getString("bgPhotoSource"),
+                        Sex.FEMALE,
+                        LocalDate.now()
+                )
         );
     }
 }

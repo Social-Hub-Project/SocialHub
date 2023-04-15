@@ -3,6 +3,7 @@ package com.application.socialhub.model;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ public class Post {
     @Column(
             nullable = false
     )
-    private Date create_at;
+    private LocalDate create_at;
     @Column(
             nullable = true
     )
@@ -58,7 +59,7 @@ public class Post {
     private Set<Category> categories = new HashSet<>();
 
 
-    public Post(String description, boolean blocked, Date create_at, String photo_source, UserEntity userEntity, Set<Category> categories) {
+    public Post(String description, boolean blocked, LocalDate create_at, String photo_source, UserEntity userEntity, Set<Category> categories) {
         this.description = description;
         this.blocked = blocked;
         this.create_at = create_at;
@@ -94,11 +95,11 @@ public class Post {
         this.blocked = blocked;
     }
 
-    public Date getCreate_at() {
+    public LocalDate getCreate_at() {
         return create_at;
     }
 
-    public void setCreate_at(Date create_at) {
+    public void setCreate_at(LocalDate create_at) {
         this.create_at = create_at;
     }
 

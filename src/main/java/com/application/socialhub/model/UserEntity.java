@@ -61,23 +61,39 @@ public class UserEntity implements UserDetails {
 
     private Boolean enabled;
 
-    public UserEntity(long id, Role role, String email, String password, Boolean active, Boolean enabled, LocalDate createdAt) {
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false,
+            name = "id_user_info",
+        unique = true)
+    private UserInfo userInfo;
+
+    public UserEntity(long id, Role role, String email, String password, Boolean active, LocalDate createdAt, Boolean enabled, UserInfo userInfo) {
         this.id = id;
         this.role = role;
         this.email = email;
         this.password = password;
         this.active = active;
-        this.enabled = enabled;
         this.createdAt = createdAt;
+        this.enabled = enabled;
+        this.userInfo = userInfo;
     }
 
-    public UserEntity(Role role, String email, String password, Boolean active, LocalDate createdAt) {
+    public UserEntity(Role role, String email, String password, Boolean active, LocalDate createdAt, Boolean enabled, UserInfo userInfo) {
         this.role = role;
         this.email = email;
         this.password = password;
         this.active = active;
         this.createdAt = createdAt;
-        this.enabled = false;
+        this.enabled = enabled;
+        this.userInfo = userInfo;
     }
 
     public UserEntity() {

@@ -3,6 +3,7 @@ package com.application.socialhub.model;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 
 @Entity
@@ -30,11 +31,11 @@ public class Rating {
      @Column(
              nullable = false
      )
-     private Date modified_at;
+     private LocalDate modified_at;
      @Column(
              nullable = false
      )
-     private Date created_at;
+     private LocalDate created_at;
 
      @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
      @JoinColumn(
@@ -49,7 +50,7 @@ public class Rating {
      )
      private Post post;
 
-     public Rating(boolean value, Date modified_at, Date created_at, UserEntity userEntity, Post post) {
+     public Rating(boolean value, LocalDate modified_at, LocalDate created_at, UserEntity userEntity, Post post) {
           this.value = value;
           this.modified_at = modified_at;
           this.created_at = created_at;
@@ -76,19 +77,19 @@ public class Rating {
           this.value = value;
      }
 
-     public Date getModified_at() {
+     public LocalDate getModified_at() {
           return modified_at;
      }
 
-     public void setModified_at(Date modified_at) {
+     public void setModified_at(LocalDate modified_at) {
           this.modified_at = modified_at;
      }
 
-     public Date getCreated_at() {
+     public LocalDate getCreated_at() {
           return created_at;
      }
 
-     public void setCreated_at(Date created_at) {
+     public void setCreated_at(LocalDate created_at) {
           this.created_at = created_at;
      }
 
