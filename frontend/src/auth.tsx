@@ -131,12 +131,6 @@ export const login = async (email: string, password: string, navigate: NavigateF
                 return 'Error: Connection error. Please try again later.';
             }
         }
-        alert("login success")
-        const user = await fetchUser();
-
-        if (user === null) return 'Login failed';
-        setUserState(user.username, user.role);
-
         return navigate('/');
     } catch (err) { }
 
