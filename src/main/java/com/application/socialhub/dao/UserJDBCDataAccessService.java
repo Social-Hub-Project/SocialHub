@@ -37,7 +37,7 @@ public class UserJDBCDataAccessService implements UserDAO{
     @Override
     public Optional<UserEntity> findUserByEmail(String email) {
         var sql = """
-                SELECT id, name, email, password
+                SELECT id, email, password
                 FROM my_user
                 WHERE email = ?
                 """;

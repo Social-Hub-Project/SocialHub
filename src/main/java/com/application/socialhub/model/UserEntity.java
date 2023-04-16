@@ -61,6 +61,7 @@ public class UserEntity implements UserDetails {
 
     private Boolean enabled;
 
+
     public UserInfo getUserInfo() {
         return userInfo;
     }
@@ -95,6 +96,7 @@ public class UserEntity implements UserDetails {
         this.enabled = enabled;
         this.userInfo = userInfo;
     }
+
 
     public UserEntity() {
     }
