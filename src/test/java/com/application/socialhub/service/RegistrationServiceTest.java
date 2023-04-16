@@ -5,7 +5,9 @@ import com.application.socialhub.dao.UserDAO;
 import com.application.socialhub.dto.UserRegistrationRequest;
 import com.application.socialhub.exception.DuplicateResourceException;
 import com.application.socialhub.model.Role;
+import com.application.socialhub.model.Sex;
 import com.application.socialhub.model.UserEntity;
+import com.application.socialhub.model.UserInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDate;
 
 import static com.application.socialhub.model.Sex.MALE;
+import static java.time.Month.FEBRUARY;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -77,12 +80,23 @@ class RegistrationServiceTest {
 
         given(passwordEncoder.encode(anyString()))
                 .willReturn("1234");
+        UserInfo userInfo = new UserInfo("john",
+                "doe",
+                LocalDate.of(2000,FEBRUARY,12),
+                "Krakow",
+                false,
+                " sd",
+                " ",
+                Sex.MALE,
+                LocalDate.now());
 
         UserEntity userEntity = new UserEntity(Role.USER,
                 "dkowal@gmail.com",
                 passwordEncoder.encode("password"),
                 true,
-                LocalDate.now());
+                LocalDate.now(),
+                true,
+                userInfo);
         userEntity.setEnabled(true);
         // when
         underTest.register(request);

@@ -23,7 +23,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(@Qualifier("jdbc") UserDAO userDAO,
+    public UserService(@Qualifier("jpa") UserDAO userDAO,
                        UserDTOMapper userDTOMapper,
                        UserEntityDTOMapper userEntityDTOMapper,
                        ConfirmationTokenService confirmationTokenService, PasswordEncoder passwordEncoder) {
@@ -43,8 +43,5 @@ public class UserService {
     }
 
     public void addUser(UserRegistrationRequest request) {
-
-
-
     }
 }
