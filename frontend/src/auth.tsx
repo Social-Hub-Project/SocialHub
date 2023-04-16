@@ -1,5 +1,6 @@
 import { NavigateFunction } from 'react-router-dom';
 
+
 const loginUrl = `${process.env.REACT_APP_BACKEND_URL}/auth/login`;
 const logoutUrl = `${process.env.REACT_APP_BACKEND_URL}/logout`;
 const fetchUserUrl = `${process.env.REACT_APP_BACKEND_URL}/user`;
@@ -105,13 +106,20 @@ export const isAdmin = (): boolean => {
 };
 
 export const login = async (email: string, password: string, navigate: NavigateFunction): Promise<string | void> => {
-    const body = new FormData();
-    body.append('email', email);
-    body.append('password', password);
 
+
+    const body = {
+        email: email,
+        password: password
+    };
     const requestOptions = {
         method: 'POST',
-        body: body,
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true'
+        },
+        body: JSON.stringify(body),
     };
 
     try {
@@ -123,6 +131,7 @@ export const login = async (email: string, password: string, navigate: NavigateF
                 return 'Error: Connection error. Please try again later.';
             }
         }
+        alert("login success")
         const user = await fetchUser();
 
         if (user === null) return 'Login failed';
