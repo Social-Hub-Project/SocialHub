@@ -6,6 +6,10 @@ import TopBar from '../../components/TopBar/TopBar';
 import LeftBar from '../../components/LeftBar/LeftBar';
 import RightBar from '../../components/RightBar/RightBar';
 import Search from '../../components/Search/Search';
+import Contacts from '../../components/Contacts/Contacts';
+import Events from '../../components/Events/Events';
+import CreatePost from '../../components/CreatePost/CreatePost';
+import CenterBar from '../../components/CenterBar/CenterBar';
 
 
 
@@ -17,11 +21,16 @@ function Home() {
       <TopBar></TopBar>
       <LeftBar>
         <Search text={'search'}></Search>
-
+        <Contacts></Contacts>
       </LeftBar>
+      <CenterBar>
+        <CreatePost></CreatePost>
+      </CenterBar>
 
-      <span className={style.catchphrase}>HOME PAGE</span>
-      <RightBar></RightBar>
+
+      <RightBar>
+        <Events></Events>
+      </RightBar>
 
     </Page>
   );
