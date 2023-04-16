@@ -1,7 +1,9 @@
 package com.application.socialhub.repository;
 
 import com.application.socialhub.model.Role;
+import com.application.socialhub.model.Sex;
 import com.application.socialhub.model.UserEntity;
+import com.application.socialhub.model.UserInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
 
+import static java.time.Month.FEBRUARY;
 import static java.time.Month.MARCH;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,13 +32,24 @@ class UserEntityRepositoryTest {
     void doesEmailExists() {
         // given
         String email = "kamila@gmail.com";
+        UserInfo userInfo = new UserInfo("john",
+                "doe",
+                LocalDate.of(2000,FEBRUARY,12),
+                "Krakow",
+                false,
+                " sd",
+                " ",
+                Sex.MALE,
+                LocalDate.now());
 
         UserEntity userEntity = new UserEntity(
                 Role.USER,
                 email,
                 "password",
                 true,
-                LocalDate.of(2001, MARCH, 14)
+                LocalDate.of(2001, MARCH, 14),
+                true,
+                userInfo
         );
         underTest.save(userEntity);
 
@@ -50,13 +64,24 @@ class UserEntityRepositoryTest {
     void isUserEnabled() {
         // given
         String email = "kamila@gmail.com";
+        UserInfo userInfo = new UserInfo("john",
+                "doe",
+                LocalDate.of(2000,FEBRUARY,12),
+                "Krakow",
+                false,
+                " sd",
+                " ",
+                Sex.MALE,
+                LocalDate.now());
 
         UserEntity userEntity = new UserEntity(
                 Role.USER,
                 email,
                 "password",
                 true,
-                LocalDate.of(2001, MARCH, 14)
+                LocalDate.of(2001, MARCH, 14),
+                true,
+                userInfo
         );
         underTest.save(userEntity);
 
@@ -72,13 +97,24 @@ class UserEntityRepositoryTest {
     void isUserNotEnabled() {
         // given
         String email = "kamila@gmail.com";
+        UserInfo userInfo = new UserInfo("john",
+                "doe",
+                LocalDate.of(2000,FEBRUARY,12),
+                "Krakow",
+                false,
+                " sd",
+                " ",
+                Sex.MALE,
+                LocalDate.now());
 
         UserEntity userEntity = new UserEntity(
                 Role.USER,
                 email,
                 "password",
                 true,
-                LocalDate.of(2001, MARCH, 14)
+                LocalDate.of(2001, MARCH, 14),
+                false,
+                userInfo
         );
         underTest.save(userEntity);
 
@@ -91,13 +127,24 @@ class UserEntityRepositoryTest {
     void foundUserByEmail() {
         // given
         String email = "kamila@gmail.com";
+        UserInfo userInfo = new UserInfo("john",
+                "doe",
+                LocalDate.of(2000,FEBRUARY,12),
+                "Krakow",
+                false,
+                " sd",
+                " ",
+                Sex.MALE,
+                LocalDate.now());
 
         UserEntity userEntity = new UserEntity(
                 Role.USER,
                 email,
                 "password",
                 true,
-                LocalDate.of(2001, MARCH, 14)
+                LocalDate.of(2001, MARCH, 14),
+                true,
+                userInfo
         );
         underTest.save(userEntity);
 
@@ -112,14 +159,24 @@ class UserEntityRepositoryTest {
         // given
         String emailTest = "kamil@gmail.com";
         String email = "kamila@gmail.com";
-
+        UserInfo userInfo = new UserInfo("john",
+                "doe",
+                LocalDate.of(2000,FEBRUARY,12),
+                "Krakow",
+                false,
+                " sd",
+                " ",
+                Sex.MALE,
+                LocalDate.now());
 
         UserEntity userEntity = new UserEntity(
                 Role.USER,
                 email,
                 "password",
                 true,
-                LocalDate.of(2001, MARCH, 14)
+                LocalDate.of(2001, MARCH, 14),
+                true,
+                userInfo
         );
         underTest.save(userEntity);
 

@@ -5,7 +5,9 @@ import com.application.socialhub.dto.AuthenticationResponse;
 import com.application.socialhub.dto.UserDTO;
 import com.application.socialhub.dtoMappers.UserEntityDTOMapper;
 import com.application.socialhub.exception.AuthenticationFailedException;
+import com.application.socialhub.model.Sex;
 import com.application.socialhub.model.UserEntity;
+import com.application.socialhub.model.UserInfo;
 import com.application.socialhub.util.JWTUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,7 @@ import org.springframework.security.core.AuthenticationException;
 
 import java.time.LocalDate;
 
+import static java.time.Month.FEBRUARY;
 import static java.time.Month.MARCH;
 import static org.mockito.Mockito.*;
 import static com.application.socialhub.model.Role.USER;
@@ -61,8 +64,22 @@ class AuthenticationServiceTest {
         // Given
 
         AuthenticationRequest request = new AuthenticationRequest("test@test.com", "test123");
-
-        UserEntity userEntity = new UserEntity(USER,"test@test.com", "Test", true,LocalDate.of(2001, MARCH, 14));
+        UserInfo userInfo = new UserInfo("john",
+                "doe",
+                LocalDate.of(2000,FEBRUARY,12),
+                "Krakow",
+                false,
+                " sd",
+                " ",
+                Sex.MALE,
+                LocalDate.now());
+        UserEntity userEntity = new UserEntity(
+                USER,
+                "test@test.com",
+                "Test",
+                true,LocalDate.of(2001, MARCH, 14),
+                true,
+                userInfo);
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenReturn(new UsernamePasswordAuthenticationToken(userEntity, userEntity.getPassword(), userEntity.getAuthorities()));
 
