@@ -25,7 +25,8 @@ public class Rating {
      private long id;
 
      @Column(
-             nullable = false
+             nullable = false,
+             name="assessment"
      )
      private boolean value;
      @Column(
@@ -50,13 +51,13 @@ public class Rating {
      )
      private Post post;
 
-     public Rating(boolean value, LocalDate modified_at, LocalDate created_at, UserEntity userEntity, Post post) {
-          this.value = value;
-          this.modified_at = modified_at;
-          this.created_at = created_at;
-          this.userEntity = userEntity;
-          this.post = post;
-     }
+        public Rating(boolean value, LocalDate modified_at, LocalDate created_at, UserEntity userEntity, Post post) {
+            this.value = value;
+            this.modified_at = modified_at;
+            this.created_at = created_at;
+            this.userEntity = userEntity;
+            this.post = post;
+        }
 
      public Rating() {
      }

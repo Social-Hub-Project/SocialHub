@@ -33,16 +33,15 @@ public class Comment {
             nullable = false
     )
     private LocalDate created_at;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(
             nullable = false,
             name = "id_user"
     )
     private UserEntity userEntity;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(
-            nullable = false,
-            name = "id_post"
+            name = "post_id"
     )
     private Post post;
 

@@ -59,7 +59,6 @@ public class UserInfo {
     private LocalDate createdAt;
 
 
-
     public UserInfo(String name, String surname, LocalDate dateOfBirth, String residence, boolean blocked,
                     String profilePhotoSource, String bgPhotoSource, Sex sex, LocalDate createdAt) {
         this.name = name;

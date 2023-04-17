@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(
@@ -28,23 +30,19 @@ public class Followers {
     )
     private LocalDate created_at;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(
-            nullable = false,
-            name = "id_user"
-    )
-    private UserEntity userEntity;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(
-            nullable = false,
-            name = "id_follower"
-    )
-    private UserEntity follower;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false,
+            name = "follower_id")
+    private UserInfo follower;
 
-    public Followers(LocalDate created_at, UserEntity userEntity, UserEntity follower) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="following_id", nullable = false)
+    private UserInfo following;
+
+    public Followers(LocalDate created_at, UserInfo follower, UserInfo following) {
         this.created_at = created_at;
-        this.userEntity = userEntity;
         this.follower = follower;
+        this.following = following;
     }
 
     public Followers() {
@@ -66,29 +64,14 @@ public class Followers {
         this.created_at = created_at;
     }
 
-    public UserEntity getUser() {
-        return userEntity;
-    }
 
-    public void setUser(UserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
-
-    public UserEntity getUser_f() {
-        return follower;
-    }
-
-    public void setUser_f(UserEntity follower) {
-        this.follower = follower;
-    }
 
     @Override
     public String toString() {
         return "Followers{" +
                 "id=" + id +
                 ", created_at=" + created_at +
-                ", user=" + userEntity +
-                ", follower=" + follower +
+                ", userEntities=" + follower +
                 '}';
     }
 }

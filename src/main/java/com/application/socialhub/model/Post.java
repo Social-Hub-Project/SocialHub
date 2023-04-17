@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,32 +44,33 @@ public class Post {
     )
     private String photo_source;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(
-            nullable = false,
+            nullable = true,
             name = "id_user"
     )
     private UserEntity userEntity;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "post_category",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private Set<Category> categories = new HashSet<>();
 
 
-    public Post(String description, boolean blocked, LocalDate create_at, String photo_source, UserEntity userEntity, Set<Category> categories) {
+    public Post(String description, boolean blocked, LocalDate create_at, String photo_source, UserEntity userEntity) {
         this.description = description;
         this.blocked = blocked;
         this.create_at = create_at;
         this.photo_source = photo_source;
         this.userEntity = userEntity;
-        this.categories = categories;
     }
 
     public Post() {
+    }
+
+    public Post(long id, String description, boolean blocked, LocalDate create_at, String photo_source, UserEntity userEntity) {
+        this.id = id;
+        this.description = description;
+        this.blocked = blocked;
+        this.create_at = create_at;
+        this.photo_source = photo_source;
+        this.userEntity = userEntity;
     }
 
     public long getId() {
@@ -111,11 +113,11 @@ public class Post {
         this.photo_source = photo_source;
     }
 
-    public UserEntity getUser() {
+    public UserEntity getUserEntity() {
         return userEntity;
     }
 
-    public void setUser(UserEntity userEntity) {
+    public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
     }
 }

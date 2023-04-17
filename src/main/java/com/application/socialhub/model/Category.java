@@ -2,10 +2,6 @@ package com.application.socialhub.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(
@@ -30,12 +26,8 @@ public class Category {
     )
     private String name;
 
-    @ManyToMany(mappedBy = "categories")
-    private Set<Post> posts = new HashSet<>();
-
-    public Category(String name, Set<Post> posts) {
+    public Category(String name) {
         this.name = name;
-        this.posts = posts;
     }
 
     public Category() {
@@ -57,11 +49,4 @@ public class Category {
         this.name = name;
     }
 
-    public Set<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(Set<Post> posts) {
-        this.posts = posts;
-    }
 }
