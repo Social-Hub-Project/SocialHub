@@ -1,17 +1,17 @@
 package com.application.socialhub.controller;
 
 import com.application.socialhub.dto.AuthenticationRequest;
-import com.application.socialhub.dto.AuthenticationResponse;
 import com.application.socialhub.dto.UserRegistrationRequest;
 import com.application.socialhub.service.AuthenticationService;
 import com.application.socialhub.service.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(path="/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final RegistrationService registrationService;
@@ -26,11 +26,10 @@ public class AuthenticationController {
 
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
-
         return authenticationService.login(request);
     }
 
-    @PostMapping("register")
+    @PostMapping(path = "register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest request) {
         return registrationService.register(request);
     }

@@ -1,13 +1,23 @@
 package com.application.socialhub.controller;
 
 
+import com.application.socialhub.dto.CreatePostRequest;
+import com.application.socialhub.dto.PostDTO;
+import com.application.socialhub.service.MainPageService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/app")
-public class MainFunctionController {
+public class MainPageController {
+
+    private MainPageService mainPageService;
+
+    public MainPageController(MainPageService mainPageService) {
+        this.mainPageService = mainPageService;
+    }
 
     @GetMapping("/getFriendsList")
     public ResponseEntity<String> getFriendsList(){
@@ -21,10 +31,9 @@ public class MainFunctionController {
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @GetMapping("/getPosts")
-    public ResponseEntity<String> getPosts(){
-        String str= "getPosts";
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @GetMapping(path ="/getPosts", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPosts(){
+        return mainPageService.getPosts();
     }
 
     @GetMapping("/getLastEvents")
@@ -54,9 +63,9 @@ public class MainFunctionController {
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @PostMapping("/createPost")
-    public ResponseEntity<String> createPost (@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @PostMapping(path="/createPost", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createPost (@RequestBody CreatePostRequest request){
+        return mainPageService.createPost(request);
     }
 
 }

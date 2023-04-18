@@ -1,8 +1,9 @@
 package com.application.socialhub.service;
 
 import com.application.socialhub.dao.UserDAO;
+import com.application.socialhub.dto.AuthenticationFailedResponse;
+import com.application.socialhub.dto.RegistrationResponse;
 import com.application.socialhub.dto.UserRegistrationRequest;
-import com.application.socialhub.exception.DuplicateResourceException;
 import com.application.socialhub.model.ConfirmationToken;
 import com.application.socialhub.model.Role;
 import com.application.socialhub.model.UserEntity;
@@ -42,13 +43,13 @@ public class RegistrationService {
     public ResponseEntity<Object> register(UserRegistrationRequest request) {
 
         if (!emailValidator.test(request.email())) {
-            throw new IllegalStateException("email not valid");
+            return new ResponseEntity<>(new AuthenticationFailedResponse("Email is not valid!"), HttpStatus.BAD_REQUEST);
         }
 
         if (userDAO.existsUserWithEmail(request.email())) {
             // TODO check of attributes are the same and
             // TODO if email not confirmed send confirmation email.
-            return new ResponseEntity<>("Email is taken!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AuthenticationFailedResponse("Email is taken!"), HttpStatus.BAD_REQUEST);
         }
 
         UserInfo userInfo = new UserInfo(
@@ -89,8 +90,7 @@ public class RegistrationService {
 //        String link = "http://localhost:8080/auth/confirmToken?token=" + token;
 //
 //        emailSender.send(request.email(), buildEmail(request.name(), link));
-
-        return new ResponseEntity<>("User registered successfully" + userEntity, HttpStatus.OK);
+        return new ResponseEntity<>(new RegistrationResponse("User " + userInfo.getName() + " registered successfully"), HttpStatus.OK);
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package com.application.socialhub.service;
 
+import com.application.socialhub.dao.UserInfoDAO;
 import com.application.socialhub.dto.AuthenticationRequest;
 import com.application.socialhub.dto.AuthenticationResponse;
 import com.application.socialhub.dto.UserDTO;
@@ -38,12 +39,13 @@ class AuthenticationServiceTest {
     private UserEntityDTOMapper userEntityDTOMapper;
     @Mock
     private JWTUtil jwtUtil;
-
+    @Mock
+    private UserInfoDAO userInfoDAO;
     private AuthenticationService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new AuthenticationService(authenticationManager, userEntityDTOMapper, jwtUtil);
+        underTest = new AuthenticationService(authenticationManager, userEntityDTOMapper, userInfoDAO, jwtUtil);
     }
 
     @Test
@@ -96,7 +98,12 @@ class AuthenticationServiceTest {
         verify(userEntityDTOMapper).apply(any(UserEntity.class));
         verify(jwtUtil).issueToken(anyString(), anyString());
 
-        AuthenticationResponse expectedResponse = new AuthenticationResponse(token, new UserDTO("test@test.com", USER, true));
+        AuthenticationResponse expectedResponse = new AuthenticationResponse(token,
+                userInfo.getName(),
+                userInfo.getSurname(),
+                userInfo.getProfilePhotoSource(),
+                "Login success");
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expectedResponse.toString(), response.getBody());
     }
