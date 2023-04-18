@@ -35,15 +35,13 @@ public class UserJDBCDataAccessService implements UserDAO{
 
 
     @Override
-    public Optional<UserEntity> findUserByEmail(String email) {
+    public UserEntity findUserByEmail(String email) {
         var sql = """
                 SELECT id, email, password
                 FROM my_user
                 WHERE email = ?
                 """;
-        return jdbcTemplate.query(sql, userRowMapper, email)
-                .stream()
-                .findFirst();
+        return null;
     }
 
     @Override

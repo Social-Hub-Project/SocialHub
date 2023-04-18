@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface UserDAO {
     List<UserEntity> selectAllUsers();
 
-    Optional<UserEntity> findUserByEmail(String email);
+    UserEntity findUserByEmail(String email);
 
     boolean existsUserWithEmail(String email);
 

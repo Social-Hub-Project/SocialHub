@@ -40,4 +40,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("SELECT u FROM UserEntity u WHERE u.email = ?1")
     UserEntity findUserByEmail(String email);
 
+    boolean existsByEmail(String email);
 }

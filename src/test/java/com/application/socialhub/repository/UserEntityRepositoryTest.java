@@ -5,6 +5,7 @@ import com.application.socialhub.model.Sex;
 import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.model.UserInfo;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -14,8 +15,7 @@ import java.time.LocalDate;
 import static java.time.Month.FEBRUARY;
 import static java.time.Month.MARCH;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class UserEntityRepositoryTest {
@@ -184,5 +184,47 @@ class UserEntityRepositoryTest {
         UserEntity user = underTest.findUserByEmail(emailTest);
         // then
         assertNotEquals(user, userEntity);
+    }
+
+    @Test
+    void existsByEmail() {
+        // given
+        String email = "kamila@gmail.com";
+        UserInfo userInfo = new UserInfo("john",
+                "doe",
+                LocalDate.of(2000,FEBRUARY,12),
+                "Krakow",
+                false,
+                " sd",
+                " ",
+                Sex.MALE,
+                LocalDate.now());
+
+        UserEntity userEntity = new UserEntity(
+                Role.USER,
+                email,
+                "password",
+                true,
+                LocalDate.of(2001, MARCH, 14),
+                true,
+                userInfo
+        );
+        underTest.save(userEntity);
+
+        // when
+        boolean exist = underTest.existsByEmail(email);
+        // then
+        assertThat(exist).isTrue();
+    }
+
+    @Test
+    void doesntExistByEmail() {
+    // given
+        String email = "kamila@gmail.com";
+
+        // when
+        boolean exist = underTest.existsByEmail(email);
+        // then
+        assertThat(exist).isFalse();
     }
 }

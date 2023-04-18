@@ -7,19 +7,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(
-        name = "my_user",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "my_user_email_unique",
-                        columnNames = "email"
-                )
-        }
+        name = "my_user"
+//        uniqueConstraints = {
+//                @UniqueConstraint(
+//                        name = "my_user_email_unique",
+//                        columnNames = "email"
+//                )
+//        }
 )
 public class UserEntity implements UserDetails {
 
@@ -42,7 +40,8 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     @Column(
-            nullable = false
+            nullable = false,
+            unique = true
     )
     private String email;
 
@@ -61,14 +60,6 @@ public class UserEntity implements UserDetails {
 
     private Boolean enabled;
 
-
-    public UserInfo getUserInfo() {
-        return userInfo;
-    }
-
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
-    }
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false,
@@ -99,6 +90,14 @@ public class UserEntity implements UserDetails {
 
 
     public UserEntity() {
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     public long getId() {
@@ -166,7 +165,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override

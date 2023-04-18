@@ -22,13 +22,13 @@ public class UserJPADataAccessService implements UserDAO{
     }
 
     @Override
-    public Optional<UserEntity> findUserByEmail(String email) {
-        return Optional.ofNullable(userRepository.findUserByEmail(email));
+    public UserEntity findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
     @Override
     public boolean existsUserWithEmail(String email) {
-        return false;
+        return userRepository.existsByEmail(email);
     }
 
     @Override
