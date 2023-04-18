@@ -1,0 +1,21 @@
+.multiLine {
+    width: 90%;
+    min-height: 60px;
+    height: auto;
+    padding-left: 25px;
+    padding-right: 25px;
+    background: #FFFFFF;
+    border: none;
+    resize: none;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 16px;
+    color: #788292;
+}
+
+.multiLine:focus {
+    border: none;
+    outline: none;
+}

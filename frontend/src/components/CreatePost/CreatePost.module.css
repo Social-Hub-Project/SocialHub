@@ -1,0 +1,40 @@
+.notExpanded {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+.notExpanded img {
+    rotate: 180deg;
+}
+
+.Expanded {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Expanded img {
+    padding-left: 900px;
+    display: block;
+}
+
+.createPost {
+    margin-top: 60px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px;
+    background: #FFFFFF;
+    border: 1.5px solid #F1F2F6;
+    border-radius: 8px;
+}

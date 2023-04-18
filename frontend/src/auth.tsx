@@ -123,18 +123,22 @@ export const login = async (email: string, password: string, navigate: NavigateF
     };
 
     try {
-        const resp = await fetch(loginUrl, requestOptions);
-        if (resp.status !== 200) {
-            if (resp.headers.get('Content-Type')?.includes('text/plain')) {
-                return await resp.text();
-            } else {
-                return 'Error: Connection error. Please try again later.';
-            }
-        }
-        return navigate('/');
+        const response = await fetch(loginUrl, requestOptions)
+            .then(function (response) {
+                console.log(response);
+                if (!response.ok) {
+                    alert("wrong password or email");
+                } else {
+                    console.log(response.json());
+                    // The response is a Response instance.
+                    // You parse the data into a useable format using `.json()`
+                    return navigate('/');
+                }
+
+            })
+
     } catch (err) { }
 
-    return 'Login failed';
 };
 
 export const validateUser = (user: User): user is User => {
@@ -156,7 +160,6 @@ export const fetchUser = async (): Promise<User | null> => {
     const requestOptions = {
         method: 'GET',
     };
-
     try {
         const resp = await fetch(fetchUserUrl, requestOptions);
         if (resp.status !== 200) return null;
