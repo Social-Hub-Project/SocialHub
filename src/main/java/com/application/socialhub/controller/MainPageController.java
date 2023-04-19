@@ -31,9 +31,9 @@ public class MainPageController {
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @GetMapping(path ="/getPosts", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getPosts(){
-        return mainPageService.getPosts();
+    @GetMapping(path ="/getAllPosts", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllPosts(){
+        return mainPageService.getAllPosts();
     }
 
     @GetMapping("/getLastEvents")

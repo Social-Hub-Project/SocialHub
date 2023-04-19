@@ -61,7 +61,7 @@ public class UserEntity implements UserDetails {
     private Boolean enabled;
 
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false,
             name = "id_user_info",
         unique = true)

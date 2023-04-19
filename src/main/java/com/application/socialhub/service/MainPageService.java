@@ -35,16 +35,15 @@ public class MainPageService {
             String email = jwtUtil.getSubject(request.token());
             UserEntity user = userDAO.findUserByEmail(email);
             Post newPost = new Post(request.description(), false, LocalDate.now(), request.photo(), user);
-            //TODO find error source
 
-            //TODO query to DB - add post
+            postDAO.savePost(newPost);
             return new ResponseEntity<>(newPost, HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity<?> getPosts() {
+    public ResponseEntity<?> getAllPosts() {
         try {
             List<Post> posts = postDAO.findAllPosts();
             return new ResponseEntity<>(posts, HttpStatus.OK);

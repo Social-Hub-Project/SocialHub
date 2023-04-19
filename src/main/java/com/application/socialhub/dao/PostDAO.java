@@ -7,4 +7,6 @@ import java.util.List;
 public interface PostDAO {
 
     List<Post> findAllPosts();
+
+    void savePost(Post newPost);
 }

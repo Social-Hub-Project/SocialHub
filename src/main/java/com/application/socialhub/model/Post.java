@@ -13,17 +13,9 @@ import java.util.Set;
         name="post"
 )
 public class Post {
+
     @Id
-    @SequenceGenerator(
-            name="my_post_id_seq",
-            sequenceName = "my_post_id_seq",
-            allocationSize = 1,
-            initialValue = 0
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "my_post_id_seq"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(
@@ -44,9 +36,9 @@ public class Post {
     )
     private String photo_source;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(
-            nullable = true,
+            nullable = false,
             name = "id_user"
     )
     private UserEntity userEntity;
