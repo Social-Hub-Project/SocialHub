@@ -36,13 +36,14 @@ public class Post {
     )
     private String photo_source;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(
-            nullable = false,
-            name = "id_user"
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity userEntity;
 
+    @OneToMany(mappedBy = "posts",fetch = FetchType.LAZY)
+    private ArrayList<Comment> comments;
+
+    @OneToMany(mappedBy = "post",fetch = FetchType.LAZY)
+    private ArrayList<PostCategory> postCategories;
 
 
     public Post(String description, boolean blocked, LocalDate create_at, String photo_source, UserEntity userEntity) {

@@ -13,15 +13,8 @@ import java.util.Set;
 )
 public class Followers {
     @Id
-    @SequenceGenerator(
-            name="my_foll_id_seq",
-            sequenceName = "my_foll_id_seq",
-            allocationSize = 1,
-            initialValue = 0
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "my_foll_id_seq"
+            strategy = GenerationType.IDENTITY
     )
     private long id;
 
@@ -31,15 +24,12 @@ public class Followers {
     private LocalDate created_at;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false,
-            name = "follower_id")
-    private UserInfo follower;
+    private UserEntity follower;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="following_id", nullable = false)
-    private UserInfo following;
+    private UserEntity following;
 
-    public Followers(LocalDate created_at, UserInfo follower, UserInfo following) {
+    public Followers(LocalDate created_at, UserEntity follower, UserEntity following) {
         this.created_at = created_at;
         this.follower = follower;
         this.following = following;

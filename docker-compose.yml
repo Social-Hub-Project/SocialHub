@@ -31,6 +31,7 @@ services:
     ports:
       - "5432:5432"
 
+
 #  flyway:
 #    container_name: flyway_social_hub
 #    image: flyway/flyway:9.4.0

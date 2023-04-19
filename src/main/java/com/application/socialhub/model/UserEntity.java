@@ -12,25 +12,13 @@ import java.util.*;
 @Entity
 @Table(
         name = "my_user"
-//        uniqueConstraints = {
-//                @UniqueConstraint(
-//                        name = "my_user_email_unique",
-//                        columnNames = "email"
-//                )
-//        }
 )
 public class UserEntity implements UserDetails {
 
     @Id
-    @SequenceGenerator(
-            name = "my_user_id_seq",
-            sequenceName = "my_user_id_seq",
-            allocationSize = 1,
-            initialValue = 0
-    )
+
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "my_user_id_seq"
+            strategy = GenerationType.IDENTITY
     )
     private long id;
 
@@ -61,11 +49,23 @@ public class UserEntity implements UserDetails {
     private Boolean enabled;
 
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false,
-            name = "id_user_info",
-        unique = true)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserInfo userInfo;
+
+    @OneToMany(mappedBy = "userEntity",fetch = FetchType.LAZY)
+    private ArrayList<Post> posts;
+
+    @OneToMany(mappedBy = "userEntity",fetch=FetchType.LAZY)
+    private ArrayList<Comment> comments;
+
+    @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY)
+    private ArrayList<Rating> ratings;
+
+    @OneToMany(mappedBy = "follower", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private ArrayList<Followers> followers;
+
+    @OneToMany(mappedBy = "following", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private ArrayList<Followers> following;
 
     public UserEntity(long id, Role role, String email, String password, Boolean active, LocalDate createdAt, Boolean enabled, UserInfo userInfo) {
         this.id = id;
@@ -165,7 +165,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return null;
     }
 
     @Override

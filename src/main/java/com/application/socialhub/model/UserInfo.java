@@ -3,6 +3,7 @@ package com.application.socialhub.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Entity
 @Table(
@@ -10,15 +11,8 @@ import java.time.LocalDate;
 )
 public class UserInfo {
     @Id
-    @SequenceGenerator(
-            name = "my_user_det_id_seq",
-            sequenceName = "my_user_det_id_seq",
-            allocationSize = 1,
-            initialValue = 0
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "my_user_det_id_seq"
+            strategy = GenerationType.SEQUENCE
     )
     private long id;
     @Column(
@@ -58,6 +52,8 @@ public class UserInfo {
     )
     private LocalDate createdAt;
 
+    @OneToOne(mappedBy = "userInfo",fetch =FetchType.LAZY)
+    private UserEntity userEntities;
 
     public UserInfo(String name, String surname, LocalDate dateOfBirth, String residence, boolean blocked,
                     String profilePhotoSource, String bgPhotoSource, Sex sex, LocalDate createdAt) {

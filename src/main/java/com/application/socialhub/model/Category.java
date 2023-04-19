@@ -2,6 +2,8 @@ package com.application.socialhub.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+
 
 @Entity
 @Table(
@@ -9,15 +11,8 @@ import jakarta.persistence.*;
 )
 public class Category {
     @Id
-    @SequenceGenerator(
-            name="my_cat_id_seq",
-            sequenceName = "my_cat_id_seq",
-            allocationSize = 1,
-            initialValue = 0
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "my_cat_id_seq"
+            strategy = GenerationType.IDENTITY
     )
     private long id_category;
 
@@ -25,6 +20,9 @@ public class Category {
         nullable=false
     )
     private String name;
+
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
+    private ArrayList<PostCategory> postCategories;
 
     public Category(String name) {
         this.name = name;
