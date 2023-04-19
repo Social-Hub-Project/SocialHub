@@ -4,6 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 postgres-data/
+uploads/*
+!uploads/.gitkeep
 
 ### STS ###
 .apt_generated
