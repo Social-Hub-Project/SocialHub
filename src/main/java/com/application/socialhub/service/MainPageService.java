@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class MainPageService {
     private final PostDAO postDAO;
     private final UserDAO userDAO;
     private final JWTUtil jwtUtil;
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
 
     public MainPageService(@Qualifier("post") PostDAO postDAO,
                            @Qualifier("jpa") UserDAO userDAO,
@@ -34,7 +38,13 @@ public class MainPageService {
         try {
             String email = jwtUtil.getSubject(request.token());
             UserEntity user = userDAO.findUserByEmail(email);
-            Post newPost = new Post(request.description(), false, LocalDate.now(), request.photo(), user);
+
+            StringBuilder fileNames = new StringBuilder();
+            Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, request.image().getOriginalFilename());
+            fileNames.append(request.image().getOriginalFilename());
+            Files.write(fileNameAndPath, request.image().getBytes());
+
+            Post newPost = new Post(request.description(), false, LocalDate.now(), fileNameAndPath.toString(), user);
 
             postDAO.savePost(newPost);
             return new ResponseEntity<>(newPost, HttpStatus.OK);

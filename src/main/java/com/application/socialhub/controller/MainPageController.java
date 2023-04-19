@@ -64,7 +64,7 @@ public class MainPageController {
     }
 
     @PostMapping(path="/createPost", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createPost (@RequestBody CreatePostRequest request){
+    public ResponseEntity<?> createPost (@ModelAttribute CreatePostRequest request){
         return mainPageService.createPost(request);
     }
 
