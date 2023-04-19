@@ -18,4 +18,9 @@ public class PostJPADataAccessService implements PostDAO{
     public List<Post> findAllPosts() {
         return repository.findAll();
     }
+
+    @Override
+    public void savePost(Post newPost) {
+        repository.save(newPost);
+    }
 }
