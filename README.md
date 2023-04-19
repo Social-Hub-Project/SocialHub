@@ -1,5 +1,6 @@
 # SocialHub
-Social contacts web application. Facebook clone.
+Social contacts web application. Inspired by Facebook and Instagram.
+Create account, add and search posts, comment and like other posts.
 
 ## How to run application?
 
