@@ -1,4 +1,5 @@
-import { Component, createRef, RefObject } from 'react';
+import { Component, createRef, RefObject, ChangeEvent } from 'react';
+
 
 import style from './CreatePost.module.css';
 import arrow from '../../resources/arrow.png'
@@ -15,6 +16,7 @@ export interface CreatePostProps {
 }
 export interface CreatePostState {
     expanded: boolean;
+    image: string | null;
 }
 export default class CreatePost extends Component<CreatePostProps, CreatePostState> {
     private inputRef!: RefObject<HTMLInputElement>;
@@ -24,6 +26,7 @@ export default class CreatePost extends Component<CreatePostProps, CreatePostSta
 
         this.state = {
             expanded: false,
+            image: null,
         };
 
         if (this.props.useRef === undefined) this.inputRef = createRef();
@@ -32,6 +35,14 @@ export default class CreatePost extends Component<CreatePostProps, CreatePostSta
     private toogleState = () => {
         this.setState({ expanded: !this.state.expanded });
     };
+    // private onImageChange = (event: SyntheticEvent) => {
+    //     if (event.target.files && event.target.files[0]) {
+    //         let img = event.target.files[0];
+    //         this.setState({
+    //             image: URL.createObjectURL(img)
+    //         });
+    //     }
+    // };
 
     render() {
         return (
@@ -40,10 +51,11 @@ export default class CreatePost extends Component<CreatePostProps, CreatePostSta
                 {this.state.expanded ?
                     <div className={style.Expanded}>
                         <Multiline></Multiline>
-                        <div>Upload image here:
-                            <button>upload image</button>
+                        <div className={style.uploadPhotoBox}>
+                            <p>Upload image here:</p>
+                            <input className={style.input} type='file' id={this.props.id} />
                         </div>
-
+                        <button className={style.comfirmButton} >Create post</button>
                         <img src={arrow} alt='arrow' onClick={this.toogleState} />
                     </div>
 

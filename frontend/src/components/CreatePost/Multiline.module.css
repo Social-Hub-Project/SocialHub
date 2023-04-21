@@ -13,9 +13,14 @@
     font-size: 15px;
     line-height: 16px;
     color: #788292;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #788292;
 }
 
 .multiLine:focus {
     border: none;
+    border-bottom: 1px solid #788292;
+
     outline: none;
 }
