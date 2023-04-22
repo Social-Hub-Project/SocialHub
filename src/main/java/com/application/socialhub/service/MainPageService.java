@@ -5,6 +5,7 @@ import com.application.socialhub.dao.PostDAO;
 import com.application.socialhub.dao.UserDAO;
 import com.application.socialhub.dto.CreateCommentRequest;
 import com.application.socialhub.dto.CreatePostRequest;
+import com.application.socialhub.dto.CreateRatingRequest;
 import com.application.socialhub.model.Comment;
 import com.application.socialhub.model.Post;
 import com.application.socialhub.model.UserEntity;
@@ -37,6 +38,7 @@ public class MainPageService {
         this.postDAO = postDAO;
         this.userDAO = userDAO;
         this.jwtUtil = jwtUtil;
+        this.commentDAO= commentDAO;
     }
 
 
@@ -72,14 +74,31 @@ public class MainPageService {
     public ResponseEntity<?> commentPost(CreateCommentRequest request){
         try {
             String email = jwtUtil.getSubject(request.token());
-            UserEntity user = userDAO.findUserByEmail("marek@email.com");
+            UserEntity user = userDAO.findUserByEmail(email);
             Post postCommented = postDAO.findPostById(request.idPost());
+
             if(postCommented == null) return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+
+            if(postCommented.isBlocked()==true) return new ResponseEntity<>("Post is blocked", HttpStatus.UNAUTHORIZED);
 
             Comment comment = new Comment(request.description(), LocalDate.now(), user, postCommented);
 
             commentDAO.saveComment(comment);
             return new ResponseEntity<>(comment, HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    public ResponseEntity<?> ratingPost(CreateRatingRequest request){
+        try {
+            String email = jwtUtil.getSubject(request.token());
+            UserEntity user = userDAO.findUserByEmail(email);
+            Post postRated = postDAO.findPostById(request.idPost());
+
+            if(postRated == null) return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+            return null;
         }catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
