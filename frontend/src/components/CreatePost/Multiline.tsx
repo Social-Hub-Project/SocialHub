@@ -36,13 +36,10 @@ export default class Multiline extends Component<MultilineProps> {
     render() {
         return (
 
-            <textarea onChange={this.onChangeHandler} ref={this.inputRef} placeholder="What's up" className={style.multiLine} id={this.props.id}></textarea>
+            <textarea onChange={this.onChangeHandler} ref={this.props.useRef} placeholder="What's up" className={style.multiLine} id={this.props.id}></textarea>
 
         );
     }
 }
 
-function autosize(textarea: any) {
-    throw new Error('Function not implemented.');
-}
 

@@ -1,8 +1,8 @@
-import { NavigateFunction } from 'react-router-dom';
+import { Navigate, NavigateFunction } from 'react-router-dom';
 
 
 const loginUrl = `${process.env.REACT_APP_BACKEND_URL}/auth/login`;
-const logoutUrl = `${process.env.REACT_APP_BACKEND_URL}/logout`;
+const logoutUrl = `${process.env.REACT_APP_BACKEND_URL}/auth/logout`;
 const fetchUserUrl = `${process.env.REACT_APP_BACKEND_URL}/user`;
 
 
@@ -29,18 +29,33 @@ export class InvalidSessionError extends Error {
 }
 
 export const removeSesionData = () => {
-    sessionStorage.removeItem('USERSTATE');
+    sessionStorage.removeItem('userToken');
 };
 
 export const logout = async () => {
-    removeSesionData();
-
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true'
+        }
+    };
     try {
-        const resp = await fetch(logoutUrl, { method: 'POST' });
-        if (resp.status !== 200) throw new Error('Logout failed');
-    } catch (err) { }
+        const response = await fetch(logoutUrl, requestOptions)
+        if (response.ok) {
+            removeSesionData();
 
-    document.location.href = '/';
+            document.location.href = '/login';
+        }
+    } catch (err) {
+        console.log("conn error");
+    }
+
+
+
+
 };
 
 export const validateUserState = (userState: UserState): userState is UserState => {
@@ -82,18 +97,10 @@ export const setUserState = (username: string, role: Role): void => {
 };
 
 export const isLoggedIn = (): boolean => {
-    const userState = getUserstate();
-    if (userState === null) return false;
-
-    const now = new Date();
-    const diff = now.getTime() - userState.sessionStart.getTime();
-
-    if (diff > 1000 * 60 * 120) {
-        removeSesionData();
+    if (sessionStorage.getItem("userToken") !== undefined && sessionStorage.getItem("userToken") != 'undefined' && sessionStorage.getItem("userToken"))
+        return true;
+    else
         return false;
-    }
-
-    return true;
 };
 
 export const isAdmin = (): boolean => {
@@ -124,18 +131,12 @@ export const login = async (email: string, password: string, navigate: NavigateF
 
     try {
         const response = await fetch(loginUrl, requestOptions)
-            .then(function (response) {
-                console.log(response);
-                if (!response.ok) {
-                    alert("wrong password or email");
-                } else {
-                    console.log(response.json());
-                    // The response is a Response instance.
-                    // You parse the data into a useable format using `.json()`
-                    return navigate('/');
-                }
-
-            })
+            .then((response) => response.json())
+            .then((body) => {
+                console.log(body);
+                sessionStorage.setItem("userToken", body.token);
+                navigate("/");
+            });
 
     } catch (err) { }
 

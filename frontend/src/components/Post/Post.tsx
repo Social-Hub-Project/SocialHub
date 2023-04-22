@@ -6,12 +6,12 @@ import postPhoto from '../../resources/postPhoto.png';
 import likeGrey from '../../resources/like_grey.png';
 import likeBlue from '../../resources/like_blue.png';
 import commentsImg from '../../resources/comments.png';
-import Button from '../Button/Button';
 import Comment from './Comment';
 
-import { StringLiteral } from 'typescript';
+const likeUrl = `${process.env.REACT_APP_BACKEND_URL}/app/ratingPost`;
 
 export interface PostProps {
+    id: number,
     name: string;
     surname: string;
     date: string;
@@ -49,17 +49,47 @@ export default class Post extends Component<PostProps, PostState> {
             this.allComments.push(<Comment com={com}></Comment>);
         })
     };
+    private ratePost = (rating: number) => {
+        const body = {
+            token: sessionStorage.getItem("userToken"),
+            like: rating,
+            idPost: this.props.id,
+        };
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+            body: JSON.stringify(body)
+        };
+
+        try {
+            const response = fetch(likeUrl, requestOptions)
+                .then((response) => response.json())
+                .then((body) => {
+                    console.log(body);
+                });
+        } catch (err) {
+            console.log("conn error");
+        }
+    }
 
     private dislikeClick = () => {
         this.setState({ disliked: !this.state.disliked });
         if (this.state.liked)
             this.setState({ liked: !this.state.liked });
+        this.ratePost(-1);
 
     };
     private likeClick = () => {
         this.setState({ liked: !this.state.liked });
         if (this.state.disliked)
             this.setState({ disliked: !this.state.disliked });
+        this.ratePost(1);
     };
 
     private bluelikeClick = () => {
@@ -67,9 +97,11 @@ export default class Post extends Component<PostProps, PostState> {
     };
     private bluedislikeClick = () => {
         this.setState({ disliked: !this.state.disliked });
+        this.ratePost(0);
     };
     private toogleComments = () => {
         this.setState({ expanded: !this.state.expanded });
+        this.ratePost(0);
     };
 
     render() {
