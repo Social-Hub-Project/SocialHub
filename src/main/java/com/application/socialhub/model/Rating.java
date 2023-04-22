@@ -18,7 +18,7 @@ public class Rating {
      private long id;
 
      @Column(
-             nullable = false,
+             nullable = true,
              name="assessment"
      )
      private boolean value;

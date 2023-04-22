@@ -64,11 +64,11 @@ public class UserConfig {
             userRepository.saveAll(List.of(adam, anna, marek));
 
             // add posts
-            Post post1 = new Post("Post 1", false, LocalDate.of(2022, 5, 1), "", adam);
+            Post post1 = new Post("Post 1", true, LocalDate.of(2022, 5, 1), "", adam);
             Post post2 = new Post("Post 2", false, LocalDate.of(2022, 5, 1),"" ,marek);
             postRepository.saveAll(List.of(post1,post2));
 
-            //add coments
+            //add comments
             Comment comment1 = new Comment("Comment 1", LocalDate.now(), marek,post1);
             Comment comment2 = new Comment("Comment 2", LocalDate.now(), adam, post2);
 
