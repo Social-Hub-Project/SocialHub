@@ -13,6 +13,6 @@ public interface UserInfoRepository extends JpaRepository<UserInfo,Long> {
     @Transactional
     @Query(value = "SELECT u.id, u.bg_photo_source, u.blocked, u.created_at, u.date_of_birth, u.name, u.profile_photo_source, u.residence, u.sex, u.surname" +
             " FROM user_details u " +
-            "JOIN my_user on u.id = my_user.id_user_info WHERE my_user.email = :email", nativeQuery = true)
+            "JOIN my_user on u.id = my_user.user_info_id WHERE my_user.email = :email", nativeQuery = true)
     UserInfo findUserInfoByEmail(@Param("email") String email);
 }

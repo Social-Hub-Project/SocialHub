@@ -1,6 +1,7 @@
 package com.application.socialhub.controller;
 
 
+import com.application.socialhub.dto.CreateCommentRequest;
 import com.application.socialhub.dto.CreatePostRequest;
 import com.application.socialhub.dto.PostDTO;
 import com.application.socialhub.service.MainPageService;
@@ -53,9 +54,9 @@ public class MainPageController {
     }
 
 
-    @PostMapping("/commentPost")
-    public ResponseEntity<String> commentPost(@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @PostMapping(path="/commentPost", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> commentPost(@ModelAttribute CreateCommentRequest request){
+        return  mainPageService.commentPost(request);
     }
 
     @PostMapping("/followUser")

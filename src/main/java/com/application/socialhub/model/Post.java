@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -36,13 +37,14 @@ public class Post {
     )
     private String photo_source;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(
-            nullable = false,
-            name = "id_user"
-    )
+    @ManyToOne(fetch = FetchType.EAGER)
     private UserEntity userEntity;
 
+    @OneToMany(mappedBy = "posts",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Comment> comments;
+
+    @OneToMany(mappedBy = "post",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<PostCategory> postCategories;
 
 
     public Post(String description, boolean blocked, LocalDate create_at, String photo_source, UserEntity userEntity) {
@@ -111,5 +113,18 @@ public class Post {
 
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return id == post.id && blocked == post.blocked && Objects.equals(description, post.description) && Objects.equals(create_at, post.create_at) && Objects.equals(photo_source, post.photo_source) && Objects.equals(userEntity, post.userEntity) && Objects.equals(comments, post.comments) && Objects.equals(postCategories, post.postCategories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, blocked, create_at, photo_source, userEntity, comments, postCategories);
     }
 }

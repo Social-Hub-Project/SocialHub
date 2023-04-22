@@ -9,4 +9,6 @@ public interface PostDAO {
     List<Post> findAllPosts();
 
     void savePost(Post newPost);
+
+    Post findPostById(Long id);
 }

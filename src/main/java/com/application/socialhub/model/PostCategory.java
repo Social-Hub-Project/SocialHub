@@ -2,6 +2,8 @@ package com.application.socialhub.model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "post_categories")
 public class PostCategory {
@@ -10,11 +12,9 @@ public class PostCategory {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     public PostCategory(Post post, Category category) {
@@ -47,5 +47,18 @@ public class PostCategory {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PostCategory that = (PostCategory) o;
+        return Objects.equals(id, that.id) && Objects.equals(post, that.post) && Objects.equals(category, that.category);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, post, category);
     }
 }

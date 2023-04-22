@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 @Entity
@@ -13,16 +14,7 @@ import java.time.LocalDate;
 )
 public class Comment {
     @Id
-    @SequenceGenerator(
-            name="my_comment_id_seq",
-            sequenceName = "my_comment_id_seq",
-            allocationSize = 1,
-            initialValue = 0
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "my_comment_id_seq"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(
            columnDefinition = "TEXT",
@@ -33,23 +25,16 @@ public class Comment {
             nullable = false
     )
     private LocalDate created_at;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(
-            nullable = false,
-            name = "id_user"
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity userEntity;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(
-            name = "post_id"
-    )
-    private Post post;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Post posts;
 
-    public Comment(String content, LocalDate created_at, UserEntity userEntity, Post post) {
+    public Comment(String content, LocalDate created_at, UserEntity userEntity, Post posts) {
         this.content = content;
         this.created_at = created_at;
         this.userEntity = userEntity;
-        this.post = post;
+        this.posts = posts;
     }
 
     public Comment() {
@@ -90,11 +75,11 @@ public class Comment {
     }
 
     public Post getPost() {
-        return post;
+        return posts;
     }
 
     public void setPost(Post post) {
-        this.post = post;
+        this.posts = post;
     }
 
     @Override
@@ -104,7 +89,20 @@ public class Comment {
                 ", content='" + content + '\'' +
                 ", created_at=" + created_at +
                 ", user=" + userEntity +
-                ", post=" + post +
+                ", post=" + posts +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return id == comment.id && Objects.equals(content, comment.content) && Objects.equals(created_at, comment.created_at) && Objects.equals(userEntity, comment.userEntity) && Objects.equals(posts, comment.posts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, content, created_at, userEntity, posts);
     }
 }

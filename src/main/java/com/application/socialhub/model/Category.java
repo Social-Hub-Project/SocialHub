@@ -2,6 +2,10 @@ package com.application.socialhub.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Set;
+
 
 @Entity
 @Table(
@@ -9,15 +13,8 @@ import jakarta.persistence.*;
 )
 public class Category {
     @Id
-    @SequenceGenerator(
-            name="my_cat_id_seq",
-            sequenceName = "my_cat_id_seq",
-            allocationSize = 1,
-            initialValue = 0
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "my_cat_id_seq"
+            strategy = GenerationType.IDENTITY
     )
     private long id_category;
 
@@ -25,6 +22,9 @@ public class Category {
         nullable=false
     )
     private String name;
+
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
+    private Set<PostCategory> postCategories;
 
     public Category(String name) {
         this.name = name;
@@ -49,4 +49,25 @@ public class Category {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id_category=" + id_category +
+                ", name='" + name + '\'' +
+                ", postCategories=" + postCategories +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id_category == category.id_category && Objects.equals(name, category.name) && Objects.equals(postCategories, category.postCategories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_category, name, postCategories);
+    }
 }
