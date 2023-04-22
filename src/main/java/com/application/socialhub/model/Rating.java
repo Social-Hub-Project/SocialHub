@@ -21,7 +21,7 @@ public class Rating {
              nullable = true,
              name="assessment"
      )
-     private boolean value;
+     private int value;
      @Column(
              nullable = true
      )
@@ -36,7 +36,7 @@ public class Rating {
      @ManyToOne(fetch = FetchType.LAZY)
      private Post posts;
 
-        public Rating(boolean value, LocalDate modified_at, LocalDate created_at, UserEntity userEntity, Post posts) {
+        public Rating(int value, LocalDate modified_at, LocalDate created_at, UserEntity userEntity, Post posts) {
             this.value = value;
             this.modified_at = modified_at;
             this.created_at = created_at;
@@ -55,11 +55,11 @@ public class Rating {
           this.id = id;
      }
 
-     public boolean isValue() {
+     public int getValue() {
           return value;
      }
 
-     public void setValue(boolean value) {
+     public void setValue(int value) {
           this.value = value;
      }
 

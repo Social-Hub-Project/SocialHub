@@ -44,8 +44,8 @@ public class MainPageController {
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @PostMapping(value = "/ratingPost", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> ratingPost (@ModelAttribute CreateRatingRequest request){
+    @PostMapping(value = "/ratingPost")
+    public ResponseEntity<?> ratingPost (@RequestBody CreateRatingRequest request){
         return  mainPageService.ratingPost(request);
     }
 

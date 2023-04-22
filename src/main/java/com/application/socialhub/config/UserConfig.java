@@ -76,8 +76,8 @@ public class UserConfig {
 
             // save ratings
 
-            Rating rating1 = new Rating(true,LocalDate.now() ,LocalDate.now(),adam, post1);
-            Rating rating2 = new Rating(false,LocalDate.now() ,LocalDate.now(),marek, post2);
+            Rating rating1 = new Rating(-1,LocalDate.now() ,LocalDate.now(),adam, post1);
+            Rating rating2 = new Rating(1,LocalDate.now() ,LocalDate.now(),marek, post2);
 
             ratingRepository.saveAll(List.of(rating1,rating2));
 
