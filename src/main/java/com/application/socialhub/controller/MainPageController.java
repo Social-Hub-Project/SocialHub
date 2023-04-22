@@ -50,8 +50,8 @@ public class MainPageController {
     }
 
 
-    @PostMapping(path="/commentPost", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> commentPost(@ModelAttribute CreateCommentRequest request){
+    @PostMapping(path="/commentPost")
+    public ResponseEntity<?> commentPost(@RequestBody CreateCommentRequest request){
         return  mainPageService.commentPost(request);
     }
 

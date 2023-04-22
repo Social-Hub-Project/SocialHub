@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,8 +29,6 @@ public class MainPageService {
     private final UserDAO userDAO;
     private final JWTUtil jwtUtil;
     private CommentDAO commentDAO;
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
-
 
     public MainPageService(@Qualifier("post") PostDAO postDAO,
                            @Qualifier("jpa") UserDAO userDAO,
@@ -48,12 +47,24 @@ public class MainPageService {
             UserEntity user = userDAO.findUserByEmail(email);
 
             StringBuilder fileNames = new StringBuilder();
-            Path fileNameAndPath = Paths.get(UPLOAD_DIRECTORY, request.image().getOriginalFilename());
+            Path fileNameAndPath = Paths.get("uploads/"+user.getId()+"/" ,request.image().getOriginalFilename());
             fileNames.append(request.image().getOriginalFilename());
+            File file = new File("uploads/"+user.getId()+"");
+
+            if (!file.exists()) {
+                if (file.mkdir()) {
+
+                    Files.write(fileNameAndPath, request.image().getBytes());
+                    Post newPost = new Post(request.description(), false, LocalDate.now(), fileNameAndPath.toString(), user);
+                    postDAO.savePost(newPost);
+                    return new ResponseEntity<>(newPost, HttpStatus.OK);
+                } else {
+                    throw new Exception("Couldn't create directory: "+user.getId());
+                }
+            }
+
             Files.write(fileNameAndPath, request.image().getBytes());
-
             Post newPost = new Post(request.description(), false, LocalDate.now(), fileNameAndPath.toString(), user);
-
             postDAO.savePost(newPost);
             return new ResponseEntity<>(newPost, HttpStatus.OK);
         }catch (Exception e) {
@@ -79,7 +90,7 @@ public class MainPageService {
 
             if(postCommented == null) return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
 
-            if(postCommented.isBlocked()==true) return new ResponseEntity<>("Post is blocked", HttpStatus.UNAUTHORIZED);
+            if(postCommented.isBlocked()) return new ResponseEntity<>("Post is blocked", HttpStatus.UNAUTHORIZED);
 
             Comment comment = new Comment(request.description(), LocalDate.now(), user, postCommented);
 
