@@ -3,6 +3,7 @@ package com.application.socialhub.controller;
 
 import com.application.socialhub.dto.CreateCommentRequest;
 import com.application.socialhub.dto.CreatePostRequest;
+import com.application.socialhub.dto.CreateRatingRequest;
 import com.application.socialhub.dto.PostDTO;
 import com.application.socialhub.service.MainPageService;
 import org.springframework.http.HttpStatus;
@@ -43,14 +44,9 @@ public class MainPageController {
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @PostMapping("/likePost")
-    public ResponseEntity<String> likePost(@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
-    }
-
-    @PostMapping("/dislikePost")
-    public ResponseEntity<String> dislikePost(@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @PostMapping(value = "/ratingPost", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> ratingPost (@ModelAttribute CreateRatingRequest request){
+        return  mainPageService.ratingPost(request);
     }
 
 
