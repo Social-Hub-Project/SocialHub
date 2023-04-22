@@ -45,7 +45,7 @@ public class SecurityFilterChainConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/auth/**").permitAll() //TODO zmiana "/auth/**"
                 .anyRequest().authenticated()
                 .and()
                 .authenticationProvider(authenticationProvider)

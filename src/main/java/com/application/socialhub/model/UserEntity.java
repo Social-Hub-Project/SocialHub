@@ -49,23 +49,23 @@ public class UserEntity implements UserDetails {
     private Boolean enabled;
 
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private UserInfo userInfo;
 
-    @OneToMany(mappedBy = "userEntity",fetch = FetchType.LAZY)
-    private ArrayList<Post> posts;
+    @OneToMany(mappedBy = "userEntity",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Post> posts;
 
-    @OneToMany(mappedBy = "userEntity",fetch=FetchType.LAZY)
-    private ArrayList<Comment> comments;
+    @OneToMany(mappedBy = "userEntity",fetch=FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Comment> comments;
 
-    @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY)
-    private ArrayList<Rating> ratings;
+    @OneToMany(mappedBy = "userEntity", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Rating> ratings;
 
     @OneToMany(mappedBy = "follower", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private ArrayList<Followers> followers;
+    private Set<Followers> followers;
 
     @OneToMany(mappedBy = "following", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private ArrayList<Followers> following;
+    private Set<Followers> following;
 
     public UserEntity(long id, Role role, String email, String password, Boolean active, LocalDate createdAt, Boolean enabled, UserInfo userInfo) {
         this.id = id;

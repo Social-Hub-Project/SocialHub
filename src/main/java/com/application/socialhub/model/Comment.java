@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 @Entity
@@ -90,5 +91,18 @@ public class Comment {
                 ", user=" + userEntity +
                 ", post=" + posts +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return id == comment.id && Objects.equals(content, comment.content) && Objects.equals(created_at, comment.created_at) && Objects.equals(userEntity, comment.userEntity) && Objects.equals(posts, comment.posts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, content, created_at, userEntity, posts);
     }
 }

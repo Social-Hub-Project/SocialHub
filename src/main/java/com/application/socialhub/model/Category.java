@@ -3,6 +3,8 @@ package com.application.socialhub.model;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -22,7 +24,7 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
-    private ArrayList<PostCategory> postCategories;
+    private Set<PostCategory> postCategories;
 
     public Category(String name) {
         this.name = name;
@@ -47,4 +49,25 @@ public class Category {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id_category=" + id_category +
+                ", name='" + name + '\'' +
+                ", postCategories=" + postCategories +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id_category == category.id_category && Objects.equals(name, category.name) && Objects.equals(postCategories, category.postCategories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_category, name, postCategories);
+    }
 }

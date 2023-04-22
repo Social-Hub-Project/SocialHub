@@ -23,7 +23,7 @@ public class Rating {
      )
      private boolean value;
      @Column(
-             nullable = false
+             nullable = true
      )
      private LocalDate modified_at;
      @Column(
@@ -106,4 +106,6 @@ public class Rating {
                   ", post=" + posts +
                   '}';
      }
+
+
 }

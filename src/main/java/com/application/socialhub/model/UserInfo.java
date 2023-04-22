@@ -52,7 +52,7 @@ public class UserInfo {
     )
     private LocalDate createdAt;
 
-    @OneToOne(mappedBy = "userInfo",fetch =FetchType.LAZY)
+    @OneToOne(mappedBy = "userInfo",fetch =FetchType.EAGER)
     private UserEntity userEntities;
 
     public UserInfo(String name, String surname, LocalDate dateOfBirth, String residence, boolean blocked,

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -63,5 +64,18 @@ public class Followers {
                 ", created_at=" + created_at +
                 ", userEntities=" + follower +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Followers followers = (Followers) o;
+        return id == followers.id && Objects.equals(created_at, followers.created_at) && Objects.equals(follower, followers.follower) && Objects.equals(following, followers.following);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, created_at, follower, following);
     }
 }
