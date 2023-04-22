@@ -1,5 +1,7 @@
 package com.application.socialhub.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.application.socialhub.dao.CommentDAO;
 import com.application.socialhub.dao.PostDAO;
 import com.application.socialhub.dao.RatingDAO;
@@ -35,38 +37,43 @@ public class MainPageService {
     private CommentDAO commentDAO;
 
     public MainPageService(@Qualifier("post") PostDAO postDAO,
-                           @Qualifier("jpa") UserDAO userDAO,
-                           @Qualifier("comment") CommentDAO commentDAO,
-                           @Qualifier("ratings") RatingDAO ratingDAO,
-                           JWTUtil jwtUtil) {
+            @Qualifier("jpa") UserDAO userDAO,
+            @Qualifier("comment") CommentDAO commentDAO,
+            @Qualifier("ratings") RatingDAO ratingDAO,
+            JWTUtil jwtUtil) {
         this.postDAO = postDAO;
         this.userDAO = userDAO;
         this.jwtUtil = jwtUtil;
-        this.commentDAO= commentDAO;
+        this.commentDAO = commentDAO;
         this.ratingDAO = ratingDAO;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(MainPageService.class);
 
     public ResponseEntity<?> createPost(CreatePostRequest request) {
         try {
             String email = jwtUtil.getSubject(request.token());
             UserEntity user = userDAO.findUserByEmail(email);
 
+            logger.warn(request.image().toString());
+            logger.warn(request.image().getOriginalFilename());
+
             StringBuilder fileNames = new StringBuilder();
-            Path fileNameAndPath = Paths.get("/uploads/"+user.getId()+"/" ,request.image().getOriginalFilename());
+            Path fileNameAndPath = Paths.get("/uploads/" + user.getId() + "/", request.image().getOriginalFilename());
             fileNames.append(request.image().getOriginalFilename());
-            File file = new File("/uploads/"+user.getId()+"");
+            File file = new File("/uploads/" + user.getId() + "");
 
             if (!file.exists()) {
                 if (file.mkdirs()) {
 
                     Files.write(fileNameAndPath, request.image().getBytes());
-                    Post newPost = new Post(request.description(), false, LocalDate.now(), fileNameAndPath.toString(), user);
+                    Post newPost = new Post(request.description(), false, LocalDate.now(), fileNameAndPath.toString(),
+                            user);
                     postDAO.savePost(newPost);
                     return new ResponseEntity<>(newPost, HttpStatus.OK);
                 } else {
-                    throw new Exception("Couldn't create directory: "+ file.getPath()
-                    + "\n" + file.getAbsolutePath());
+                    throw new Exception("Couldn't create directory: " + file.getPath()
+                            + "\n" + file.getAbsolutePath());
                 }
             }
 
@@ -74,7 +81,7 @@ public class MainPageService {
             Post newPost = new Post(request.description(), false, LocalDate.now(), fileNameAndPath.toString(), user);
             postDAO.savePost(newPost);
             return new ResponseEntity<>(newPost, HttpStatus.OK);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -83,56 +90,57 @@ public class MainPageService {
         try {
             List<Post> posts = postDAO.findAllPosts();
             return new ResponseEntity<>(posts, HttpStatus.OK);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-
-    public ResponseEntity<?> commentPost(CreateCommentRequest request){
+    public ResponseEntity<?> commentPost(CreateCommentRequest request) {
         try {
             String email = jwtUtil.getSubject(request.token());
             UserEntity user = userDAO.findUserByEmail(email);
             Post postCommented = postDAO.findPostById(request.idPost());
 
-            if(postCommented == null) return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+            if (postCommented == null)
+                return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
 
-            if(postCommented.isBlocked()) return new ResponseEntity<>("Post is blocked", HttpStatus.UNAUTHORIZED);
+            if (postCommented.isBlocked())
+                return new ResponseEntity<>("Post is blocked", HttpStatus.UNAUTHORIZED);
 
             Comment comment = new Comment(request.description(), LocalDate.now(), user, postCommented);
 
             commentDAO.saveComment(comment);
             return new ResponseEntity<>(comment, HttpStatus.OK);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-
-    public ResponseEntity<?> ratingPost(CreateRatingRequest request){
+    public ResponseEntity<?> ratingPost(CreateRatingRequest request) {
         try {
             String email = jwtUtil.getSubject(request.token());
             UserEntity user = userDAO.findUserByEmail(email);
             Post postRated = postDAO.findPostById(request.idPost());
 
-            if(postRated == null) return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+            if (postRated == null)
+                return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
 
-            //if rating already exists
+            // if rating already exists
 
             Rating existingRating = ratingDAO.checkRating(user.getId(), postRated.getId());
 
-            if(existingRating==null){
+            if (existingRating == null) {
                 // the user hasn't rated this post yet, so we're creating a new rating
-                if(request.like()!=0){
-                    Rating newRating = new Rating(request.like(),LocalDate.now(),LocalDate.now() ,user, postRated);
+                if (request.like() != 0) {
+                    Rating newRating = new Rating(request.like(), LocalDate.now(), LocalDate.now(), user, postRated);
                     ratingDAO.saveRating(newRating);
                 }
 
-            }else {
+            } else {
                 // the user has already rated this post, so we're updating his rating
-                if(request.like()==0){
+                if (request.like() == 0) {
                     ratingDAO.deleteRating(existingRating);
-                }else {
+                } else {
                     // the rating has been changed, so we update it in the database
                     existingRating.setValue(request.like());
                     ratingDAO.saveRating(existingRating);
@@ -140,11 +148,9 @@ public class MainPageService {
             }
 
             return new ResponseEntity<>(existingRating, HttpStatus.OK);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }
 }
-
-

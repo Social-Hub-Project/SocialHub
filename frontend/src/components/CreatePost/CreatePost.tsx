@@ -55,48 +55,33 @@ export default class CreatePost extends Component<CreatePostProps, CreatePostSta
     };
 
     private addPost = async () => {
+        const token = sessionStorage.getItem("userToken");
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
 
-        if (this.state.image == null || this.contentRef.current?.value == null)
-            return;
-        if (this.state.imageFile != null) {
+        var formdata = new FormData();
+        if (token) formdata.append("token", token);
+        if (this.contentRef.current?.value) formdata.append("description", this.contentRef.current?.value);
+        if (this.state.imageFile != null)
+            formdata.append("image", this.state.imageFile, this.state.imageFile.name);
 
-            const token = sessionStorage.getItem("userToken");
-            const body = {
-                description: this.contentRef.current?.value,
-                image: this.state.imageFile,
-                token: sessionStorage.getItem("userToken"),
-            };
-            console.log(body.image)
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: formdata,
+        };
 
-            if (sessionStorage.getItem("userToken") != null) {
-                const requestOptions = {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzY29wZXMiOlsiVVNFUiJdLCJzdWIiOiJhQGEuYSIsImlhdCI6MTY4MjE4MDEyMSwiZXhwIjoxNjgyMjY2NTIxfQ.YHkyo3_9d9mWmDRXbLZDKHASwcNsQP5b9CiLptN8q0c",
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Credentials': 'true'
-                    },
-                    body: JSON.stringify(body),
-                };
-
-                try {
-                    const response = await fetch(fetchUrl, requestOptions);
-                    if (!response.ok) throw response;
-
-
-                } catch (err) {
-                    if (err instanceof Response) {
-                        const message = await err.text();
-                        if (err.headers.get('Content-Type')?.includes('text/plain')) {
-                            alert(`Error: ${message}`);
-                        } else {
-                            alert('Error: Connection error. Please try again later.');
-                        }
-                    }
-                }
+        fetch(fetchUrl, requestOptions)
+            .then(response => response.text())
+            .then((result) => {
+                console.log(result)
+                // eslint-disable-next-line no-restricted-globals
+                location.reload();
             }
-        }
+
+            )
+            .catch(error => console.log('error', error));
+
     }
 
     render() {
