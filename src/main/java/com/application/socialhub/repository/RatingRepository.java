@@ -12,5 +12,8 @@ import java.time.LocalDate;
 
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long>{
+    @Query(value = "SELECT * FROM Rating  WHERE user_entity_id = :userId AND posts_id = :postId",nativeQuery =
+            true)
+    Rating findRatingByUserIdAndPostId(@Param("userId") Long userId, @Param("postId") Long postId);
 
 }

@@ -8,4 +8,8 @@ public interface RatingDAO {
     List<Rating> findAllRatings();
 
     void saveRating(Rating newRating);
+
+    void deleteRating(Rating rating);
+
+    Rating checkRating(long userId, long postId);
 }
