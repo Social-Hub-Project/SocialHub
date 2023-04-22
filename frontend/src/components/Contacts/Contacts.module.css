@@ -1,0 +1,40 @@
+.contacts {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-top: 50px;
+}
+
+.singleContact {
+    box-sizing: border-box;
+    width: 363px;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+    background: #FFFFFF;
+    border: 1.5px solid #F1F2F6;
+
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #788292;
+}
+
+.singleContact img {
+    border-radius: 50px;
+    border: 2px solid #1877F2;
+    margin-right: 30px;
+}
+
+.h3title {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 21px;
+    color: #203758;
+}

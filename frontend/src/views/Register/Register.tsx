@@ -5,6 +5,8 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
+import logo from '../../resources/socialhub_logo.png';
+
 const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/register`;
 
 
@@ -65,7 +67,7 @@ function Register() {
     return (
         <Page content>
             <div className={style.container}>
-                <img className={style.socialhubLogo} alt='Socialhub logo' />
+                <img className={style.socialhubLogo} src={logo} alt='Socialhub logo' />
                 <div className={style.title}>Register</div>
                 <div className={style.formContainer}>
                     <div className='leftBar'>
