@@ -53,19 +53,20 @@ public class MainPageService {
             UserEntity user = userDAO.findUserByEmail(email);
 
             StringBuilder fileNames = new StringBuilder();
-            Path fileNameAndPath = Paths.get("uploads/"+user.getId()+"/" ,request.image().getOriginalFilename());
+            Path fileNameAndPath = Paths.get("/uploads/"+user.getId()+"/" ,request.image().getOriginalFilename());
             fileNames.append(request.image().getOriginalFilename());
-            File file = new File("uploads/"+user.getId()+"");
+            File file = new File("/uploads/"+user.getId()+"");
 
             if (!file.exists()) {
-                if (file.mkdir()) {
+                if (file.mkdirs()) {
 
                     Files.write(fileNameAndPath, request.image().getBytes());
                     Post newPost = new Post(request.description(), false, LocalDate.now(), fileNameAndPath.toString(), user);
                     postDAO.savePost(newPost);
                     return new ResponseEntity<>(newPost, HttpStatus.OK);
                 } else {
-                    throw new Exception("Couldn't create directory: "+user.getId());
+                    throw new Exception("Couldn't create directory: "+ file.getPath()
+                    + "\n" + file.getAbsolutePath());
                 }
             }
 
