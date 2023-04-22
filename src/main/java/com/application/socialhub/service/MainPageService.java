@@ -79,7 +79,7 @@ public class MainPageService {
 
             if(postCommented == null) return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
 
-            if(postCommented.isBlocked()==true) return new ResponseEntity<>("Post is blocked", HttpStatus.UNAUTHORIZED);
+            if(postCommented.isBlocked()) return new ResponseEntity<>("Post is blocked", HttpStatus.UNAUTHORIZED);
 
             Comment comment = new Comment(request.description(), LocalDate.now(), user, postCommented);
 
