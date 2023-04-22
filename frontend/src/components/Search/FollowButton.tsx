@@ -1,9 +1,9 @@
 import { Component } from 'react';
 
-import style from './Button.module.css';
+import style from './FollowButton.module.css';
 
 
-export interface ButtonProps {
+export interface FollowButtonProps {
     text: string;
     width?: string;
     onClick?: () => void;
@@ -11,7 +11,7 @@ export interface ButtonProps {
     id?: string;
 }
 
-export default class Button extends Component<ButtonProps> {
+export default class FollowButton extends Component<FollowButtonProps> {
     render() {
         return (
             <button className={[style.buttonGreen].join(' ')} onClick={this.props.onClick} id={this.props.id}>

@@ -1,0 +1,49 @@
+.h3title {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 21px;
+    color: #203758;
+}
+
+.searchbox {
+    width: 80%;
+}
+
+.searchinput {
+    box-sizing: border-box;
+    width: 363px;
+    height: 60px;
+    padding-left: 25px;
+    background: #FFFFFF;
+    border: 1.5px solid #F1F2F6;
+    border-radius: 8px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #788292;
+}
+
+.searchIcon {
+    position: relative;
+    top: -40px;
+    left: 320px;
+}
+
+.searchinput::placeholder {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #788292;
+}
+
+.resultsContainer {
+    margin-top: -30px;
+
+
+}

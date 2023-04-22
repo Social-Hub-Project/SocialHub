@@ -6,7 +6,7 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
-
+import logo from '../../resources/socialhub_logo.png';
 
 
 function Login() {
@@ -29,7 +29,7 @@ function Login() {
             <div className={style.container}>
                 <div className={style.formContainer}>
                     <div className='leftBar'>
-                        <img alt='Socialhub logo' />
+                        <img src={logo} alt='Socialhub logo' />
                     </div>
                     <div className={style.rightBar}>
                         <div className={style.title}>Login</div>

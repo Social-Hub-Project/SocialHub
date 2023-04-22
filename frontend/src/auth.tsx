@@ -1,5 +1,6 @@
 import { NavigateFunction } from 'react-router-dom';
 
+
 const loginUrl = `${process.env.REACT_APP_BACKEND_URL}/auth/login`;
 const logoutUrl = `${process.env.REACT_APP_BACKEND_URL}/logout`;
 const fetchUserUrl = `${process.env.REACT_APP_BACKEND_URL}/user`;
@@ -105,33 +106,39 @@ export const isAdmin = (): boolean => {
 };
 
 export const login = async (email: string, password: string, navigate: NavigateFunction): Promise<string | void> => {
-    const body = new FormData();
-    body.append('email', email);
-    body.append('password', password);
 
+
+    const body = {
+        email: email,
+        password: password
+    };
     const requestOptions = {
         method: 'POST',
-        body: body,
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true'
+        },
+        body: JSON.stringify(body),
     };
 
     try {
-        const resp = await fetch(loginUrl, requestOptions);
-        if (resp.status !== 200) {
-            if (resp.headers.get('Content-Type')?.includes('text/plain')) {
-                return await resp.text();
-            } else {
-                return 'Error: Connection error. Please try again later.';
-            }
-        }
-        const user = await fetchUser();
+        const response = await fetch(loginUrl, requestOptions)
+            .then(function (response) {
+                console.log(response);
+                if (!response.ok) {
+                    alert("wrong password or email");
+                } else {
+                    console.log(response.json());
+                    // The response is a Response instance.
+                    // You parse the data into a useable format using `.json()`
+                    return navigate('/');
+                }
 
-        if (user === null) return 'Login failed';
-        setUserState(user.username, user.role);
+            })
 
-        return navigate('/');
     } catch (err) { }
 
-    return 'Login failed';
 };
 
 export const validateUser = (user: User): user is User => {
@@ -153,7 +160,6 @@ export const fetchUser = async (): Promise<User | null> => {
     const requestOptions = {
         method: 'GET',
     };
-
     try {
         const resp = await fetch(fetchUserUrl, requestOptions);
         if (resp.status !== 200) return null;

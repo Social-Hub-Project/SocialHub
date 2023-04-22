@@ -14,13 +14,11 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-        - db
+      - db
 
   db:
-    image:
-      postgres:14.3
-    restart:
-      always
+    image: postgres:14.3
+    restart: always
     environment:
       - DB_HOST=db
       - DB_PORT=${DB_PORT}
@@ -31,19 +29,19 @@ services:
     ports:
       - "5432:5432"
 
+  #  flyway:
+  #    container_name: flyway_social_hub
+  #    image: flyway/flyway:9.4.0
+  #    environment:
+  #      - FLYWAY_USER=user
+  #      - FLYWAY_PASSWORD=password
+  #      - FLYWAY_SCHEMAS=routemasterz
+  #    command: -url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME} -schemas=routemasterz -user=user -password=password -connectRetries=60 migrate
+  #    volumes:
+  #      - ./src/main/resources/db/migration:/flyway/sql
+  #    depends_on:
+  #      - db
 
-#  flyway:
-#    container_name: flyway_social_hub
-#    image: flyway/flyway:9.4.0
-#    environment:
-#      - FLYWAY_USER=user
-#      - FLYWAY_PASSWORD=password
-#      - FLYWAY_SCHEMAS=routemasterz
-#    command: -url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME} -schemas=routemasterz -user=user -password=password -connectRetries=60 migrate
-#    volumes:
-#      - ./src/main/resources/db/migration:/flyway/sql
-#    depends_on:
-#      - db
 
   frontend:
     build:
@@ -52,7 +50,7 @@ services:
     depends_on:
       - backend
     environment:
-      - REACT_APP_BACKEND_URL=/api/v1
+      - REACT_APP_BACKEND_URL=http://127.0.0.1:8080
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
