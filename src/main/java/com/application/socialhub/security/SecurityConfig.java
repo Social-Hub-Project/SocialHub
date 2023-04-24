@@ -1,6 +1,5 @@
 package com.application.socialhub.security;
 
-import com.application.socialhub.repository.UserRepository;
 import com.application.socialhub.service.UserServiceDetails;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

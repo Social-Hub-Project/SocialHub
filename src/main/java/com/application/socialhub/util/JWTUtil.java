@@ -3,14 +3,12 @@ package com.application.socialhub.util;
 
 import com.application.socialhub.model.BlackListJWToken;
 import com.application.socialhub.repository.JWTokenRepository;
-import com.application.socialhub.security.JWTAuthenticationFilter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
