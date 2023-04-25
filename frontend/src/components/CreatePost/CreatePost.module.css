@@ -20,7 +20,7 @@
     justify-content: space-between;
 }
 
-.Expanded img {
+.hideArrow {
     margin-left: 900px;
     display: block;
 }
@@ -69,4 +69,27 @@
     color: white;
     border: none;
     display: inline-block;
+}
+
+.fileInput {
+    margin: 10px;
+}
+
+::-webkit-file-upload-button {
+    margin-top: 20px;
+    border-radius: 25px;
+    width: 220px;
+    height: 40px;
+    cursor: pointer;
+    background-color: #105E5E;
+    color: white;
+    border: none;
+    display: inline-block;
+}
+
+.providedImage {
+    width: 75%;
+    height: auto;
+    margin-top: 20px;
+
 }

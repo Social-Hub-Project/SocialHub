@@ -6,15 +6,20 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Home from './views/Home/Home';
 
-import { isAdmin, isLoggedIn, updateUserState } from './auth';
+import { isLoggedIn } from './auth';
 import Register from './views/Register/Register';
 import Login from './views/Login/Login';
+import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
 
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <RestrictedRoute
+      condition={isLoggedIn}
+      component={<Home />}
+      invalidComponent={<Login />}
+    />,
     errorElement: <div>404</div>,
   },
   {
