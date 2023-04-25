@@ -18,6 +18,7 @@ services:
     volumes:
       - ./src:/src
       - ./uploads:/uploads
+      - ./exampleImages:/exampleImages
 
   db:
     image: postgres:14.3
