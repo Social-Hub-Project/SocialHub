@@ -9,25 +9,37 @@ import com.application.socialhub.dao.UserDAO;
 import com.application.socialhub.dto.CreateCommentRequest;
 import com.application.socialhub.dto.CreatePostRequest;
 import com.application.socialhub.dto.CreateRatingRequest;
+import com.application.socialhub.dto.PostWithImageDTO;
 import com.application.socialhub.model.Comment;
 import com.application.socialhub.model.Post;
 import com.application.socialhub.model.Rating;
 import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Blob;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.sql.rowset.serial.SerialBlob;
+
 
 @Service
 public class MainPageService {
+    private static final Logger logger = LoggerFactory.getLogger(MainPageService.class);
 
     private final PostDAO postDAO;
     private final UserDAO userDAO;
@@ -64,23 +76,21 @@ public class MainPageService {
             File file = new File("/uploads/" + user.getId() + "");
 
             if (!file.exists()) {
-                if (file.mkdirs()) {
 
-                    Files.write(fileNameAndPath, request.image().getBytes());
-                    Post newPost = new Post(request.description(), false, LocalDate.now(), fileNameAndPath.toString(),
-                            user);
-                    postDAO.savePost(newPost);
-                    return new ResponseEntity<>(newPost, HttpStatus.OK);
-                } else {
-                    throw new Exception("Couldn't create directory: " + file.getPath()
-                            + "\n" + file.getAbsolutePath());
+                if (!file.mkdirs()) {
+                    throw new Exception("Couldn't create directory: "+ file.getPath()
                 }
             }
 
             Files.write(fileNameAndPath, request.image().getBytes());
             Post newPost = new Post(request.description(), false, LocalDate.now(), fileNameAndPath.toString(), user);
+            File file2 = new File(newPost.getPhoto_source());
+            InputStream inputStream = new FileInputStream(file2);
+            Blob imageBlob = new SerialBlob( new InputStreamResource(inputStream).getContentAsByteArray());
+            PostWithImageDTO postWithImage = new PostWithImageDTO(imageBlob ,newPost);
             postDAO.savePost(newPost);
-            return new ResponseEntity<>(newPost, HttpStatus.OK);
+
+            return new ResponseEntity<>(postWithImage, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -89,7 +99,17 @@ public class MainPageService {
     public ResponseEntity<?> getAllPosts() {
         try {
             List<Post> posts = postDAO.findAllPosts();
-            return new ResponseEntity<>(posts, HttpStatus.OK);
+            List<PostWithImageDTO> imagesAndPosts = new ArrayList<>();
+            for(Post p: posts) {
+
+               File file = new File(p.getPhoto_source());
+               InputStream inputStream = new FileInputStream(file);
+               Blob imageBlob = new SerialBlob( new InputStreamResource(inputStream).getContentAsByteArray());
+               imagesAndPosts.add(new PostWithImageDTO(imageBlob, p));
+
+            }
+
+            return new ResponseEntity<>(imagesAndPosts, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
