@@ -1,19 +1,13 @@
 package com.application.socialhub.service;
 
+import com.application.socialhub.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.application.socialhub.dao.CommentDAO;
 import com.application.socialhub.dao.PostDAO;
 import com.application.socialhub.dao.RatingDAO;
 import com.application.socialhub.dao.UserDAO;
-import com.application.socialhub.dto.CreateCommentRequest;
-import com.application.socialhub.dto.CreatePostRequest;
-import com.application.socialhub.dto.CreateRatingRequest;
-import com.application.socialhub.dto.PostWithImageDTO;
-import com.application.socialhub.model.Comment;
-import com.application.socialhub.model.Post;
-import com.application.socialhub.model.Rating;
-import com.application.socialhub.model.UserEntity;
+import com.application.socialhub.model.*;
 import com.application.socialhub.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
@@ -60,7 +54,6 @@ public class MainPageService {
         this.ratingDAO = ratingDAO;
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(MainPageService.class);
 
     public ResponseEntity<?> createPost(CreatePostRequest request) {
         try {
@@ -78,7 +71,7 @@ public class MainPageService {
             if (!file.exists()) {
 
                 if (!file.mkdirs()) {
-                    throw new Exception("Couldn't create directory: "+ file.getPath()
+                    throw new Exception("Couldn't create directory: "+ file.getPath());
                 }
             }
 
@@ -98,22 +91,39 @@ public class MainPageService {
 
     public ResponseEntity<?> getAllPosts() {
         try {
-            List<Post> posts = postDAO.findAllPosts();
-            List<PostWithImageDTO> imagesAndPosts = new ArrayList<>();
-            for(Post p: posts) {
+            List<Post> posts = postDAO.findPostByCreatedAt();
+            List<PostWithCommentsAndRating> postWithCommentsAndRatingsList = new ArrayList<>();
 
-               File file = new File(p.getPhoto_source());
-               InputStream inputStream = new FileInputStream(file);
-               Blob imageBlob = new SerialBlob( new InputStreamResource(inputStream).getContentAsByteArray());
-               imagesAndPosts.add(new PostWithImageDTO(imageBlob, p));
+            for(Post post : posts){
+                List<PostsReturns> comments = commentDAO.findCommentsByPostId(post.getId());
+                int likes = ratingDAO.findPostLikes(post.getId());
+                int dislikes = ratingDAO.findPostDislikes(post.getId());
+
+                // post images
+                File file = new File(post.getPhoto_source());
+                InputStream inputStream = new FileInputStream(file);
+                Blob imageBlob = new SerialBlob( new InputStreamResource(inputStream).getContentAsByteArray());
+
+                //comments images
+                List<Blob> imagesCommentary = new ArrayList<>();
+                for(PostsReturns comment : comments){
+                    File file2 = new File(comment.getUser_entity_id().getUserInfo().getProfilePhotoSource());
+                    InputStream inputStream2 = new FileInputStream(file2);
+                    Blob imageBlob2 = new SerialBlob( new InputStreamResource(inputStream2).getContentAsByteArray());
+                    imagesCommentary.add(imageBlob2);
+                }
+
+                postWithCommentsAndRatingsList.add(new PostWithCommentsAndRating(post, comments, likes, dislikes,
+                        imageBlob,imagesCommentary));
 
             }
 
-            return new ResponseEntity<>(imagesAndPosts, HttpStatus.OK);
+            return new ResponseEntity<>(postWithCommentsAndRatingsList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     public ResponseEntity<?> commentPost(CreateCommentRequest request) {
         try {

@@ -12,4 +12,8 @@ public interface RatingDAO {
     void deleteRating(Rating rating);
 
     Rating checkRating(long userId, long postId);
+
+    int findPostLikes(long postId);
+
+    int findPostDislikes(long postId);
 }

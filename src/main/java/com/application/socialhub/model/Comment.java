@@ -17,7 +17,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(
-           columnDefinition = "TEXT",
+            columnDefinition = "TEXT",
             nullable=true
     )
     private String content;
@@ -25,9 +25,9 @@ public class Comment {
             nullable = false
     )
     private LocalDate created_at;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private UserEntity userEntity;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Post posts;
 
     public Comment(String content, LocalDate created_at, UserEntity userEntity, Post posts) {

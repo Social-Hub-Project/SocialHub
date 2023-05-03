@@ -33,5 +33,15 @@ public class RatingJPADataAccess implements RatingDAO{
         return repository.findRatingByUserIdAndPostId(userId, postId);
     }
 
+    @Override
+    public int findPostLikes(long postId) {
+        return repository.findPostLikes(postId);
+    }
+
+    @Override
+    public int findPostDislikes(long postId) {
+        return repository.findPostDislikes(postId);
+    }
+
 
 }
