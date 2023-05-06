@@ -14,13 +14,8 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long>{
+    @Transactional
+    @Query(value="SELECT * FROM post ORDER BY create_at DESC ", nativeQuery = true)
+    List<Post> findAllPostsOrderedByCreatedAtDesc();
 
-//    @Query(value="SELECT p, COUNT(l.id) as likeCount,COUNT(l.id) as dislikeCount"+
-//            "FROM post p"+
-//            "left join l"
-//
-//
-//            ,nativeQuery = true)
-//    List<Object[]> findAllPostsOrderByCreationDateDescWithLikesAndDislikes();
-    
 }

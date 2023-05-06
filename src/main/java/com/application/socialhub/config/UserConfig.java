@@ -26,18 +26,18 @@ public class UserConfig {
 
             //add comments
             UserInfo adamDetails = new UserInfo("Adam", "Moscicki",
-                    LocalDate.of(2000, MARCH, 29), "Warszawa", false, "aaaaaaaaaaaa",
+                    LocalDate.of(2000, MARCH, 29), "Warszawa", false, "exampleImages/cat.jpg",
                     "",
                     Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
             UserInfo annaDetails = new UserInfo("Anna", "Moscicki",
                     LocalDate.of(2000, MARCH, 29), "Warszawa", false,
-                    "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                    "exampleImages/cat.jpg",
                     "",
                     Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
             UserInfo marekDetails = new UserInfo("Marek", "Moscicki",
-                    LocalDate.of(2000, MARCH, 29), "Warszawa", false, "cccccccccccccccccccccccccccccc",
+                    LocalDate.of(2000, MARCH, 29), "Warszawa", false, "exampleImages/cat.jpg",
                     "",
                     Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 

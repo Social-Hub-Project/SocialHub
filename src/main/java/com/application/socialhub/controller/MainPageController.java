@@ -33,7 +33,7 @@ public class MainPageController {
         return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
-    @GetMapping(path ="/getAllPosts", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path ="/getAllPosts")
     public ResponseEntity<?> getAllPosts(){
         return mainPageService.getAllPosts();
     }

@@ -11,4 +11,8 @@ public interface PostDAO {
     void savePost(Post newPost);
 
     Post findPostById(Long id);
+
+    List<Post> findPostByCreatedAt();
+
+
 }

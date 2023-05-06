@@ -28,4 +28,12 @@ public class PostJPADataAccessService implements PostDAO{
     public Post findPostById(Long id) {
         return repository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<Post> findPostByCreatedAt() {
+        return repository.findAllPostsOrderedByCreatedAtDesc();
+    }
+
+
+
 }
