@@ -5,7 +5,7 @@ import userLogo from '../../resources/logo_user.png';
 
 
 export interface CommentProps {
-    com: Array<String>;
+    com: any;
     onClick?: () => void;
     photoUrl?: string;
     useRef?: RefObject<HTMLInputElement>;
@@ -14,10 +14,9 @@ export interface CommentProps {
 
 export default class Comment extends Component<CommentProps> {
     private inputRef!: RefObject<HTMLInputElement>;
-
     constructor(props: CommentProps) {
         super(props);
-
+        console.log(this.props.com)
         if (this.props.useRef === undefined) this.inputRef = createRef();
         else this.inputRef = this.props.useRef;
     };
@@ -28,11 +27,11 @@ export default class Comment extends Component<CommentProps> {
                 <div className={style.userInfo}>
                     <img alt="pg" className={style.userPhoto} src={userLogo} />
                     <div>
-                        <p className={style.userNames}>{this.props.com[0]} {this.props.com[1]}</p>
-                        <p className={style.postDate}>{this.props.com[2]}</p>
+                        <p className={style.userNames}>{this.props.com.user_entity_id.userInfo.name} {this.props.com.user_entity_id.userInfo.surname}</p>
+                        <p className={style.postDate}>{this.props.com.created_at}</p>
                     </div>
                 </div>
-                <p className={style.content}>{this.props.com[3]}</p>
+                <p className={style.content}>{this.props.com.content}</p>
             </div>
         );
     }

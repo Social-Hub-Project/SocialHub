@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-
 @Service
 public class MainPageService {
     private static final Logger logger = LoggerFactory.getLogger(MainPageService.class);
@@ -54,7 +53,6 @@ public class MainPageService {
         this.ratingDAO = ratingDAO;
     }
 
-
     public ResponseEntity<?> createPost(CreatePostRequest request) {
         try {
             String email = jwtUtil.getSubject(request.token());
@@ -71,7 +69,7 @@ public class MainPageService {
             if (!file.exists()) {
 
                 if (!file.mkdirs()) {
-                    throw new Exception("Couldn't create directory: "+ file.getPath());
+                    throw new Exception("Couldn't create directory: " + file.getPath());
                 }
             }
 
@@ -79,8 +77,8 @@ public class MainPageService {
             Post newPost = new Post(request.description(), false, LocalDate.now(), fileNameAndPath.toString(), user);
             File file2 = new File(newPost.getPhoto_source());
             InputStream inputStream = new FileInputStream(file2);
-            Blob imageBlob = new SerialBlob( new InputStreamResource(inputStream).getContentAsByteArray());
-            PostWithImageDTO postWithImage = new PostWithImageDTO(imageBlob ,newPost);
+            Blob imageBlob = new SerialBlob(new InputStreamResource(inputStream).getContentAsByteArray());
+            PostWithImageDTO postWithImage = new PostWithImageDTO(imageBlob, newPost);
             postDAO.savePost(newPost);
 
             return new ResponseEntity<>(postWithImage, HttpStatus.OK);
@@ -94,7 +92,7 @@ public class MainPageService {
             List<Post> posts = postDAO.findPostByCreatedAt();
             List<PostWithCommentsAndRating> postWithCommentsAndRatingsList = new ArrayList<>();
 
-            for(Post post : posts){
+            for (Post post : posts) {
                 List<PostsReturns> comments = commentDAO.findCommentsByPostId(post.getId());
                 int likes = ratingDAO.findPostLikes(post.getId());
                 int dislikes = ratingDAO.findPostDislikes(post.getId());
@@ -102,19 +100,26 @@ public class MainPageService {
                 // post images
                 File file = new File(post.getPhoto_source());
                 InputStream inputStream = new FileInputStream(file);
-                Blob imageBlob = new SerialBlob( new InputStreamResource(inputStream).getContentAsByteArray());
+                Blob imageBlob = new SerialBlob(new InputStreamResource(inputStream).getContentAsByteArray());
 
-                //comments images
+                // comments images
                 List<Blob> imagesCommentary = new ArrayList<>();
-                for(PostsReturns comment : comments){
-                    File file2 = new File(comment.getUser_entity_id().getUserInfo().getProfilePhotoSource());
-                    InputStream inputStream2 = new FileInputStream(file2);
-                    Blob imageBlob2 = new SerialBlob( new InputStreamResource(inputStream2).getContentAsByteArray());
-                    imagesCommentary.add(imageBlob2);
+                for (PostsReturns comment : comments) {
+                    try {
+                        File file2 = new File(comment.getUser_entity_id().getUserInfo().getProfilePhotoSource());
+                        InputStream inputStream2 = new FileInputStream(file2);
+                        Blob imageBlob2 = new SerialBlob(new InputStreamResource(inputStream2).getContentAsByteArray());
+
+                        imagesCommentary.add(imageBlob2);
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                        imagesCommentary.add(null);
+                    }
+
                 }
 
                 postWithCommentsAndRatingsList.add(new PostWithCommentsAndRating(post, comments, likes, dislikes,
-                        imageBlob,imagesCommentary));
+                        imageBlob, imagesCommentary));
 
             }
 
@@ -123,7 +128,6 @@ public class MainPageService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     public ResponseEntity<?> commentPost(CreateCommentRequest request) {
         try {

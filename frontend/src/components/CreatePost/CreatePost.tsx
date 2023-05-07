@@ -76,7 +76,7 @@ export default class CreatePost extends Component<CreatePostProps, CreatePostSta
             .then((result) => {
                 console.log(result)
                 // eslint-disable-next-line no-restricted-globals
-                location.reload();
+                //location.reload();
             }
 
             )
