@@ -58,8 +58,8 @@ public class RegistrationService {
                 LocalDate.now(),
                 request.residence(),
                 false,
-                "123",
-                "456",
+                "exampleImages/userIcon.png",
+                "exampleImages/background.png",
                 request.sex(),
                 LocalDate.now()
         );

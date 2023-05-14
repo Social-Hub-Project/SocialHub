@@ -15,4 +15,18 @@ public interface UserInfoRepository extends JpaRepository<UserInfo,Long> {
             " FROM user_details u " +
             "JOIN my_user on u.id = my_user.user_info_id WHERE my_user.email = :email", nativeQuery = true)
     UserInfo findUserInfoByEmail(@Param("email") String email);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE user_details" +
+            " SET profile_photo_source = :src" +
+            " WHERE user_details.id = :id", nativeQuery = true)
+    void changeProfilePhoto(long id, String src);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE user_details" +
+            " SET bg_photo_source = :src" +
+            " WHERE user_details.id = :id", nativeQuery = true)
+    void changeBackgroundPhoto(long id, String src);
 }

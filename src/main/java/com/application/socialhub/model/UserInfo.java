@@ -157,7 +157,10 @@ public class UserInfo {
                 ", bgPhotoSource='" + bgPhotoSource + '\'' +
                 ", sex=" + sex +
                 ", createdAt=" + createdAt +
-//                ", user=" + userEntity +
                 '}';
+    }
+
+    public long getId() {
+        return id;
     }
 }

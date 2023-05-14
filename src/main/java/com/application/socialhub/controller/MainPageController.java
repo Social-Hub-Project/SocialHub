@@ -4,7 +4,6 @@ package com.application.socialhub.controller;
 import com.application.socialhub.dto.CreateCommentRequest;
 import com.application.socialhub.dto.CreatePostRequest;
 import com.application.socialhub.dto.CreateRatingRequest;
-import com.application.socialhub.dto.PostDTO;
 import com.application.socialhub.service.MainPageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
