@@ -15,7 +15,7 @@ public class UserInfoJPADataAccessService implements UserInfoDAO{
     }
 
     @Override
-    public Optional<UserInfo> findUserInfoByEmail(String email) {
-        return Optional.ofNullable(repository.findUserInfoByEmail(email));
+    public UserInfo findUserInfoByEmail(String email) {
+        return repository.findUserInfoByEmail(email);
     }
 }

@@ -6,6 +6,7 @@ import com.application.socialhub.dto.AuthenticationFailedResponse;
 import com.application.socialhub.dto.AuthenticationRequest;
 import com.application.socialhub.dto.AuthenticationResponse;
 import com.application.socialhub.dto.UserDTO;
+import com.application.socialhub.dtoMappers.UserDTOMapper;
 import com.application.socialhub.dtoMappers.UserEntityDTOMapper;
 import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.model.UserInfo;
@@ -55,9 +56,11 @@ public class AuthenticationService {
             UserDTO userDTO = userEntityDTOMapper.apply(principal);
             String token = jwtUtil.issueToken(userDTO.email(), userDTO.role().toString());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            Optional<UserInfo> userInfo = userInfoDAO.findUserInfoByEmail(userDTO.email());
+            UserInfo userInfo = userInfoDAO.findUserInfoByEmail(userDTO.email());
 
-            return new ResponseEntity<>(new AuthenticationResponse(token, "" ,"","", "Login success"), HttpStatus.OK);
+            return new ResponseEntity<>(new AuthenticationResponse(token,
+                    new UserDTOMapper().apply(userInfo),
+                    "Login success"), HttpStatus.OK);
         } catch (AuthenticationException e) {
             return new ResponseEntity<>(new AuthenticationFailedResponse(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
