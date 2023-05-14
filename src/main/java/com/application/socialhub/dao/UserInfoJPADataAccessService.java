@@ -4,7 +4,6 @@ import com.application.socialhub.model.UserInfo;
 import com.application.socialhub.repository.UserInfoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 
 @Repository("userInfoJpa")
 public class UserInfoJPADataAccessService implements UserInfoDAO{
@@ -17,5 +16,15 @@ public class UserInfoJPADataAccessService implements UserInfoDAO{
     @Override
     public UserInfo findUserInfoByEmail(String email) {
         return repository.findUserInfoByEmail(email);
+    }
+
+    @Override
+    public void changeProfilePhoto(long id, String path) {
+        repository.changeProfilePhoto(id, path);
+    }
+
+    @Override
+    public void changeBackgroundPhoto(long id, String path) {
+        repository.changeBackgroundPhoto(id, path);
     }
 }

@@ -11,6 +11,8 @@ public record UserDetailsDTO(
         Sex sex,
         java.time.LocalDate createdAt,
         Blob profilePhoto,
-        Blob backgroudPhoto
+        Blob backgroundPhoto,
+        String profilePhotoSource,
+        String backgroundPhotoSource
 ){
 }

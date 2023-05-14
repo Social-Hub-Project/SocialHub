@@ -26,7 +26,9 @@ public class UserDTOMapper implements Function<UserInfo, UserDetailsDTO> {
                     userInfo.getSex(),
                     userInfo.getCreatedAt(),
                     convertImagePathToImage(userInfo.getProfilePhotoSource()),
-                    convertImagePathToImage(userInfo.getBgPhotoSource())
+                    convertImagePathToImage(userInfo.getBgPhotoSource()),
+                    userInfo.getProfilePhotoSource(),
+                    userInfo.getBgPhotoSource()
             );
         } catch (IOException e) {
             throw new RuntimeException(e);

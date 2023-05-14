@@ -7,4 +7,7 @@ import java.util.Optional;
 public interface UserInfoDAO {
 
     UserInfo findUserInfoByEmail(String email);
+    void changeProfilePhoto(long id, String path);
+    void changeBackgroundPhoto(long id, String path);
+
 }
