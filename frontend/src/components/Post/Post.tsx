@@ -2,14 +2,15 @@ import { Component, createRef, RefObject } from 'react';
 
 import style from './Post.module.css';
 import userLogo from '../../resources/logo_user.png';
-import postPhoto from '../../resources/postPhoto.png';
+import addIcon from '../../resources/addIcon.png';
 import likeGrey from '../../resources/like_grey.png';
 import likeBlue from '../../resources/like_blue.png';
 import commentsImg from '../../resources/comments.png';
 import Comment from './Comment';
-
+const commentUrl = `${process.env.REACT_APP_BACKEND_URL}/app/commentPost`;
 const likeUrl = `${process.env.REACT_APP_BACKEND_URL}/app/ratingPost`;
-
+// eslint-disable-next-line jsx-a11y/alt-text
+const ConvertedPhoto = ({ data }: { data: string }) => <img className="postPhoto" src={`data:image/jpeg;base64,${data}`} />
 export interface PostProps {
     id: number,
     name: string;
@@ -22,7 +23,7 @@ export interface PostProps {
     disliked: boolean;
     comments: Array<Array<String>>;
     onClick?: () => void;
-    photoUrl?: string;
+    photoUrl: string;
     useRef?: RefObject<HTMLInputElement>;
     className?: string;
 }
@@ -30,6 +31,7 @@ export interface PostState {
     expanded: boolean;
     liked: boolean;
     disliked: boolean;
+    img: string;
 }
 
 export default class Post extends Component<PostProps, PostState> {
@@ -41,6 +43,7 @@ export default class Post extends Component<PostProps, PostState> {
             expanded: false,
             liked: this.props.liked,
             disliked: this.props.disliked,
+            img: "",
         };
         if (this.props.useRef === undefined) this.inputRef = createRef();
         else this.inputRef = this.props.useRef;
@@ -48,7 +51,23 @@ export default class Post extends Component<PostProps, PostState> {
         this.props.comments.forEach(com => {
             this.allComments.push(<Comment com={com}></Comment>);
         })
+
+
+
+
     };
+    // async componentDidMount() {
+    //     var base64Flag = 'data:image/jpeg;base64,';
+    //     var binary = '';
+    //     var bytes = [].slice.call(new Uint8Array(this.props.photoUrl));
+    //     bytes.forEach((b) => binary += String.fromCharCode(b));
+    //     var imageStr = await window.btoa(binary);
+    //     console.log(imageStr.toString())
+    //     this.setState({
+    //         img: base64Flag + imageStr,
+    //     })
+
+    // }
     private ratePost = (rating: number) => {
         const body = {
             token: sessionStorage.getItem("userToken"),
@@ -94,6 +113,7 @@ export default class Post extends Component<PostProps, PostState> {
 
     private bluelikeClick = () => {
         this.setState({ liked: !this.state.liked });
+        this.ratePost(0);
     };
     private bluedislikeClick = () => {
         this.setState({ disliked: !this.state.disliked });
@@ -101,9 +121,39 @@ export default class Post extends Component<PostProps, PostState> {
     };
     private toogleComments = () => {
         this.setState({ expanded: !this.state.expanded });
-        this.ratePost(0);
     };
+    private addComment = () => {
+        if (this.inputRef.current?.value === "")
+            return;
 
+        const body = {
+            token: sessionStorage.getItem("userToken"),
+            description: this.inputRef.current?.value,
+            idPost: this.props.id,
+        };
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+            body: JSON.stringify(body)
+        };
+
+        try {
+            const response = fetch(commentUrl, requestOptions)
+                .then((response) => response.json())
+                .then((body) => {
+                    console.log(body);
+                });
+        } catch (err) {
+            console.log("conn error");
+        }
+
+    };
     render() {
         return (
             <div className={[style.post, this.props.className].join(' ')}>
@@ -115,7 +165,7 @@ export default class Post extends Component<PostProps, PostState> {
                     </div>
                 </div>
                 <p className={style.content}>{this.props.content}</p>
-                <img className={style.postPhoto} alt="post_photo" src={postPhoto} />
+                <ConvertedPhoto data={this.props.photoUrl} />
                 <div className={style.likesContainer}>
 
 
@@ -144,7 +194,16 @@ export default class Post extends Component<PostProps, PostState> {
                 {this.state.expanded ?
                     <div className={style.commentsContainer}>
 
-                        <>{this.allComments}</>
+                        <>
+                            <div>
+                                <div className={style.addComment}>
+                                    <input ref={this.inputRef} placeholder='Write a comment...'
+                                        className={style.searchinput}
+                                        type='text' />
+                                    <img className={style.searchIcon} src={addIcon} alt='search' onClick={this.addComment} />
+                                </div>
+                                {this.allComments}
+                            </div></>
                     </div>
 
                     : null}

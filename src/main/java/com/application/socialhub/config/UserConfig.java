@@ -15,7 +15,6 @@ import static java.time.Month.*;
 @Configuration
 public class UserConfig {
 
-
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder,
                                         PostRepository postRepository, CommentRepository commentRepository,
@@ -107,5 +106,4 @@ public class UserConfig {
 
 
     }
-
 }

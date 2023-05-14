@@ -10,6 +10,7 @@ import { isLoggedIn } from './auth';
 import Register from './views/Register/Register';
 import Login from './views/Login/Login';
 import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
+import User from './views/User/User';
 
 
 const router = createBrowserRouter([
@@ -30,6 +31,15 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+    errorElement: <div>404</div>,
+  },
+  {
+    path: '/user',
+    element: <RestrictedRoute
+      condition={isLoggedIn}
+      component={<User />}
+      invalidComponent={<Login />}
+    />,
     errorElement: <div>404</div>,
   }
 

@@ -34,8 +34,8 @@ function Login() {
                     <div className={style.rightBar}>
                         <div className={style.title}>Login</div>
 
-                        <Input useRef={email} className={style.registerInput} text="Email" />
-                        <Input useRef={password} className={style.registerInput} text="Password" />
+                        <Input useRef={email} className={style.registerInput} type="text" text="Email" />
+                        <Input useRef={password} className={style.registerInput} type="password" text="Password" />
                         <Link className={style.linkAnchor} to='/forgotPassword'>
                             <div className={style.linkAnchor} >Forgot your password &#8594;</div>
                         </Link>

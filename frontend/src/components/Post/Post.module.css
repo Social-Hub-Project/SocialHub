@@ -160,3 +160,53 @@
 .commentsContainer {
     width: 75%;
 }
+
+.addComment {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+    padding: 5px;
+    border-radius: 20px;
+    box-shadow: #788292 2px 2px;
+}
+
+.searchinput {
+    box-sizing: border-box;
+    width: 90%;
+    height: 60px;
+    padding-left: 25px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #788292;
+    margin-right: 10px;
+}
+
+.searchinput:focus {
+    border: none;
+}
+
+.searchIcon {
+
+    width: 40px;
+    height: 40px;
+}
+
+.searchinput::placeholder {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    border: none;
+    color: #788292;
+}

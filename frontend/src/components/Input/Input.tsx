@@ -4,6 +4,7 @@ import style from './Input.module.css';
 
 
 export interface InputProps {
+    type: string;
     text: string;
     width?: string;
     onClick?: () => void;
@@ -35,7 +36,7 @@ export default class Input extends Component<InputProps, InputState> {
         return (
             <div className={[style.inputBox, this.props.className].join(' ')} >
                 <div className={style.placeholderText}>{this.props.text}</div>
-                <input ref={this.props.useRef} placeholder={this.props.text} className={style.input} onClick={this.props.onClick} type='text' id={this.props.id} />
+                <input ref={this.props.useRef} placeholder={this.props.text} className={style.input} onClick={this.props.onClick} type={this.props.type} id={this.props.id} />
             </div>
         );
     }
