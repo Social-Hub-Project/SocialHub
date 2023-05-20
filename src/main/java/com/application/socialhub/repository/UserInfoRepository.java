@@ -1,5 +1,6 @@
 package com.application.socialhub.repository;
 
+import com.application.socialhub.dto.BasicUserInfoDTO;
 import com.application.socialhub.model.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo,Long> {
@@ -29,4 +32,10 @@ public interface UserInfoRepository extends JpaRepository<UserInfo,Long> {
             " SET bg_photo_source = :src" +
             " WHERE user_details.id = :id", nativeQuery = true)
     void changeBackgroundPhoto(long id, String src);
+
+    @Query(value = "SELECT *" +
+            " FROM user_details" +
+            " WHERE LOWER(name) LIKE CONCAT('%', LOWER(:word), '%') " +
+            "OR LOWER(surname) LIKE CONCAT('%', LOWER(:word), '%')", nativeQuery = true)
+    List<UserInfo> findUser(@Param("word") String word);
 }

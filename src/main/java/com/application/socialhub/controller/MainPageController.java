@@ -4,6 +4,7 @@ package com.application.socialhub.controller;
 import com.application.socialhub.dto.CreateCommentRequest;
 import com.application.socialhub.dto.CreatePostRequest;
 import com.application.socialhub.dto.CreateRatingRequest;
+import com.application.socialhub.dto.SearchUserRequest;
 import com.application.socialhub.service.MainPageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,10 +27,9 @@ public class MainPageController {
         return new ResponseEntity<>(str, HttpStatus.OK);
     }
 
-    @GetMapping("/getSearchedPeople")
-    public ResponseEntity<String> getSearchedPeople(){
-        String str= "getSearchedPeople";
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @PostMapping(path = "/searchUser",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchUser(@RequestBody SearchUserRequest request){
+        return mainPageService.searchUser(request.word());
     }
 
     @GetMapping(path ="/getAllPosts")
