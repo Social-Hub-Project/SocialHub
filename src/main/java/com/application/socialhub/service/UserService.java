@@ -68,6 +68,11 @@ public class UserService {
         return new UserDTOMapper().apply(user);
     }
 
+    public UserDetailsDTO getUserInfoById(UserInfoIdRequest request){
+        UserInfo user = userInfoDAO.findUserInfoById(request.id());
+        return new UserDTOMapper().apply(user);
+    }
+
     public ResponseEntity<?> changeProfilePhoto(ChangePhotoRequest request) {
         return changePhoto(request, "profilePhoto");
     }

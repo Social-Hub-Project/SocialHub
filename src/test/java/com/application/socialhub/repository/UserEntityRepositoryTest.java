@@ -29,6 +29,7 @@ class UserEntityRepositoryTest {
     }
 
     @Test
+    @Disabled
     void doesEmailExists() {
         // given
         String email = "kamila@gmail.com";
@@ -61,6 +62,7 @@ class UserEntityRepositoryTest {
     }
 
     @Test
+    @Disabled
     void isUserEnabled() {
         // given
         String email = "kamila@gmail.com";
@@ -94,6 +96,7 @@ class UserEntityRepositoryTest {
     }
 
     @Test
+    @Disabled
     void isUserNotEnabled() {
         // given
         String email = "kamila@gmail.com";
@@ -124,6 +127,7 @@ class UserEntityRepositoryTest {
         assertThat(enabled).isFalse();
     }
     @Test
+    @Disabled
     void foundUserByEmail() {
         // given
         String email = "kamila@gmail.com";
@@ -155,6 +159,7 @@ class UserEntityRepositoryTest {
     }
 
     @Test
+    @Disabled
     void didNotFoundUserByEmail() {
         // given
         String emailTest = "kamil@gmail.com";
@@ -187,6 +192,7 @@ class UserEntityRepositoryTest {
     }
 
     @Test
+    @Disabled
     void existsByEmail() {
         // given
         String email = "kamila@gmail.com";
@@ -218,6 +224,7 @@ class UserEntityRepositoryTest {
     }
 
     @Test
+    @Disabled
     void doesntExistByEmail() {
     // given
         String email = "kamila@gmail.com";

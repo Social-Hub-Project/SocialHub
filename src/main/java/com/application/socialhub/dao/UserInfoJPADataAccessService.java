@@ -36,4 +36,9 @@ public class UserInfoJPADataAccessService implements UserInfoDAO{
     public List<UserInfo> findUser(String name) {
         return repository.findUser(name);
     }
+
+    @Override
+    public UserInfo findUserInfoById(long id) {
+        return repository.findUserInfoById(id);
+    }
 }

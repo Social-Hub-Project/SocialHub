@@ -13,4 +13,6 @@ public interface UserInfoDAO {
     void changeBackgroundPhoto(long id, String path);
 
     List<UserInfo> findUser(String name);
+
+    UserInfo findUserInfoById(long id);
 }

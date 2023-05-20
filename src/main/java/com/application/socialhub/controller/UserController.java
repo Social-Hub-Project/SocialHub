@@ -1,9 +1,6 @@
 package com.application.socialhub.controller;
 
-import com.application.socialhub.dto.ChangePhotoRequest;
-import com.application.socialhub.dto.DefaultGetRequest;
-import com.application.socialhub.dto.UserDTO;
-import com.application.socialhub.dto.UserDetailsDTO;
+import com.application.socialhub.dto.*;
 import com.application.socialhub.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +26,14 @@ public class UserController {
         return  userService.getAllUsers();
     }
 
-    @GetMapping(path = "/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDetailsDTO getUserInfo(@ModelAttribute DefaultGetRequest request) {
+    @PostMapping(path = "/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDetailsDTO getUserInfo(@RequestBody DefaultGetRequest request) {
         return  userService.getUserInfo(request);
+    }
+
+    @PostMapping(path = "/getUserInfoById", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDetailsDTO getUserInfoById(@RequestBody UserInfoIdRequest request) {
+        return  userService.getUserInfoById(request);
     }
 
     @PostMapping(path = "/changeProfilePhoto", produces = MediaType.APPLICATION_JSON_VALUE)
