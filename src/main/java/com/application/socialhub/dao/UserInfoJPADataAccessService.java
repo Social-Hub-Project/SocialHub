@@ -1,8 +1,12 @@
 package com.application.socialhub.dao;
 
+import com.application.socialhub.dto.BasicUserInfoDTO;
+import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.model.UserInfo;
 import com.application.socialhub.repository.UserInfoRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 @Repository("userInfoJpa")
@@ -26,5 +30,10 @@ public class UserInfoJPADataAccessService implements UserInfoDAO{
     @Override
     public void changeBackgroundPhoto(long id, String path) {
         repository.changeBackgroundPhoto(id, path);
+    }
+
+    @Override
+    public List<UserInfo> findUser(String name) {
+        return repository.findUser(name);
     }
 }

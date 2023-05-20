@@ -1,12 +1,9 @@
 package com.application.socialhub.service;
 
+import com.application.socialhub.dao.*;
 import com.application.socialhub.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.application.socialhub.dao.CommentDAO;
-import com.application.socialhub.dao.PostDAO;
-import com.application.socialhub.dao.RatingDAO;
-import com.application.socialhub.dao.UserDAO;
 import com.application.socialhub.model.*;
 import com.application.socialhub.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +21,7 @@ import java.nio.file.Paths;
 import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,18 +37,22 @@ public class MainPageService {
     private final JWTUtil jwtUtil;
 
     private final RatingDAO ratingDAO;
-    private CommentDAO commentDAO;
+    private final CommentDAO commentDAO;
+    private final UserInfoDAO userInfoDAO;
+
 
     public MainPageService(@Qualifier("post") PostDAO postDAO,
             @Qualifier("jpa") UserDAO userDAO,
             @Qualifier("comment") CommentDAO commentDAO,
             @Qualifier("ratings") RatingDAO ratingDAO,
+            @Qualifier("userInfoJpa") UserInfoDAO userInfoDAO,
             JWTUtil jwtUtil) {
         this.postDAO = postDAO;
         this.userDAO = userDAO;
         this.jwtUtil = jwtUtil;
         this.commentDAO = commentDAO;
         this.ratingDAO = ratingDAO;
+        this.userInfoDAO = userInfoDAO;
     }
 
     public ResponseEntity<?> createPost(CreatePostRequest request) {
@@ -186,5 +188,16 @@ public class MainPageService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
+    }
+
+    public ResponseEntity<?> searchUser(String name) {
+        List<UserInfo> users = userInfoDAO.findUser(name);
+        List<BasicUserInfoDTO> usersDTO = new LinkedList<>();
+        for (UserInfo u: users) {
+            usersDTO.add(new BasicUserInfoDTO(u.getName(),
+                    u.getSurname(),
+                    u.getId()));
+        }
+        return new ResponseEntity<>(usersDTO,HttpStatus.OK);
     }
 }
