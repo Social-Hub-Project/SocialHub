@@ -38,4 +38,10 @@ public interface UserInfoRepository extends JpaRepository<UserInfo,Long> {
             " WHERE LOWER(name) LIKE CONCAT('%', LOWER(:word), '%') " +
             "OR LOWER(surname) LIKE CONCAT('%', LOWER(:word), '%')", nativeQuery = true)
     List<UserInfo> findUser(@Param("word") String word);
+
+    @Transactional
+    @Query(value = "SELECT * " +
+            "FROM user_details u " +
+            "WHERE u.id = :id", nativeQuery = true)
+    UserInfo findUserInfoById(long id);
 }
