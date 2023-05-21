@@ -189,4 +189,15 @@ public class MainPageService {
 
         }
     }
+
+    public ResponseEntity<?> searchUser(String name) {
+        List<UserInfo> users = userInfoDAO.findUser(name);
+        List<BasicUserInfoDTO> usersDTO = new LinkedList<>();
+        for (UserInfo u: users) {
+            usersDTO.add(new BasicUserInfoDTO(u.getName(),
+                    u.getSurname(),
+                    u.getId()));
+        }
+        return new ResponseEntity<>(usersDTO,HttpStatus.OK);
+    }
 }
