@@ -1,8 +1,9 @@
-import { Component, createRef, RefObject } from 'react';
+import { Component, createRef, RefObject, useEffect, useLayoutEffect, useRef } from 'react';
 
 import style from './Search.module.css';
 import ResultUser from './ResultUser';
 import searchIcon from '../../resources/search_icon.png';
+import React from 'react';
 const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/searchUser`;
 
 
@@ -22,8 +23,6 @@ export interface SearchState {
 }
 
 export default class Search extends Component<SearchProps, SearchState> {
-    private inputRef!: RefObject<HTMLInputElement>;
-
     constructor(props: SearchProps) {
         super(props);
 
@@ -31,15 +30,21 @@ export default class Search extends Component<SearchProps, SearchState> {
             message: '',
             results: [],
         };
+        this.fetchData = this.fetchData.bind(this);
 
-        if (this.props.useRef === undefined) this.inputRef = createRef();
-        else this.inputRef = this.props.useRef;
     };
-    fetchData() {
-        console.log(this.inputRef.current?.value)
+
+    fetchData(e: any) {
+        if (e.target.value === "") {
+            this.setState({
+                results: [],
+            })
+            return;
+
+        }
         const body = {
             token: "Bearer " + sessionStorage.getItem("userToken"),
-            name: this.inputRef.current?.value,
+            word: e.target.value,
         };
         const requestOptions = {
             method: 'POST',
@@ -56,13 +61,14 @@ export default class Search extends Component<SearchProps, SearchState> {
             const response = fetch(fetchUrl, requestOptions)
                 .then((response) => response.json())
                 .then((body) => {
-                    console.log(body);
-                    var array = [];
+                    var array: Array<JSX.Element> = [];
                     body.forEach((p: any) => {
-                        console.log(p)
-                        array.push(<ResultUser photoUrl={p.photoUrl} name={p.name} surname={p.surname}></ResultUser>)
+                        array.push(<ResultUser id={p.id} key={p.id} photoUrl={p.photoUrl} name={p.name} surname={p.surname}></ResultUser>)
                     })
-
+                    console.log(array)
+                    this.setState({
+                        results: array,
+                    })
 
                 });
         } catch (err) {
@@ -78,9 +84,9 @@ export default class Search extends Component<SearchProps, SearchState> {
             <div className={[style.searchbox, this.props.className].join(' ')} >
                 <h3 className={style.h3title}>Who to Follow</h3>
                 <div>
-                    <input ref={this.inputRef} placeholder='Search for friend?'
-                        className={style.searchinput} onChange={this.fetchData} onClick={this.props.onClick}
-                        type='text' id={this.props.id} />
+                    <input placeholder='Search for friend?'
+                        className={style.searchinput} onChange={this.fetchData}
+                        type='text' />
                     <img className={style.searchIcon} alt='search' src={searchIcon} />
                 </div>
                 <div className={style.resultsContainer}>

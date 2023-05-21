@@ -11,10 +11,13 @@ import CenterBar from '../../components/CenterBar/CenterBar';
 import RecentPosts from '../../components/RecentPosts/RecentPosts';
 import Button from '../../components/Button/Button';
 import UserInfo from '../../components/UserInfo/UserInfo';
+import { useSearchParams } from 'react-router-dom';
 
 
 function User(this: any) {
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    console.log(searchParams.get("userId"))
 
     return (
         <Page sidebar={true}>

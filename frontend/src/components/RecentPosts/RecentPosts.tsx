@@ -40,7 +40,7 @@ export default class RecentPosts extends Component<RecentPostsProps, RecentPosts
                 .then((body) => {
                     console.log(body);
                     body.forEach((p: any) => {
-                        this.allPosts.push(<Post id={p.post.id} name={p.post.userEntity.userInfo.name} surname={p.post.userEntity.userInfo.surname}
+                        this.allPosts.push(<Post key={p.post.id} id={p.post.id} name={p.post.userEntity.userInfo.name} surname={p.post.userEntity.userInfo.surname}
                             date={p.post.create_at} content={p.post.description} likes={p.like} photoUrl={p.image} dislikes={p.dislike}
                             liked={false} disliked={false} comments={p.comments} ></Post>);
 
