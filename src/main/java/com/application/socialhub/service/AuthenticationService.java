@@ -1,6 +1,5 @@
 package com.application.socialhub.service;
 
-import com.application.socialhub.dao.UserDAO;
 import com.application.socialhub.dao.UserInfoDAO;
 import com.application.socialhub.dto.AuthenticationFailedResponse;
 import com.application.socialhub.dto.AuthenticationRequest;
@@ -20,8 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AuthenticationService {
