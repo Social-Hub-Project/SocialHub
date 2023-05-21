@@ -30,7 +30,8 @@ export default class RecentPosts extends Component<RecentPostsProps, RecentPosts
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Credentials': 'true'
-            }
+            },
+
         };
 
         try {
@@ -51,7 +52,6 @@ export default class RecentPosts extends Component<RecentPostsProps, RecentPosts
         } catch (err) {
             console.log("conn error");
         }
-        console.log("before" + this.allPosts);
     }
     render() {
         return (

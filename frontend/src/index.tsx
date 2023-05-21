@@ -11,6 +11,7 @@ import Register from './views/Register/Register';
 import Login from './views/Login/Login';
 import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
 import User from './views/User/User';
+import MyAccount from './views/MyAccount/MyAccount';
 
 
 const router = createBrowserRouter([
@@ -38,6 +39,16 @@ const router = createBrowserRouter([
     element: <RestrictedRoute
       condition={isLoggedIn}
       component={<User />}
+      invalidComponent={<Login />}
+    />,
+    errorElement: <div>404</div>,
+  }
+  ,
+  {
+    path: '/myaccount',
+    element: <RestrictedRoute
+      condition={isLoggedIn}
+      component={<MyAccount />}
       invalidComponent={<Login />}
     />,
     errorElement: <div>404</div>,
