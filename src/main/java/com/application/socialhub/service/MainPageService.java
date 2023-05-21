@@ -2,6 +2,7 @@ package com.application.socialhub.service;
 
 import com.application.socialhub.dao.*;
 import com.application.socialhub.dto.*;
+import com.application.socialhub.dtoMappers.BasicUserInfoDTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.application.socialhub.model.*;
@@ -193,10 +194,9 @@ public class MainPageService {
     public ResponseEntity<?> searchUser(String name) {
         List<UserInfo> users = userInfoDAO.findUser(name);
         List<BasicUserInfoDTO> usersDTO = new LinkedList<>();
+        BasicUserInfoDTOMapper mapper = new BasicUserInfoDTOMapper();
         for (UserInfo u: users) {
-            usersDTO.add(new BasicUserInfoDTO(u.getName(),
-                    u.getSurname(),
-                    u.getId()));
+            usersDTO.add(mapper.apply(u));
         }
         return new ResponseEntity<>(usersDTO,HttpStatus.OK);
     }
