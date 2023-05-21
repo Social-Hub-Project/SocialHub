@@ -1,6 +1,8 @@
 package com.application.socialhub.controller;
 
 import com.application.socialhub.model.ChatRoom;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,6 @@ public class ChatRoomController {
 
     @PostMapping
     public ResponseEntity<?> createChatRoom(@RequestBody ChatRoom chatRoom) {
-
+        return new ResponseEntity<>("chat room", HttpStatus.OK);
     }
 }
