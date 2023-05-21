@@ -21,15 +21,15 @@ public class MainPageController {
         this.mainPageService = mainPageService;
     }
 
-    @GetMapping("/getFriendsList")
-    public ResponseEntity<String> getFriendsList(){
-        String str= "getFriendsList";
-        return new ResponseEntity<>(str, HttpStatus.OK);
-    }
 
     @PostMapping(path = "/searchUser",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> searchUser(@RequestBody SearchUserRequest request){
         return mainPageService.searchUser(request.word());
+    }
+    @GetMapping("/getFriendsList")
+    public ResponseEntity<String> getFriendsList(){
+        String str= "getFriendsList";
+        return new ResponseEntity<>(str, HttpStatus.OK);
     }
 
     @GetMapping(path ="/getAllPosts")
