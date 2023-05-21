@@ -27,11 +27,6 @@ public class MainPageController {
         return new ResponseEntity<>(str, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/searchUser",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> searchUser(@RequestBody SearchUserRequest request){
-        return mainPageService.searchUser(request.word());
-    }
-
     @GetMapping(path ="/getAllPosts")
     public ResponseEntity<?> getAllPosts(){
         return mainPageService.getAllPosts();
