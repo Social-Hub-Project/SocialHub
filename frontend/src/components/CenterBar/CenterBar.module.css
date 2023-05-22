@@ -7,4 +7,15 @@
     flex-direction: column;
     padding-top: 80px;
     justify-content: flex-start;
+
+    overflow-y: scroll;
+}
+
+.centerBar::-webkit-scrollbar {
+    display: none;
+}
+
+.centerBar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

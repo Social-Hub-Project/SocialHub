@@ -1,83 +1,82 @@
 package com.application.socialhub.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 
-public class UserDetails {
-
+@Entity
+@Table(
+        name = "user_details"
+)
+public class UserInfo {
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE
+    )
     private long id;
-
-    private long id_user;
-
-
+    @Column(
+            nullable = false
+    )
+    private String name;
+    @Column(
+            nullable = false
+    )
     private String surname;
-
+    @Column(
+            nullable = false
+    )
     private LocalDate dateOfBirth;
-
+    @Column(
+            nullable = false
+    )
     private String residence;
-
+    @Column(
+            nullable = false
+    )
+    private boolean blocked;
+    @Column(
+            nullable = true,
+            columnDefinition = "TEXT"
+    )
     private String profilePhotoSource;
-
+    @Column(
+            nullable = true,
+            columnDefinition = "TEXT"
+    )
     private String bgPhotoSource;
-
+    @Enumerated(EnumType.STRING)
     private Sex sex;
-
+    @Column(
+            nullable = false
+    )
     private LocalDate createdAt;
 
-    public UserDetails() {
-    }
+    @OneToOne(mappedBy = "userInfo",fetch =FetchType.EAGER)
+    private UserEntity userEntities;
 
-    public UserDetails(long id_user,
-                       String surname,
-                       LocalDate dateOfBirth,
-                       String residence,
-                       String profilePhotoSource,
-                       String bgPhotoSource,
-                       Sex sex,
-                       LocalDate createdAt) {
-        this.id_user = id_user;
+    public UserInfo(String name, String surname, LocalDate dateOfBirth, String residence, boolean blocked,
+                    String profilePhotoSource, String bgPhotoSource, Sex sex, LocalDate createdAt) {
+        this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
         this.residence = residence;
+        this.blocked = blocked;
         this.profilePhotoSource = profilePhotoSource;
         this.bgPhotoSource = bgPhotoSource;
         this.sex = sex;
         this.createdAt = createdAt;
     }
 
-    public UserDetails(long id,
-                       long id_user,
-                       String surname,
-                       LocalDate dateOfBirth,
-                       String residence,
-                       String profilePhotoSource,
-                       String bgPhotoSource,
-                       Sex sex,
-                       LocalDate createdAt) {
-        this.id = id;
-        this.id_user = id_user;
-        this.surname = surname;
-        this.dateOfBirth = dateOfBirth;
-        this.residence = residence;
-        this.profilePhotoSource = profilePhotoSource;
-        this.bgPhotoSource = bgPhotoSource;
-        this.sex = sex;
-        this.createdAt = createdAt;
+    public UserInfo() {
     }
 
-    public long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getId_user() {
-        return id_user;
-    }
-
-    public void setId_user(long id_user) {
-        this.id_user = id_user;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSurname() {
@@ -102,6 +101,14 @@ public class UserDetails {
 
     public void setResidence(String residence) {
         this.residence = residence;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
     public String getProfilePhotoSource() {
@@ -136,17 +143,24 @@ public class UserDetails {
         this.createdAt = createdAt;
     }
 
+
     @Override
     public String toString() {
         return "UserDetails{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", residence='" + residence + '\'' +
+                ", blocked=" + blocked +
                 ", profilePhotoSource='" + profilePhotoSource + '\'' +
                 ", bgPhotoSource='" + bgPhotoSource + '\'' +
                 ", sex=" + sex +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    public long getId() {
+        return id;
     }
 }

@@ -1,6 +1,5 @@
 package com.application.socialhub.service;
 
-import com.application.socialhub.model.User;
 import com.application.socialhub.repository.ConfirmationTokenRepository;
 import com.application.socialhub.model.ConfirmationToken;
 import org.springframework.stereotype.Service;

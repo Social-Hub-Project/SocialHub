@@ -71,10 +71,10 @@ function Register() {
                 <div className={style.title}>Register</div>
                 <div className={style.formContainer}>
                     <div className='leftBar'>
-                        <Input useRef={name} className={style.registerInput} text="Name" />
-                        <Input useRef={surname} className={style.registerInput} text="Surname" />
-                        <Input useRef={birthday} className={style.registerInput} text="Birthday" />
-                        <Input useRef={sex} className={style.registerInput} text="Sex" />
+                        <Input useRef={name} className={style.registerInput} type="text" text="Name" />
+                        <Input useRef={surname} className={style.registerInput} type="text" text="Surname" />
+                        <Input useRef={birthday} className={style.registerInput} type="text" text="Birthday" />
+                        <Input useRef={sex} className={style.registerInput} type="text" text="Sex" />
                         <div className={style.linkAnchor}>Already have account &#8594;</div>
                         <Link to='/login'>
                             <Button text="LOGIN" />
@@ -82,10 +82,10 @@ function Register() {
 
                     </div>
                     <div className='rightBar'>
-                        <Input useRef={residence} className={style.registerInput} text="Residence" />
-                        <Input useRef={email} className={style.registerInput} text="Email" />
-                        <Input useRef={password} className={style.registerInput} text="Password" />
-                        <Input useRef={passwordConfirmation} className={style.registerInput} text="Congirm Password" />
+                        <Input useRef={residence} className={style.registerInput} type="text" text="Residence" />
+                        <Input useRef={email} className={style.registerInput} type="email" text="Email" />
+                        <Input useRef={password} className={style.registerInput} type="password" text="Password" />
+                        <Input useRef={passwordConfirmation} className={style.registerInput} type="password" text="Congirm Password" />
                         <div className={style.linkAnchor}>Create your account here &#8594;</div>
                         <Link to='/register'>
                             <Button onClick={sendRegisterRequest} text="SIGN UP" />

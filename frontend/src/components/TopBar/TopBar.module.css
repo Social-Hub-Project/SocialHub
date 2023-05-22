@@ -29,3 +29,30 @@
     margin: 5px;
 
 }
+
+.menu {
+    position: absolute;
+    right: 50px;
+    z-index: 200;
+}
+
+.menuElement {
+    width: 141px;
+    height: 28px;
+    text-align: center;
+    background: #FFFFFF;
+    border: 2px solid #105E5E;
+    border-radius: 8px;
+
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 17px;
+    /* identical to box height */
+    display: block;
+    margin-top: 5px;
+    cursor: pointer;
+    color: #000000;
+    padding-top: 9px;
+}

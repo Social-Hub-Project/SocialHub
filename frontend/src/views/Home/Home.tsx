@@ -10,7 +10,8 @@ import Contacts from '../../components/Contacts/Contacts';
 import Events from '../../components/Events/Events';
 import CreatePost from '../../components/CreatePost/CreatePost';
 import CenterBar from '../../components/CenterBar/CenterBar';
-
+import Post from '../../components/Post/Post';
+import RecentPosts from '../../components/RecentPosts/RecentPosts';
 
 
 function Home() {
@@ -18,19 +19,20 @@ function Home() {
 
   return (
     <Page sidebar={true}>
-      <TopBar></TopBar>
       <LeftBar>
         <Search text={'search'}></Search>
         <Contacts></Contacts>
       </LeftBar>
       <CenterBar>
         <CreatePost></CreatePost>
+        <RecentPosts />
       </CenterBar>
 
 
       <RightBar>
         <Events></Events>
       </RightBar>
+      <TopBar></TopBar>
 
     </Page>
   );

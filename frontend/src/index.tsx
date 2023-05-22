@@ -6,15 +6,22 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Home from './views/Home/Home';
 
-import { isAdmin, isLoggedIn, updateUserState } from './auth';
+import { isLoggedIn } from './auth';
 import Register from './views/Register/Register';
 import Login from './views/Login/Login';
+import RestrictedRoute from './components/RestrictedRoute/RestrictedRoute';
+import User from './views/User/User';
+import MyAccount from './views/MyAccount/MyAccount';
 
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <RestrictedRoute
+      condition={isLoggedIn}
+      component={<Home />}
+      invalidComponent={<Login />}
+    />,
     errorElement: <div>404</div>,
   },
   {
@@ -25,6 +32,25 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+    errorElement: <div>404</div>,
+  },
+  {
+    path: '/user',
+    element: <RestrictedRoute
+      condition={isLoggedIn}
+      component={<User />}
+      invalidComponent={<Login />}
+    />,
+    errorElement: <div>404</div>,
+  }
+  ,
+  {
+    path: '/myaccount',
+    element: <RestrictedRoute
+      condition={isLoggedIn}
+      component={<MyAccount />}
+      invalidComponent={<Login />}
+    />,
     errorElement: <div>404</div>,
   }
 

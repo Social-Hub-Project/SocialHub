@@ -1,13 +1,18 @@
 package com.application.socialhub.dto;
 
 import com.application.socialhub.model.Sex;
-
-import java.time.LocalDate;
+import java.sql.Blob;
 
 public record UserDetailsDTO(
-         String surname,
-         LocalDate dateOfBirth,
-         String residence,
-         Sex sex
+        String name,
+        String surname,
+        java.time.LocalDate dateOfBirth,
+        String residence,
+        Sex sex,
+        java.time.LocalDate createdAt,
+        Blob profilePhoto,
+        Blob backgroundPhoto,
+        String profilePhotoSource,
+        String backgroundPhotoSource
 ){
 }

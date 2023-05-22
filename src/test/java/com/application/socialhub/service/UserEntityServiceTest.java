@@ -1,8 +1,10 @@
 package com.application.socialhub.service;
 
 import com.application.socialhub.dao.UserDAO;
+import com.application.socialhub.dao.UserInfoDAO;
+import com.application.socialhub.dtoMappers.UserEntityDTOMapper;
 import com.application.socialhub.dtoMappers.UserDTOMapper;
-import com.application.socialhub.dtoMappers.UserDetailsDTOMapper;
+import com.application.socialhub.util.JWTUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -11,33 +13,37 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.stream.Collectors;
-
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserEntityServiceTest {
 
     @Mock
     private UserDAO userDAO;
     @Mock
-    private UserDetailsDTOMapper userDetailsDTOMapper;
+    private UserInfoDAO userInfoDAO;
     @Mock
     private UserDTOMapper userDTOMapper;
+    @Mock
+    private UserEntityDTOMapper userEntityDTOMapper;
     @Mock
     private ConfirmationTokenService confirmationTokenService;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private JWTUtil jwtUtil;
 
     private UserService underTest;
 
     @BeforeEach
     void setUp() {
         underTest = new UserService(userDAO,
-                userDetailsDTOMapper,
+                userInfoDAO,
                 userDTOMapper,
+                userEntityDTOMapper,
                 confirmationTokenService,
-                passwordEncoder);
+                passwordEncoder,
+                jwtUtil);
     }
 
     @Test

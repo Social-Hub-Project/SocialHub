@@ -1,20 +1,19 @@
 package com.application.socialhub.dao;
 
-import com.application.socialhub.model.User;
+import com.application.socialhub.dto.UserDetailsDTO;
+import com.application.socialhub.model.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserDAO {
-    List<User> selectAllUsers();
+    List<UserEntity> selectAllUsers();
 
-    Optional<User> findUserByEmail(String email);
+    UserEntity findUserByEmail(String email);
 
     boolean existsUserWithEmail(String email);
 
-    void insertUser(User user);
-
-    void save(User user);
+    void save(UserEntity userEntity);
 
     void enableUser(String email);
 
