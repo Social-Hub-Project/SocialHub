@@ -1,37 +1,34 @@
 import { Component, createRef, RefObject } from 'react';
 
-import style from './UserInfo.module.css';
-import postPhoto from '../../resources/postPhoto.png'
-import profilePhoto from '../../resources/logo_user.png'
-import FollowButton from '../Search/FollowButton';
+import style from './Information.module.css';
 const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/getUserInfoById`;
 
 
-export interface UserInfoProps {
-    userObj: any;
-    width?: string;
+export interface InformationProps {
     onClick?: () => void;
     className?: string;
     id?: string | null;
     useRef?: RefObject<HTMLInputElement>;
     value?: string;
-
 }
-export interface UserInfoState {
-    message: string;
+
+export interface InformationState {
     name: string;
+    birth: string;
+    place: string;
+    sex: string;
 }
-
-export default class Search extends Component<UserInfoProps, UserInfoState> {
+export default class Information extends Component<InformationProps, InformationState> {
     private inputRef!: RefObject<HTMLInputElement>;
 
-    constructor(props: UserInfoProps) {
+    constructor(props: InformationProps) {
         super(props);
-
-        this.state = {
-            message: '',
+        this.setState({
             name: "",
-        };
+            birth: "",
+            place: "",
+            sex: ""
+        })
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -55,28 +52,30 @@ export default class Search extends Component<UserInfoProps, UserInfoState> {
                     console.log(body)
                     this.setState({
                         name: body.name + " " + body.surname,
-
+                        birth: body.dateOfBirth,
+                        place: body.residence,
+                        sex: body.sex,
                     })
                 });
         } catch (err) {
             console.log("conn error");
         }
+
+
         if (this.props.useRef === undefined) this.inputRef = createRef();
         else this.inputRef = this.props.useRef;
     };
 
     render() {
         return (
-            <div className={[style.userInfoBox, this.props.className].join(' ')} >
-                <img className={style.bgPhoto} src={postPhoto} alt="bg" ></img>
-                <div className={style.info}>
-                    <img className={style.profilephoto} src={profilePhoto} alt="bg" ></img>
-                    <div className={style.name}>{this.state != null ? this.state.name : this.props.id}</div>
-
-                    <FollowButton text='Follow'></FollowButton>
-
+            <div className={[style.contacts, this.props.className].join(' ')} >
+                <h3>Information</h3>
+                <div className={style.userInfo}>
+                    <div>{this.state != null ? this.state.name : this.props.id}</div>
+                    <div>{this.state != null ? this.state.birth : this.props.id}</div>
+                    <div>{this.state != null ? this.state.place : this.props.id}</div>
+                    <div>{this.state != null ? this.state.sex : this.props.id}</div>
                 </div>
-
             </div>
         );
     }

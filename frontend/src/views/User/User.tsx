@@ -12,12 +12,13 @@ import RecentPosts from '../../components/RecentPosts/RecentPosts';
 import Button from '../../components/Button/Button';
 import UserInfo from '../../components/UserInfo/UserInfo';
 import { useSearchParams } from 'react-router-dom';
+import Information from '../../components/Information/Information';
 
 
 function User(this: any) {
 
     const [searchParams, setSearchParams] = useSearchParams();
-    console.log(searchParams.get("userId"))
+    const userId = searchParams.get("userId");
 
     return (
         <Page sidebar={true}>
@@ -26,19 +27,12 @@ function User(this: any) {
                 <Contacts></Contacts>
             </LeftBar>
             <CenterBar>
-                <UserInfo userObj={{}} ></UserInfo>
-                <RecentPosts />
+                <UserInfo id={userId} userObj={{}} ></UserInfo>
             </CenterBar>
 
 
             <RightBar>
-                <h3>Information</h3>
-                <div className={style.userInfo}>
-                    <div>Tyler Smith</div>
-                    <div>20.09.2000</div>
-                    <div>Krakow</div>
-                    <div>Male</div>
-                </div>
+                <Information id={userId}></Information>
                 <Button text='Home Page' onClick={() => { window.location.replace('/'); }}></Button>
             </RightBar>
             <TopBar></TopBar>

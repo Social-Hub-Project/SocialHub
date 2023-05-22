@@ -4,6 +4,7 @@ import { logout } from '../../auth';
 import { Component, HTMLAttributes } from 'react';
 import user_logo from '../../resources/logo_user.png';
 import logo from '../../resources/topbar_logo.png';
+import { Link } from 'react-router-dom';
 
 interface TopBarProps {
     user?: boolean;
@@ -46,7 +47,7 @@ export default class TopBar extends Component<TopBarProps, TopBarState> {
 
                     {this.state.expanded ?
                         <div className={style.menu}>
-                            <div className={style.menuElement}>My account</div>
+                            <Link className={style.menuElement} to={"/myAccount"}>My account</Link>
                             <div className={style.menuElement}>Support</div>
                             <div onClick={this.logout} className={style.menuElement}>Logout</div>
                         </div>
