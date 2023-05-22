@@ -76,4 +76,15 @@ public class Message {
     public void setSentAt(LocalDateTime sentAt) {
         this.sentAt = sentAt;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
+                ", content='" + content + '\'' +
+                ", sentAt=" + sentAt +
+                '}';
+    }
 }

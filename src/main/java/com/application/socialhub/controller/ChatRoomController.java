@@ -1,11 +1,9 @@
 package com.application.socialhub.controller;
 
-import com.application.socialhub.model.ChatRoom;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.application.socialhub.dto.SendMessageRequest;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/app")
 public class ChatRoomController {
 
-    @PostMapping
-    public ResponseEntity<?> createChatRoom(@RequestBody ChatRoom chatRoom) {
-        return new ResponseEntity<>("chat room", HttpStatus.OK);
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
+    public SendMessageRequest send(final SendMessageRequest message) throws Exception {
+
+        return message;
     }
 }
