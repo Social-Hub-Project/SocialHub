@@ -13,7 +13,6 @@ import CenterBar from '../../components/CenterBar/CenterBar';
 import Post from '../../components/Post/Post';
 import RecentPosts from '../../components/RecentPosts/RecentPosts';
 
-
 function Home() {
 
 

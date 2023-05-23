@@ -17,11 +17,7 @@ import MyAccount from './views/MyAccount/MyAccount';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RestrictedRoute
-      condition={isLoggedIn}
-      component={<Home />}
-      invalidComponent={<Login />}
-    />,
+    element: <Home/>,
     errorElement: <div>404</div>,
   },
   {

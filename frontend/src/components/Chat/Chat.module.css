@@ -1,0 +1,38 @@
+
+.chatbox {
+    background: #FFFFFF;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    width: 362px;
+    height: 330px;
+    margin-top: 30px;
+    align-items: center;
+}
+
+.topbar{
+    box-sizing: border-box;
+    width: 346px;
+    height: 65px;
+
+    background: #3187E5;
+    border: 5px solid #FFFFFF;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+}
+
+.maincontainer {
+    width: 362px;
+    height: 265px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profilephoto {
+    width: 45.71px;
+    height: 45.71px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    border: 1.5px solid #23BE7E;
+}

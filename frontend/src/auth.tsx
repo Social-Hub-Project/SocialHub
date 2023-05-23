@@ -97,7 +97,7 @@ export const setUserState = (username: string, role: Role): void => {
 };
 
 export const isLoggedIn = (): boolean => {
-    if (sessionStorage.getItem("userToken") !== undefined && sessionStorage.getItem("userToken") != 'undefined' && sessionStorage.getItem("userToken"))
+    if (sessionStorage.getItem("userToken") !== undefined && sessionStorage.getItem("userToken") !== 'undefined' && sessionStorage.getItem("userToken"))
         return true;
     else
         return false;

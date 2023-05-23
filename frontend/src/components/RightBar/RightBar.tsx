@@ -3,6 +3,8 @@ import style from './RightBar.module.css';
 import { Component, HTMLAttributes } from 'react';
 import user_logo from '../../resources/logo_user.png';
 import logo from '../../resources/topbar_logo.png';
+// @ts-ignore
+import Chat from '../Chat/Chat.tsx';
 
 interface RightBarProps {
     user?: boolean;
@@ -24,6 +26,7 @@ export default class RightBar extends Component<RightBarProps> {
         return (
             <div className={style.rightBar}>
                 {this.props.children}
+                <Chat></Chat>
             </div>
 
         );
