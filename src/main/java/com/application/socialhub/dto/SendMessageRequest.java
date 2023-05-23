@@ -1,4 +1,6 @@
 package com.application.socialhub.dto;
 
-public record SendMessageRequest() {
+public record SendMessageRequest(String token,
+                                 String receiver,
+                                 String content) {
 }
