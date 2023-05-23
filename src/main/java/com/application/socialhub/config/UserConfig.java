@@ -60,7 +60,7 @@ public class UserConfig {
                     "marek@email.com",
                     passwordEncoder.encode("marek"),
                     false,
-                    LocalDate.of(2001, MARCH, 14), false, marekDetails
+                    LocalDate.of(2001, MARCH, 14), true, marekDetails
             );
             userRepository.saveAll(List.of(adam, anna, marek));
 

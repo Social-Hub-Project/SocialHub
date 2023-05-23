@@ -58,7 +58,12 @@ public class UserJPADataAccessService implements UserDAO{
 
     @Override
     public UserEntity findUserById(long id) {
-        return findUserById(id);
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void changePassword(long userId, String newPassword) {
+        userRepository.changePassword(userId, newPassword);
     }
 
 }

@@ -42,12 +42,15 @@ public class MainPageService {
     private final CommentDAO commentDAO;
     private final UserInfoDAO userInfoDAO;
 
+    private final FollowerDAO followerDAO;
+
 
     public MainPageService(@Qualifier("post") PostDAO postDAO,
             @Qualifier("jpa") UserDAO userDAO,
             @Qualifier("comment") CommentDAO commentDAO,
             @Qualifier("ratings") RatingDAO ratingDAO,
             @Qualifier("userInfoJpa") UserInfoDAO userInfoDAO,
+            @Qualifier("follower") FollowerDAO followerDAO,
             JWTUtil jwtUtil) {
         this.postDAO = postDAO;
         this.userDAO = userDAO;
@@ -55,6 +58,7 @@ public class MainPageService {
         this.commentDAO = commentDAO;
         this.ratingDAO = ratingDAO;
         this.userInfoDAO = userInfoDAO;
+        this.followerDAO = followerDAO;
     }
 
     public ResponseEntity<?> createPost(CreatePostRequest request) {
@@ -202,5 +206,30 @@ public class MainPageService {
             usersDTO.add(mapper.apply(u));
         }
         return new ResponseEntity<>(usersDTO,HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> followUser(FollowUserRequest request){
+        try {
+            logger.warn(String.valueOf(request.userFollowingId()));
+            String email = jwtUtil.getSubject(request.token());
+            UserEntity user = userDAO.findUserByEmail(email);
+            logger.warn(email);
+            UserEntity userToFollow = userDAO.findUserById(request.userFollowingId());
+            if(userToFollow==null)
+                return new ResponseEntity<>("User not found",HttpStatus.NOT_FOUND);
+            if(userToFollow.getId()==user.getId())
+            {
+                return new ResponseEntity<>("You can't follow yourself",HttpStatus.BAD_REQUEST);
+            }
+            if(followerDAO.checkIfFollowerExists(user.getId(),userToFollow.getId()))
+            {
+                return new ResponseEntity<>("You are already following this user",HttpStatus.BAD_REQUEST);
+            }
+            Followers followers = new Followers(LocalDate.now(),user,userToFollow);
+            followerDAO.addFollower(followers);
+            return new ResponseEntity<>("User added to following",HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

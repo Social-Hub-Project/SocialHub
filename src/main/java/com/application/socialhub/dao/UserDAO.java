@@ -24,4 +24,6 @@ public interface UserDAO {
     void updateUserState(boolean state, String email);
 
     UserEntity findUserById(long id);
+
+    void changePassword(long userId, String newPassword);
 }

@@ -88,4 +88,9 @@ public class UserJDBCDataAccessService implements UserDAO{
     public UserEntity findUserById(long id) {
         return null;
     }
+
+    @Override
+    public void changePassword(long userId, String newPassword) {
+        System.out.println("dupa");
+    }
 }

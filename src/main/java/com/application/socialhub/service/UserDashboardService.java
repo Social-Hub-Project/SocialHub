@@ -121,12 +121,10 @@ public class UserDashboardService {
         }
     }
 
-
     public ResponseEntity<?> getAllPostsForUser(AllPostsForUserRequest request) {
         try {
             List<Post> posts = postDAO.findAllPostsOrderedByCreatedAtDescForDedUser(request.userId());
             List<PostWithCommentsAndRating> postWithCommentsAndRatingsList = new ArrayList<>();
-            logger.warn("dupa");
             for (Post post : posts) {
                 List<PostsReturns> comments = commentDAO.findCommentsByPostId(post.getId());
                 int likes = ratingDAO.findPostLikes(post.getId());

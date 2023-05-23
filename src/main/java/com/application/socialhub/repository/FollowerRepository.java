@@ -14,4 +14,7 @@ import java.time.LocalDate;
 @Repository
 public interface FollowerRepository  extends JpaRepository<Followers, Long>{
 
+    @Query(value = "SELECT CASE WHEN COUNT(f) > 0 THEN true ELSE false END FROM Followers f WHERE f.follower.id = :idFollower AND f.following.id = :idFollowing")
+    boolean  checkIfFollowerExists(long idFollower, long idFollowing);
+
 }

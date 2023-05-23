@@ -19,12 +19,6 @@ public class UserDashboardController {
         this.userDashboardService = userDashboardService;
     }
 
-    @GetMapping("/getMyDetails")
-    public ResponseEntity<String> getMyDetails(){
-        String str= "getMyDetails";
-        return new ResponseEntity<>(str,HttpStatus.OK);
-    }
-
     @PostMapping(value = "/resetPassword")
     public ResponseEntity<String> resetPassword (@RequestBody String str){
         return new ResponseEntity<>(str,HttpStatus.OK);

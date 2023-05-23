@@ -112,4 +112,22 @@ public class UserService {
         Files.write(fileNameAndPath, request.photo().getBytes());
         return fileNameAndPath.toString();
     }
+
+    public ResponseEntity<?> changePassword(ChangePasswordRequest request){
+        try {
+            String email = jwtUtil.getSubject(request.token());
+            UserEntity user = userDAO.findUserByEmail(email);
+            if(!request.newPassword().equals(request.newPasswordConfirm())){
+                return new ResponseEntity<>("Passwords don't match",HttpStatus.BAD_REQUEST);
+            }
+            if(passwordEncoder.matches(request.newPassword(),user.getPassword())){
+                return new ResponseEntity<>("New password can't be the same as the old one",HttpStatus.BAD_REQUEST);
+            }
+            userDAO.changePassword(user.getId(),passwordEncoder.encode(request.newPassword()));
+
+            return new ResponseEntity<>("Password has been changed successfully",HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

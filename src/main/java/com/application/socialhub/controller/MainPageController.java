@@ -1,10 +1,7 @@
 package com.application.socialhub.controller;
 
 
-import com.application.socialhub.dto.CreateCommentRequest;
-import com.application.socialhub.dto.CreatePostRequest;
-import com.application.socialhub.dto.CreateRatingRequest;
-import com.application.socialhub.dto.SearchUserRequest;
+import com.application.socialhub.dto.*;
 import com.application.socialhub.service.MainPageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -55,9 +52,9 @@ public class MainPageController {
         return  mainPageService.commentPost(request);
     }
 
-    @PostMapping("/followUser")
-    public ResponseEntity<String> followUser(@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @PostMapping(value="/followUser",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> followUser(@RequestBody FollowUserRequest request){
+        return mainPageService.followUser(request);
     }
 
     @PostMapping(path="/createPost", produces = MediaType.APPLICATION_JSON_VALUE)

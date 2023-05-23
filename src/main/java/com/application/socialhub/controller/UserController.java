@@ -47,4 +47,9 @@ public class UserController {
         return userService.changeBackgroundPhoto(request);
     }
 
+    @PostMapping(path = "/changePassword", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
+        return userService.changePassword(request);
+    }
+
 }
