@@ -32,4 +32,9 @@ public class CommentJPADataAccessService implements CommentDAO{
         return repository.findPostById(postId);
     }
 
+    @Override
+    public void deleteComment(long PostID) {
+        repository.deleteById(PostID);
+    }
+
 }

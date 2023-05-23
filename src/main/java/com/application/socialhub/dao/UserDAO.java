@@ -20,4 +20,8 @@ public interface UserDAO {
     boolean selectUserEnabled(String email);
 
     boolean selectExistsEmail(String email);
+
+    void updateUserState(boolean state, String email);
+
+    UserEntity findUserById(long id);
 }

@@ -9,6 +9,7 @@ import com.application.socialhub.service.MainPageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,8 +34,8 @@ public class MainPageController {
     }
 
     @GetMapping(path ="/getAllPosts")
-    public ResponseEntity<?> getAllPosts(){
-        return mainPageService.getAllPosts();
+    public ResponseEntity<?> getAllPosts(Authentication authentication){
+        return mainPageService.getAllPosts(authentication);
     }
 
     @GetMapping("/getLastEvents")

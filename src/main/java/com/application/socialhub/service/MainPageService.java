@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -26,7 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.security.core.Authentication;
 import javax.sql.rowset.serial.SerialBlob;
 
 @Service
@@ -90,7 +91,7 @@ public class MainPageService {
         }
     }
 
-    public ResponseEntity<?> getAllPosts() {
+    public ResponseEntity<?> getAllPosts(Authentication authentication) {
         try {
             List<Post> posts = postDAO.findPostByCreatedAt();
             List<PostWithCommentsAndRating> postWithCommentsAndRatingsList = new ArrayList<>();
@@ -99,6 +100,8 @@ public class MainPageService {
                 List<PostsReturns> comments = commentDAO.findCommentsByPostId(post.getId());
                 int likes = ratingDAO.findPostLikes(post.getId());
                 int dislikes = ratingDAO.findPostDislikes(post.getId());
+                UserEntity ratingsUser=userDAO.findUserByEmail(authentication.getName());
+                Integer lickedByUser=ratingDAO.ratingUser(ratingsUser.getId(),post.getId());
 
                 // post images
                 File file = new File(post.getPhoto_source());
@@ -121,7 +124,7 @@ public class MainPageService {
 
                 }
 
-                postWithCommentsAndRatingsList.add(new PostWithCommentsAndRating(post, comments, likes, dislikes,
+                postWithCommentsAndRatingsList.add(new PostWithCommentsAndRating(post, comments, likes, dislikes,lickedByUser,
                         imageBlob, imagesCommentary));
 
             }

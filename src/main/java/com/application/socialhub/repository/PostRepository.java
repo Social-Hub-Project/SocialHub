@@ -17,5 +17,15 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     @Transactional
     @Query(value="SELECT * FROM post ORDER BY create_at DESC ", nativeQuery = true)
     List<Post> findAllPostsOrderedByCreatedAtDesc();
+    @Query(value="SELECT * FROM post WHERE id = :postId AND user_id = :userId", nativeQuery = true)
+    Post findPostByIdAndUserID (@Param("postId") long postId,@Param("userId") long userId);
+
+    @Query(value="SELECT * FROM post WHERE user_entity_id=:userId ORDER BY create_at DESC", nativeQuery = true)
+    List<Post> findAllPostsOrderedByCreatedAtDescForDedUser( @Param("userId") long userId);
+
+    @Transactional
+    @Modifying
+    @Query(value="UPDATE post SET blocked= :state WHERE id = :postId", nativeQuery = true)
+    void blockPost(@Param("state") boolean state, @Param("postId") long postId);
 
 }

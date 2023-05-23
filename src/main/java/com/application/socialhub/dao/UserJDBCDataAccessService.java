@@ -73,4 +73,19 @@ public class UserJDBCDataAccessService implements UserDAO{
     public boolean selectExistsEmail(String email) {
         return false;
     }
+
+    @Override
+    public void updateUserState(boolean state, String email) {
+        var sql = """
+                UPDATE my_user
+                SET active = ?
+                WHERE email = ?
+                """;
+        jdbcTemplate.update(sql, state, email);
+    }
+
+    @Override
+    public UserEntity findUserById(long id) {
+        return null;
+    }
 }

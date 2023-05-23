@@ -48,7 +48,7 @@ class AuthenticationServiceTest {
 
     @BeforeEach
     void setUp() {
-        underTest = new AuthenticationService(authenticationManager, userEntityDTOMapper, userInfoDAO, jwtUtil);
+        underTest = new AuthenticationService(authenticationManager, userEntityDTOMapper, userInfoDAO, jwtUtil,userDAO);
     }
 
     @Test

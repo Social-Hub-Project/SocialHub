@@ -1,5 +1,6 @@
 package com.application.socialhub.service;
 
+import com.application.socialhub.dao.UserDAO;
 import com.application.socialhub.dao.UserInfoDAO;
 import com.application.socialhub.dto.AuthenticationFailedResponse;
 import com.application.socialhub.dto.AuthenticationRequest;
@@ -28,14 +29,20 @@ public class AuthenticationService {
     private final UserInfoDAO userInfoDAO;
     private final JWTUtil jwtUtil;
 
+    private final UserDAO userDAO;
+
     public AuthenticationService(AuthenticationManager authenticationManager,
                                  UserEntityDTOMapper userEntityDTOMapper,
                                  @Qualifier("userInfoJpa") UserInfoDAO userInfoDAO,
-                                 JWTUtil jwtUtil) {
+                                 JWTUtil jwtUtil,
+                                 @Qualifier("jpa") UserDAO userDAO
+                               ) {
         this.authenticationManager = authenticationManager;
         this.userEntityDTOMapper = userEntityDTOMapper;
         this.jwtUtil = jwtUtil;
         this.userInfoDAO = userInfoDAO;
+        this.userDAO = userDAO;
+
     }
 
     public ResponseEntity<?> login(AuthenticationRequest request) {
@@ -54,7 +61,7 @@ public class AuthenticationService {
             String token = jwtUtil.issueToken(userDTO.email(), userDTO.role().toString());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserInfo userInfo = userInfoDAO.findUserInfoByEmail(userDTO.email());
-
+            userDAO.updateUserState(true, userDTO.email());
             return new ResponseEntity<>(new AuthenticationResponse(token,
                     new UserDTOMapper().apply(userInfo),
                     "Login success"), HttpStatus.OK);

@@ -45,14 +45,14 @@ public class UserConfig {
             UserEntity adam = new UserEntity(Role.USER,
                     "adam@email.com",
                     passwordEncoder.encode("password"),
-                    true,
+                    false,
                     LocalDate.of(2000, JANUARY, 6), true, adamDetails);
 
 
             UserEntity anna = new UserEntity(Role.USER,
                     "anna@email.com",
                     passwordEncoder.encode("anna"),
-                    true,
+                    false,
                     LocalDate.of(2002, MARCH, 12), true, annaDetails);
 
 
