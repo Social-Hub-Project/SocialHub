@@ -12,14 +12,13 @@ public class SocketBrokerConfig implements  WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/app/user/queue/specific-user");
-        config.setApplicationDestinationPrefixes("/spring-security-mvc-socket");
+        config.enableSimpleBroker("/app/user");
+        config.setApplicationDestinationPrefixes("/app");
         config.setUserDestinationPrefix("/app/user");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/app/chatRoom").setAllowedOrigins("*").withSockJS();
-        registry.addEndpoint("/app/chatRoom").setAllowedOrigins("*");
+        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
     }
 }
