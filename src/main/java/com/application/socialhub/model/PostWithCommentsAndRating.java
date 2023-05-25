@@ -9,7 +9,6 @@ public class PostWithCommentsAndRating {
     private List<PostsReturns> comments;
     private int like;
     private int dislike;
-
     private Integer lickedByUser;
     private Blob image;
     private List<Blob> profileImage;

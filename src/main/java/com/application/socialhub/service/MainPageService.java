@@ -94,7 +94,6 @@ public class MainPageService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     public ResponseEntity<?> getAllPosts(Authentication authentication) {
         try {
             List<Post> posts = postDAO.findPostByCreatedAt();
@@ -138,7 +137,6 @@ public class MainPageService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     public ResponseEntity<?> commentPost(CreateCommentRequest request) {
         try {
             String email = jwtUtil.getSubject(request.token());
@@ -159,7 +157,6 @@ public class MainPageService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     public ResponseEntity<?> ratingPost(CreateRatingRequest request) {
         try {
             String email = jwtUtil.getSubject(request.token());
@@ -197,7 +194,6 @@ public class MainPageService {
 
         }
     }
-
     public ResponseEntity<?> searchUser(String name) {
         List<UserInfo> users = userInfoDAO.findUser(name);
         List<BasicUserInfoDTO> usersDTO = new LinkedList<>();
@@ -207,13 +203,11 @@ public class MainPageService {
         }
         return new ResponseEntity<>(usersDTO,HttpStatus.OK);
     }
-
     public ResponseEntity<?> followUser(FollowUserRequest request){
         try {
-            logger.warn(String.valueOf(request.userFollowingId()));
             String email = jwtUtil.getSubject(request.token());
             UserEntity user = userDAO.findUserByEmail(email);
-            logger.warn(email);
+
             UserEntity userToFollow = userDAO.findUserById(request.userFollowingId());
             if(userToFollow==null)
                 return new ResponseEntity<>("User not found",HttpStatus.NOT_FOUND);
@@ -230,6 +224,48 @@ public class MainPageService {
             return new ResponseEntity<>("User added to following",HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    public ResponseEntity<?> unfollowUser(FollowUserRequest request){
+        try {
+            String email=jwtUtil.getSubject(request.token());
+            UserEntity follower = userDAO.findUserByEmail(email);
+            UserEntity following = userDAO.findUserById(request.userFollowingId());
+            if(follower==null || following==null){
+                return new ResponseEntity<>("User not found",HttpStatus.NOT_FOUND);
+            }
+            if(followerDAO.checkIfFollowerExists(follower.getId(),following.getId())){
+                Followers followersGroup=followerDAO.findFollowers(follower.getId(),following.getId());
+                followerDAO.deleteFollowers(followersGroup);
+                return new ResponseEntity<>("User stoped being followed",HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Following relation doesn't exists",HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    //TODO to test
+    public ResponseEntity<?> getFriendsList(Authentication authentication){
+        try {
+            UserEntity activeUser=userDAO.findUserByEmail(authentication.getName());
+            List<Long> friendsId=followerDAO.getFriendsId(activeUser.getId());
+            List<UserEntity> friendsList =new ArrayList<>();
+            if(friendsId.isEmpty()){
+                return new ResponseEntity<>(friendsList,HttpStatus.OK);
+            }
+            for(Long id:friendsId) {
+                if(followerDAO.checkIfFollowerExistsById(id, activeUser.getId())) {
+                    UserEntity friend = userDAO.findUserById(id);
+                    if(friendsList.size()<8){
+                        if(friend.getActive()){
+                            friendsList.add(friend);
+                        }
+                    }
+                }
+            }
+            return  new ResponseEntity<>(friendsList,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

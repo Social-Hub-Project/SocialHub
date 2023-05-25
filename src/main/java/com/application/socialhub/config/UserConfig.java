@@ -45,21 +45,21 @@ public class UserConfig {
             UserEntity adam = new UserEntity(Role.USER,
                     "adam@email.com",
                     passwordEncoder.encode("password"),
-                    false,
+                    true,
                     LocalDate.of(2000, JANUARY, 6), true, adamDetails);
 
 
             UserEntity anna = new UserEntity(Role.USER,
                     "anna@email.com",
                     passwordEncoder.encode("anna"),
-                    false,
+                    true,
                     LocalDate.of(2002, MARCH, 12), true, annaDetails);
 
 
             UserEntity marek = new UserEntity(Role.USER,
                     "marek@email.com",
                     passwordEncoder.encode("marek"),
-                    false,
+                    true,
                     LocalDate.of(2001, MARCH, 14), true, marekDetails
             );
             userRepository.saveAll(List.of(adam, anna, marek));
@@ -99,8 +99,11 @@ public class UserConfig {
             Followers followers1= new Followers(LocalDate.now(),adam,anna);
             Followers followers2= new Followers(LocalDate.now(),adam,marek);
             Followers followers3= new Followers(LocalDate.now(),anna,marek);
+            Followers followers4= new Followers(LocalDate.now(),marek,adam);
+            Followers followers5= new Followers(LocalDate.now(),anna,adam);
+            Followers followers= new Followers(LocalDate.now(),anna,marek);
 
-            followerRepository.saveAll(List.of(followers1,followers2,followers3));
+            followerRepository.saveAll(List.of(followers1,followers2,followers3,followers4,followers5,followers));
 
         };
 

@@ -19,11 +19,6 @@ public class UserDashboardController {
         this.userDashboardService = userDashboardService;
     }
 
-    @PostMapping(value = "/resetPassword")
-    public ResponseEntity<String> resetPassword (@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
-    }
-
     @PostMapping(value ="/blockComments",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> blockComments (@RequestBody DeletePostRequest request){
         return userDashboardService.blockComments(request);

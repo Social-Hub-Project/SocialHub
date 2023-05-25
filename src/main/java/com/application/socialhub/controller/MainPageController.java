@@ -24,10 +24,9 @@ public class MainPageController {
     public ResponseEntity<?> searchUser(@RequestBody SearchUserRequest request){
         return mainPageService.searchUser(request.word());
     }
-    @GetMapping("/getFriendsList")
-    public ResponseEntity<String> getFriendsList(){
-        String str= "getFriendsList";
-        return new ResponseEntity<>(str, HttpStatus.OK);
+    @GetMapping(value = "/getFriendsList",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getFriendsList(Authentication authentication){
+        return mainPageService.getFriendsList(authentication);
     }
 
     @GetMapping(path ="/getAllPosts")
@@ -46,7 +45,6 @@ public class MainPageController {
         return  mainPageService.ratingPost(request);
     }
 
-
     @PostMapping(path="/commentPost")
     public ResponseEntity<?> commentPost(@RequestBody CreateCommentRequest request){
         return  mainPageService.commentPost(request);
@@ -55,6 +53,10 @@ public class MainPageController {
     @PostMapping(value="/followUser",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> followUser(@RequestBody FollowUserRequest request){
         return mainPageService.followUser(request);
+    }
+    @PostMapping(value = "/unfollowUser",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> unfollowUser(@RequestBody FollowUserRequest request){
+        return mainPageService.unfollowUser(request);
     }
 
     @PostMapping(path="/createPost", produces = MediaType.APPLICATION_JSON_VALUE)
