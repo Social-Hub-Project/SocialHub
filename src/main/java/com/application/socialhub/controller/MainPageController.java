@@ -21,8 +21,8 @@ public class MainPageController {
 
 
     @PostMapping(path = "/searchUser",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> searchUser(@RequestBody SearchUserRequest request){
-        return mainPageService.searchUser(request.word());
+    public ResponseEntity<?> searchUser(@RequestBody SearchUserRequest request,Authentication aut){
+        return mainPageService.searchUser(request.word(),aut);
     }
     @GetMapping(value = "/getFriendsList",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getFriendsList(Authentication authentication){

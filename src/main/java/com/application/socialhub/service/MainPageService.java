@@ -195,10 +195,10 @@ public class MainPageService {
 
         }
     }
-    public ResponseEntity<?> searchUser(String name) {
+    public ResponseEntity<?> searchUser(String name,Authentication authentication) {
         List<UserInfo> users = userInfoDAO.findUser(name);
         List<BasicUserInfoDTO> usersDTO = new LinkedList<>();
-        BasicUserInfoDTOMapper mapper = new BasicUserInfoDTOMapper();
+        BasicUserInfoDTOMapper mapper = new BasicUserInfoDTOMapper(followerDAO,userDAO,authentication.getName());
         for (UserInfo u: users) {
             usersDTO.add(mapper.apply(u));
         }
