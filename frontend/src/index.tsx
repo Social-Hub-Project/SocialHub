@@ -17,7 +17,8 @@ import MyAccount from './views/MyAccount/MyAccount';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home/>,
+    element:
+        <Home/>,
     errorElement: <div>404</div>,
   },
   {
