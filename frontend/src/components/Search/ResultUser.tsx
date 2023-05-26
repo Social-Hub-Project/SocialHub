@@ -6,6 +6,7 @@ import Button from '../Button/Button';
 import FollowButton from './FollowButton';
 
 export interface ResultUserProps {
+    id: string;
     name: string;
     surname: string;
     onClick?: () => void;
@@ -14,20 +15,22 @@ export interface ResultUserProps {
     className?: string;
 }
 export default class ResultUser extends Component<ResultUserProps> {
-    private inputRef!: RefObject<HTMLInputElement>;
 
     constructor(props: ResultUserProps) {
         super(props);
+        this.reload = this.reload.bind(this);
 
-        if (this.props.useRef === undefined) this.inputRef = createRef();
-        else this.inputRef = this.props.useRef;
     };
 
+    reload() {
+        // eslint-disable-next-line no-restricted-globals
+        window.location.href = "/user?userId=" + this.props.id;
+    }
     render() {
         return (
             <div className={[style.resultUser, this.props.className].join(' ')} >
-                <img alt="user_photo" src={userLogo} />
-                <p>{this.props.name} {this.props.surname}</p>
+                <img alt="user_photo" src={userLogo} onClick={this.reload} />
+                <p onClick={this.reload}>{this.props.name} {this.props.surname}</p>
                 <FollowButton text='Follow'></FollowButton>
             </div>
         );

@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import style from './User.module.css';
+import style from './MyAccount.module.css';
 
 import Page from '../../components/Page/Page';
 import TopBar from '../../components/TopBar/TopBar';
@@ -11,14 +11,11 @@ import CenterBar from '../../components/CenterBar/CenterBar';
 import RecentPosts from '../../components/RecentPosts/RecentPosts';
 import Button from '../../components/Button/Button';
 import UserInfo from '../../components/UserInfo/UserInfo';
-import { useSearchParams } from 'react-router-dom';
-import Information from '../../components/Information/Information';
+import ChangePassword from '../../components/ChangePassword/ChangePassword';
 
 
-function User(this: any) {
+function MyAccount(this: any) {
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const userId = searchParams.get("userId");
 
     return (
         <Page sidebar={true}>
@@ -27,13 +24,21 @@ function User(this: any) {
                 <Contacts></Contacts>
             </LeftBar>
             <CenterBar>
-                <UserInfo id={userId} userObj={{}} ></UserInfo>
+                <UserInfo userObj={{}} ></UserInfo>
             </CenterBar>
 
 
             <RightBar>
-                <Information id={userId}></Information>
+                <h3>Information</h3>
+                <div className={style.userInfo}>
+                    <div>Tyler Smith</div>
+                    <div>20.09.2000</div>
+                    <div>Krakow</div>
+                    <div>Male</div>
+                </div>
+
                 <Button text='Home Page' onClick={() => { window.location.replace('/'); }}></Button>
+                <ChangePassword></ChangePassword>
             </RightBar>
             <TopBar></TopBar>
 
@@ -42,5 +47,5 @@ function User(this: any) {
 }
 
 
-export default User;
+export default MyAccount;
 

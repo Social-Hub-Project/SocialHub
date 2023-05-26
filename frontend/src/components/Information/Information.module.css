@@ -1,0 +1,21 @@
+.userInfo {
+    box-sizing: border-box;
+
+    width: 350px;
+    height: 155px;
+
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #FFFFFF;
+    border: 1.5px solid #F1F2F6;
+    border-radius: 8px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    /* Slate Grey */
+
+    color: #788292;
+}

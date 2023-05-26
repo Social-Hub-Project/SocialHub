@@ -15,45 +15,57 @@ import static java.time.Month.*;
 @Configuration
 public class UserConfig {
 
-    @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                                        PostRepository postRepository, CommentRepository commentRepository,
-                                        RatingRepository ratingRepository, CategoryRepository categoryRepository,
-                                        FollowerRepository followerRepository, PostCategoryRepository postCategoryRepository) {
+        @Bean
+        CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                        PostRepository postRepository, CommentRepository commentRepository,
+                        RatingRepository ratingRepository, CategoryRepository categoryRepository,
+                        FollowerRepository followerRepository, PostCategoryRepository postCategoryRepository) {
 
-        return args -> {
+                return args -> {
 
-            //add comments
-            UserInfo adamDetails = new UserInfo("Adam", "Moscicki",
-                    LocalDate.of(2000, MARCH, 29), "Warszawa", false,
-                    "exampleImages/userIcon.png",
-                    "exampleImages/background.png",
-                    Sex.MALE, LocalDate.of(2023, JANUARY, 22));
+                        // add comments
+                        UserInfo adamDetails = new UserInfo("Adam", "Moscicki",
+                                        LocalDate.of(2000, MARCH, 29), "Warszawa", false,
+                                        "/exampleImages/userIcon.png",
+                                        "/exampleImages/background.png",
+                                        Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
-            UserInfo annaDetails = new UserInfo("Anna", "Moscicki",
-                    LocalDate.of(2000, MARCH, 29), "Warszawa", false,
-                    "exampleImages/userIcon.png",
-                    "exampleImages/background.png",
-                    Sex.MALE, LocalDate.of(2023, JANUARY, 22));
+                        UserInfo annaDetails = new UserInfo("Anna", "Moscicki",
+                                        LocalDate.of(2000, MARCH, 29), "Warszawa", false,
+                                        "/exampleImages/userIcon.png",
+                                        "/exampleImages/background.png",
+                                        Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
-            UserInfo marekDetails = new UserInfo("Marek", "Moscicki",
-                    LocalDate.of(2000, MARCH, 29), "Warszawa", false,
-                    "exampleImages/userIcon.png",
-                    "exampleImages/background.png",
-                    Sex.MALE, LocalDate.of(2023, JANUARY, 22));
+                        UserInfo marekDetails = new UserInfo("Marek", "Moscicki",
+                                        LocalDate.of(2000, MARCH, 29), "Warszawa", false,
+                                        "/exampleImages/userIcon.png",
+                                        "/exampleImages/background.png",
+                                        Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
-            UserEntity adam = new UserEntity(Role.USER,
-                    "adam@email.com",
-                    passwordEncoder.encode("password"),
-                    true,
-                    LocalDate.of(2000, JANUARY, 6), true, adamDetails);
+                        UserEntity adam = new UserEntity(Role.USER,
+                                        "adam@email.com",
+                                        passwordEncoder.encode("password"),
+                                        true,
+                                        LocalDate.of(2000, JANUARY, 6), true, adamDetails);
 
+                        UserEntity anna = new UserEntity(Role.USER,
+                                        "anna@email.com",
+                                        passwordEncoder.encode("anna"),
+                                        true,
+                                        LocalDate.of(2002, MARCH, 12), true, annaDetails);
 
-            UserEntity anna = new UserEntity(Role.USER,
-                    "anna@email.com",
-                    passwordEncoder.encode("anna"),
-                    true,
-                    LocalDate.of(2002, MARCH, 12), true, annaDetails);
+                        UserEntity marek = new UserEntity(Role.USER,
+                                        "marek@email.com",
+                                        passwordEncoder.encode("marek"),
+                                        false,
+                                        LocalDate.of(2001, MARCH, 14), false, marekDetails);
+                        userRepository.saveAll(List.of(adam, anna, marek));
+
+                        // add posts
+                        Post post1 = new Post("Post 1", true, LocalDate.of(2022, 5, 1), "/exampleImages/cat.jpg", adam);
+                        Post post2 = new Post("Post 2", false, LocalDate.of(2022, 5, 1), "/exampleImages/cat.jpg",
+                                        marek);
+                        postRepository.saveAll(List.of(post1, post2));
 
 
             UserEntity marek = new UserEntity(Role.USER,
@@ -64,37 +76,36 @@ public class UserConfig {
             );
             userRepository.saveAll(List.of(adam, anna, marek));
 
-            // add posts
-            Post post1 = new Post("Post 1", true, LocalDate.of(2022, 5, 1), "exampleImages/cat.jpg", adam);
-            Post post2 = new Post("Post 2", false, LocalDate.of(2022, 5, 1),"exampleImages/cat.jpg" ,marek);
-            postRepository.saveAll(List.of(post1,post2));
 
-            //add comments
-            Comment comment1 = new Comment("Comment 1", LocalDate.now(), marek,post1);
-            Comment comment2 = new Comment("Comment 2", LocalDate.now(), adam, post2);
+                        commentRepository.saveAll(List.of(comment1, comment2));
 
-            commentRepository.saveAll(List.of(comment1,comment2));
+                        // save ratings
 
-            // save ratings
+                        Rating rating1 = new Rating(-1, LocalDate.now(), LocalDate.now(), adam, post1);
+                        Rating rating2 = new Rating(1, LocalDate.now(), LocalDate.now(), marek, post2);
 
-            Rating rating1 = new Rating(-1,LocalDate.now() ,LocalDate.now(),adam, post1);
-            Rating rating2 = new Rating(1,LocalDate.now() ,LocalDate.now(),marek, post2);
+                        ratingRepository.saveAll(List.of(rating1, rating2));
 
-            ratingRepository.saveAll(List.of(rating1,rating2));
+                        // save categories
+                        Category category1 = new Category("Easter");
+                        Category category2 = new Category("Christmas");
 
-            //save categories
-            Category category1= new Category("Easter");
-            Category category2= new Category("Christmas");
+                        categoryRepository.saveAll(List.of(category1, category2));
 
-            categoryRepository.saveAll(List.of(category1,category2));
+                        // save postCategory
 
+                        PostCategory postCategory = new PostCategory(post2, category1);
+                        PostCategory postCategory1 = new PostCategory(post1, category2);
 
-            //save postCategory
+                        postCategoryRepository.saveAll(List.of(postCategory, postCategory1));
 
-            PostCategory postCategory= new PostCategory(post2,category1);
-            PostCategory postCategory1= new PostCategory(post1,category2);
+                        Followers followers1 = new Followers(LocalDate.now(), adam, anna);
+                        Followers followers2 = new Followers(LocalDate.now(), adam, marek);
+                        Followers followers3 = new Followers(LocalDate.now(), anna, marek);
 
-            postCategoryRepository.saveAll(List.of(postCategory,postCategory1));
+                        followerRepository.saveAll(List.of(followers1, followers2, followers3));
+
+                };
 
             Followers followers1= new Followers(LocalDate.now(),adam,anna);
             Followers followers2= new Followers(LocalDate.now(),adam,marek);
@@ -109,4 +120,5 @@ public class UserConfig {
 
 
     }
+
 }

@@ -13,17 +13,6 @@ import CenterBar from '../../components/CenterBar/CenterBar';
 import Post from '../../components/Post/Post';
 import RecentPosts from '../../components/RecentPosts/RecentPosts';
 
-{/* <Post name={'Lorem'} surname={'Ipsum'}
-          date={'June 21, 12:45 pm'}
-          content={'Having fun while traveling by the mountains.'}
-          likes={12} dislikes={3} liked={true} disliked={false}
-          comments={[["Lorem", "Ipsum", "June 21, 12:45 pm", "Wonderful!!!"], ["Lorem", "Ipsum", "June 21, 12:46 pm", "Amazing photo!!!"]]} />
-        <Post name={'Lorem'} surname={'Ipsum'}
-          date={'June 21, 12:45 pm'}
-          content={'Having fun while traveling by the mountains.'}
-          likes={12} dislikes={3} liked={true} disliked={false}
-          comments={[["Lorem", "Ipsum", "June 21, 12:45 pm", "Wonderful!!!"], ["Lorem", "Ipsum", "June 21, 12:46 pm", "Amazing photo!!!"]]} /> */}
-
 
 function Home() {
 

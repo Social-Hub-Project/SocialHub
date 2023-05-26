@@ -9,11 +9,12 @@
     background: #FFFFFF;
     border: 1.5px solid #F1F2F6;
     border-radius: 8px;
+    margin-bottom: 10px;
 }
 
 .resultUser p {
     /* Name */
-
+    cursor: pointer;
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
@@ -25,4 +26,8 @@
     /* Slate Grey */
 
     color: #788292;
+}
+
+.resultUser img {
+    cursor: pointer;
 }

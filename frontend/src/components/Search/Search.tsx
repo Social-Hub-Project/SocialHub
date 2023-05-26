@@ -1,8 +1,10 @@
-import { Component, createRef, RefObject } from 'react';
+import { Component, createRef, RefObject, useEffect, useLayoutEffect, useRef } from 'react';
 
 import style from './Search.module.css';
 import ResultUser from './ResultUser';
 import searchIcon from '../../resources/search_icon.png';
+import React from 'react';
+const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/searchUser`;
 
 
 export interface SearchProps {
@@ -17,35 +19,78 @@ export interface SearchProps {
 }
 export interface SearchState {
     message: string;
+    results: Array<JSX.Element>;
 }
 
 export default class Search extends Component<SearchProps, SearchState> {
-    private inputRef!: RefObject<HTMLInputElement>;
-
     constructor(props: SearchProps) {
         super(props);
 
         this.state = {
             message: '',
+            results: [],
+        };
+        this.fetchData = this.fetchData.bind(this);
+
+    };
+
+    fetchData(e: any) {
+        if (e.target.value === "") {
+            this.setState({
+                results: [],
+            })
+            return;
+
+        }
+        const body = {
+            token: "Bearer " + sessionStorage.getItem("userToken"),
+            word: e.target.value,
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+            body: JSON.stringify(body),
         };
 
-        if (this.props.useRef === undefined) this.inputRef = createRef();
-        else this.inputRef = this.props.useRef;
-    };
+        try {
+            const response = fetch(fetchUrl, requestOptions)
+                .then((response) => response.json())
+                .then((body) => {
+                    var array: Array<JSX.Element> = [];
+                    body.forEach((p: any) => {
+                        array.push(<ResultUser id={p.id} key={p.id} photoUrl={p.photoUrl} name={p.name} surname={p.surname}></ResultUser>)
+                    })
+                    console.log(array)
+                    this.setState({
+                        results: array,
+                    })
+
+                });
+        } catch (err) {
+            console.log("conn error");
+        }
+
+
+    }
+
 
     render() {
         return (
             <div className={[style.searchbox, this.props.className].join(' ')} >
                 <h3 className={style.h3title}>Who to Follow</h3>
                 <div>
-                    <input ref={this.props.useRef} placeholder='Search for friend?'
-                        className={style.searchinput} onClick={this.props.onClick}
-                        type='text' id={this.props.id} />
+                    <input placeholder='Search for friend?'
+                        className={style.searchinput} onChange={this.fetchData}
+                        type='text' />
                     <img className={style.searchIcon} alt='search' src={searchIcon} />
                 </div>
                 <div className={style.resultsContainer}>
-                    <ResultUser name="Lorem" surname='Ipsum'></ResultUser>
-                    <ResultUser name="Lorem" surname='Ipsum'></ResultUser>
+                    {this.state.results}
 
                 </div>
             </div>
