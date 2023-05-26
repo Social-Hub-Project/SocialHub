@@ -100,10 +100,10 @@ public class UserConfig {
             Followers followers2= new Followers(LocalDate.now(),adam,marek);
             Followers followers3= new Followers(LocalDate.now(),anna,marek);
             Followers followers4= new Followers(LocalDate.now(),marek,adam);
-            Followers followers5= new Followers(LocalDate.now(),anna,adam);
-            Followers followers= new Followers(LocalDate.now(),anna,marek);
 
-            followerRepository.saveAll(List.of(followers1,followers2,followers3,followers4,followers5,followers));
+
+
+            followerRepository.saveAll(List.of(followers1,followers2,followers3,followers4));
 
         };
 

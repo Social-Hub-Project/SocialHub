@@ -98,38 +98,39 @@ public class MainPageService {
         try {
             List<Post> posts = postDAO.findPostByCreatedAt();
             List<PostWithCommentsAndRating> postWithCommentsAndRatingsList = new ArrayList<>();
-
+            UserEntity currentUser = userDAO.findUserByEmail(authentication.getName());
+            List<Long> frindsId= followerDAO.getFriendsId(currentUser.getId());
             for (Post post : posts) {
-                List<PostsReturns> comments = commentDAO.findCommentsByPostId(post.getId());
-                int likes = ratingDAO.findPostLikes(post.getId());
-                int dislikes = ratingDAO.findPostDislikes(post.getId());
-                UserEntity ratingsUser=userDAO.findUserByEmail(authentication.getName());
-                Integer lickedByUser=ratingDAO.ratingUser(ratingsUser.getId(),post.getId());
+                if(frindsId.contains(post.getUserEntity().getId()) || post.getUserEntity().getId()==currentUser.getId()) {
+                    List<PostsReturns> comments = commentDAO.findCommentsByPostId(post.getId());
+                    int likes = ratingDAO.findPostLikes(post.getId());
+                    int dislikes = ratingDAO.findPostDislikes(post.getId());
+                    Integer lickedByUser = ratingDAO.ratingUser(currentUser.getId(), post.getId());
 
-                // post images
-                File file = new File(post.getPhoto_source());
-                InputStream inputStream = new FileInputStream(file);
-                Blob imageBlob = new SerialBlob(new InputStreamResource(inputStream).getContentAsByteArray());
+                    // post images
+                    File file = new File(post.getPhoto_source());
+                    InputStream inputStream = new FileInputStream(file);
+                    Blob imageBlob = new SerialBlob(new InputStreamResource(inputStream).getContentAsByteArray());
 
-                // comments images
-                List<Blob> imagesCommentary = new ArrayList<>();
-                for (PostsReturns comment : comments) {
-                    try {
-                        File file2 = new File(comment.getUser_entity_id().getUserInfo().getProfilePhotoSource());
-                        InputStream inputStream2 = new FileInputStream(file2);
-                        Blob imageBlob2 = new SerialBlob(new InputStreamResource(inputStream2).getContentAsByteArray());
+                    // comments images
+                    List<Blob> imagesCommentary = new ArrayList<>();
+                    for (PostsReturns comment : comments) {
+                        try {
+                            File file2 = new File(comment.getUser_entity_id().getUserInfo().getProfilePhotoSource());
+                            InputStream inputStream2 = new FileInputStream(file2);
+                            Blob imageBlob2 = new SerialBlob(new InputStreamResource(inputStream2).getContentAsByteArray());
 
-                        imagesCommentary.add(imageBlob2);
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                        imagesCommentary.add(null);
+                            imagesCommentary.add(imageBlob2);
+                        } catch (Exception e) {
+                            // TODO: handle exception
+                            imagesCommentary.add(null);
+                        }
+
                     }
 
+                    postWithCommentsAndRatingsList.add(new PostWithCommentsAndRating(post, comments, likes, dislikes, lickedByUser,
+                            imageBlob, imagesCommentary));
                 }
-
-                postWithCommentsAndRatingsList.add(new PostWithCommentsAndRating(post, comments, likes, dislikes,lickedByUser,
-                        imageBlob, imagesCommentary));
-
             }
 
             return new ResponseEntity<>(postWithCommentsAndRatingsList, HttpStatus.OK);
@@ -244,7 +245,6 @@ public class MainPageService {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    //TODO to test
     public ResponseEntity<?> getFriendsList(Authentication authentication){
         try {
             UserEntity activeUser=userDAO.findUserByEmail(authentication.getName());
