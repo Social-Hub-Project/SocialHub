@@ -1,6 +1,7 @@
 package com.application.socialhub.repository;
 
 import com.application.socialhub.model.Rating;
+import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,5 +25,14 @@ public interface RatingRepository extends JpaRepository<Rating, Long>{
     @Query(value="SELECT COUNT(*) FROM rating WHERE posts_id = :postId AND assessment = -1", nativeQuery = true)
     int findPostDislikes(@Param("postId") Long postId);
 
+
+    @Query(value = "SELECT assessment FROM rating WHERE user_entity_id = :userID AND posts_id = :postId",
+            nativeQuery = true)
+    Integer ratingUser(@Param("userID") long userID, @Param("postId") long postID);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from rating where posts_id=:postId",nativeQuery = true)
+    void deleteRatingByPostId(@Param("postId") long postId);
 
 }

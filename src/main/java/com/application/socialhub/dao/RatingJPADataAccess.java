@@ -43,5 +43,20 @@ public class RatingJPADataAccess implements RatingDAO{
         return repository.findPostDislikes(postId);
     }
 
+    @Override
+    public Integer ratingUser(long userID, long postID) {
+        Integer rating = repository.ratingUser(userID, postID);
+        if(rating == null)
+        {
+            return 0;
+        }
+        return rating;
+    }
+
+    @Override
+    public void deleteRatingByPostId(long postId) {
+        repository.deleteRatingByPostId(postId);
+    }
+
 
 }

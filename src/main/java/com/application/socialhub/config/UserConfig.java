@@ -67,9 +67,15 @@ public class UserConfig {
                                         marek);
                         postRepository.saveAll(List.of(post1, post2));
 
-                        // add comments
-                        Comment comment1 = new Comment("Comment 1", LocalDate.now(), marek, post1);
-                        Comment comment2 = new Comment("Comment 2", LocalDate.now(), adam, post2);
+
+            UserEntity marek = new UserEntity(Role.USER,
+                    "marek@email.com",
+                    passwordEncoder.encode("marek"),
+                    true,
+                    LocalDate.of(2001, MARCH, 14), true, marekDetails
+            );
+            userRepository.saveAll(List.of(adam, anna, marek));
+
 
                         commentRepository.saveAll(List.of(comment1, comment2));
 
@@ -101,5 +107,18 @@ public class UserConfig {
 
                 };
 
-        }
+            Followers followers1= new Followers(LocalDate.now(),adam,anna);
+            Followers followers2= new Followers(LocalDate.now(),adam,marek);
+            Followers followers3= new Followers(LocalDate.now(),anna,marek);
+            Followers followers4= new Followers(LocalDate.now(),marek,adam);
+
+
+
+            followerRepository.saveAll(List.of(followers1,followers2,followers3,followers4));
+
+        };
+
+
+    }
+
 }

@@ -9,16 +9,27 @@ public class PostWithCommentsAndRating {
     private List<PostsReturns> comments;
     private int like;
     private int dislike;
+    private Integer lickedByUser;
     private Blob image;
     private List<Blob> profileImage;
 
-    public PostWithCommentsAndRating(Post post, List<PostsReturns> comments, int like, int dislike, Blob image, List<Blob> profileImage) {
+    public PostWithCommentsAndRating(Post post, List<PostsReturns> comments, int like, int dislike, Integer lickedByUser,
+                                     Blob image, List<Blob> profileImage) {
         this.post = post;
         this.comments = comments;
         this.like = like;
         this.dislike = dislike;
         this.image = image;
         this.profileImage = profileImage;
+        this.lickedByUser = lickedByUser;
+    }
+
+    public Integer getLickedByUser() {
+        return lickedByUser;
+    }
+
+    public void setLickedByUser(Integer lickedByUser) {
+        this.lickedByUser = lickedByUser;
     }
 
     public Post getPost() {

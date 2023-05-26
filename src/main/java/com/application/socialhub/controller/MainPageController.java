@@ -1,14 +1,12 @@
 package com.application.socialhub.controller;
 
 
-import com.application.socialhub.dto.CreateCommentRequest;
-import com.application.socialhub.dto.CreatePostRequest;
-import com.application.socialhub.dto.CreateRatingRequest;
-import com.application.socialhub.dto.SearchUserRequest;
+import com.application.socialhub.dto.*;
 import com.application.socialhub.service.MainPageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,15 +24,14 @@ public class MainPageController {
     public ResponseEntity<?> searchUser(@RequestBody SearchUserRequest request){
         return mainPageService.searchUser(request.word());
     }
-    @GetMapping("/getFriendsList")
-    public ResponseEntity<String> getFriendsList(){
-        String str= "getFriendsList";
-        return new ResponseEntity<>(str, HttpStatus.OK);
+    @GetMapping(value = "/getFriendsList",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getFriendsList(Authentication authentication){
+        return mainPageService.getFriendsList(authentication);
     }
 
     @GetMapping(path ="/getAllPosts")
-    public ResponseEntity<?> getAllPosts(){
-        return mainPageService.getAllPosts();
+    public ResponseEntity<?> getAllPosts(Authentication authentication){
+        return mainPageService.getAllPosts(authentication);
     }
 
     @GetMapping("/getLastEvents")
@@ -48,15 +45,18 @@ public class MainPageController {
         return  mainPageService.ratingPost(request);
     }
 
-
     @PostMapping(path="/commentPost")
     public ResponseEntity<?> commentPost(@RequestBody CreateCommentRequest request){
         return  mainPageService.commentPost(request);
     }
 
-    @PostMapping("/followUser")
-    public ResponseEntity<String> followUser(@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @PostMapping(value="/followUser",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> followUser(@RequestBody FollowUserRequest request){
+        return mainPageService.followUser(request);
+    }
+    @PostMapping(value = "/unfollowUser",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> unfollowUser(@RequestBody FollowUserRequest request){
+        return mainPageService.unfollowUser(request);
     }
 
     @PostMapping(path="/createPost", produces = MediaType.APPLICATION_JSON_VALUE)

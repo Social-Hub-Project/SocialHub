@@ -1,6 +1,11 @@
 package com.application.socialhub.controller;
 
+import com.application.socialhub.dto.AllPostsForUserRequest;
+import com.application.socialhub.dto.DeletePostRequest;
+import com.application.socialhub.dto.UserInfoIdRequest;
+import com.application.socialhub.service.UserDashboardService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,40 +13,30 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/app")
 public class UserDashboardController {
 
-    @GetMapping("/getMyDetails")
-    public ResponseEntity<String> getMyDetails(){
-        String str= "getMyDetails";
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    private UserDashboardService userDashboardService;
+
+    public UserDashboardController(UserDashboardService userDashboardService) {
+        this.userDashboardService = userDashboardService;
     }
 
-    @PostMapping("/resetPassword")
-    public ResponseEntity<String> resetPassword (@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @PostMapping(value ="/blockComments",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> blockComments (@RequestBody DeletePostRequest request){
+        return userDashboardService.blockComments(request);
     }
 
-    @PostMapping("/blockComments")
-    public ResponseEntity<String> blockComments (@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @PostMapping(value ="/unlockComments",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> unlockComments (@RequestBody DeletePostRequest request){
+        return userDashboardService.unlockComments(request);
     }
 
-    @PostMapping("/unlockComments ")
-    public ResponseEntity<String> unlockComments (@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @DeleteMapping (value ="/deletePost",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deletePost(@RequestBody DeletePostRequest request){
+        return userDashboardService.deletePost(request);
     }
 
-    @PostMapping("/deletePost")
-    public ResponseEntity<String> deletePost(@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
-    }
-
-    @PostMapping("/updatePhoto")
-    public ResponseEntity<String> updatePhoto(@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
-    }
-
-    @PostMapping("/updateBackgroundPhoto")
-    public ResponseEntity<String> updateBackgroundPhoto(@RequestBody String str){
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @PostMapping(value ="/getAllPostsForUser",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllPostsForUser(@RequestBody AllPostsForUserRequest request){
+        return userDashboardService.getAllPostsForUser(request);
     }
 
 

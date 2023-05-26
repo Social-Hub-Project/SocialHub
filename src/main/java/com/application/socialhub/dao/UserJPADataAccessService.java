@@ -51,4 +51,19 @@ public class UserJPADataAccessService implements UserDAO{
         return userRepository.selectExistsEmail(email);
     }
 
+    @Override
+    public void updateUserState(boolean state, String email) {
+        userRepository.updateUserState(state, email);
+    }
+
+    @Override
+    public UserEntity findUserById(long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void changePassword(long userId, String newPassword) {
+        userRepository.changePassword(userId, newPassword);
+    }
+
 }

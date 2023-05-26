@@ -5,6 +5,7 @@ import com.application.socialhub.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,4 +46,10 @@ public class UserController {
     public ResponseEntity<?> changeBackgroundPhoto(@ModelAttribute ChangePhotoRequest request) {
         return userService.changeBackgroundPhoto(request);
     }
+
+    @PostMapping(path = "/changePassword", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
+        return userService.changePassword(request);
+    }
+
 }
