@@ -3,17 +3,18 @@ package com.application.socialhub.controller;
 
 import com.application.socialhub.dto.*;
 import com.application.socialhub.service.MainPageService;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/app")
 public class MainPageController {
 
-    private MainPageService mainPageService;
+    private final MainPageService mainPageService;
 
     public MainPageController(MainPageService mainPageService) {
         this.mainPageService = mainPageService;
@@ -59,7 +60,7 @@ public class MainPageController {
     }
 
     @PostMapping(path="/createPost", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createPost (@ModelAttribute CreatePostRequest request){
+    public ResponseEntity<?> createPost (@Valid @ModelAttribute CreatePostRequest request){
         return mainPageService.createPost(request);
     }
 

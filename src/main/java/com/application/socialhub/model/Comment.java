@@ -2,8 +2,6 @@ package com.application.socialhub.model;
 
 
 import jakarta.persistence.*;
-
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -17,8 +15,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(
-            columnDefinition = "TEXT",
-            nullable=true
+            columnDefinition = "TEXT"
     )
     private String content;
     @Column(

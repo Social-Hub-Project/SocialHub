@@ -1,6 +1,5 @@
 package com.application.socialhub.repository;
 
-import com.application.socialhub.dto.BasicUserInfoDTO;
 import com.application.socialhub.model.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

@@ -2,8 +2,6 @@ package com.application.socialhub.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -13,8 +11,6 @@ import java.util.Properties;
 
 @Service
 public class EmailService implements EmailSender{
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
     private final JavaMailSenderImpl mailSender;
 
@@ -57,7 +53,6 @@ public class EmailService implements EmailSender{
 
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
-            LOGGER.error("failed to send email", e);
             throw new IllegalStateException("failed to send email");
         }
     }

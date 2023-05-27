@@ -36,18 +36,18 @@ public class BlackListJWToken {
     private String token;
 
     @Column(nullable = false)
-    private Date exprationDate;
+    private Date expirationDate;
 
     public BlackListJWToken() {
     }
-    public BlackListJWToken( String token, Date exprationDate) {
+    public BlackListJWToken( String token, Date expirationDate) {
         this.token = token;
-        this.exprationDate = exprationDate;
+        this.expirationDate = expirationDate;
     }
-    public BlackListJWToken(Long id, String token, Date exprationDate) {
+    public BlackListJWToken(Long id, String token, Date expirationDate) {
         this.id = id;
         this.token = token;
-        this.exprationDate = exprationDate;
+        this.expirationDate = expirationDate;
     }
 
     public void setId(Long id) {
@@ -66,23 +66,23 @@ public class BlackListJWToken {
         this.token = token;
     }
 
-    public Date getExprationDate() {
-        return exprationDate;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setExprationDate(Date exprationDate) {
-        this.exprationDate = exprationDate;
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BlackListJWToken that)) return false;
-        return  Objects.equals(getToken(), that.getToken()) && Objects.equals(getExprationDate(), that.getExprationDate());
+        return  Objects.equals(getToken(), that.getToken()) && Objects.equals(getExpirationDate(), that.getExpirationDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getToken(), getExprationDate());
+        return Objects.hash(getId(), getToken(), getExpirationDate());
     }
 }

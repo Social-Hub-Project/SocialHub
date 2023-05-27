@@ -42,9 +42,7 @@ public class BasicUserInfoDTOMapper implements Function<UserInfo, BasicUserInfoD
                     userInfo.getId(),
                     convertImagePathToImage(userInfo.getProfilePhotoSource()),
                     isFriend);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
     }

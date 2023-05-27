@@ -16,7 +16,7 @@ public interface PostDAO {
 
     void deletePost(Post post);
 
-    void blcokPost(boolean state, long postId);
+    void blockPost(boolean state, long postId);
 
     List<Post> findAllPostsOrderedByCreatedAtDescForDedUser(long userId);
 

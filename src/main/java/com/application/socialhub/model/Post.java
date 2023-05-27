@@ -1,11 +1,10 @@
 package com.application.socialhub.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,9 +19,9 @@ public class Post {
     private long id;
 
     @Column(
-            columnDefinition = "TEXT",
-            nullable = true
+            columnDefinition = "TEXT"
     )
+    @Size(max = 512, message = "post description field max size is 64 characters!")
     private String description;
     @Column(
             nullable = false
@@ -31,10 +30,9 @@ public class Post {
     @Column(
             nullable = false
     )
+    @NotNull(message = "create_at field can't be null!")
     private LocalDate create_at;
-    @Column(
-            nullable = true
-    )
+    @Column
     private String photo_source;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -21,36 +21,30 @@ import java.util.UUID;
 
 @Service
 public class RegistrationService {
-
-    private final EmailValidatorService emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final UserDAO userDAO;
     private final PasswordEncoder passwordEncoder;
     private final EmailSender emailSender;
 
     public RegistrationService(@Qualifier("jpa") UserDAO userDAO,
-            EmailValidatorService emailValidator,
             ConfirmationTokenService confirmationTokenService,
             PasswordEncoder passwordEncoder,
             EmailSender emailSender) {
-        this.emailValidator = emailValidator;
         this.confirmationTokenService = confirmationTokenService;
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
         this.emailSender = emailSender;
     }
 
-    public ResponseEntity<Object> register(UserRegistrationRequest request) {
-
-        if (!emailValidator.test(request.email())) {
-            return new ResponseEntity<>(new AuthenticationFailedResponse("Email is not valid!"),
-                    HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Object> register( UserRegistrationRequest request) {
 
         if (userDAO.existsUserWithEmail(request.email())) {
             // TODO check of attributes are the same and
             // TODO if email not confirmed send confirmation email.
             return new ResponseEntity<>(new AuthenticationFailedResponse("Email is taken!"), HttpStatus.BAD_REQUEST);
+        }
+        if(!request.password().equals(request.passwordConfirmation())){
+            return new ResponseEntity<>(new AuthenticationFailedResponse("Passwords should be equal!"), HttpStatus.BAD_REQUEST);
         }
 
         UserInfo userInfo = new UserInfo(

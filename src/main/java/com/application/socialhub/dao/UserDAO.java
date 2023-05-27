@@ -1,10 +1,8 @@
 package com.application.socialhub.dao;
 
-import com.application.socialhub.dto.UserDetailsDTO;
 import com.application.socialhub.model.UserEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserDAO {
     List<UserEntity> selectAllUsers();

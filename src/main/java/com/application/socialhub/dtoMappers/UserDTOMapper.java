@@ -19,6 +19,7 @@ public class UserDTOMapper implements Function<UserInfo, UserDetailsDTO> {
     public UserDetailsDTO apply(UserInfo userInfo) {
         try {
             return new UserDetailsDTO(
+                    userInfo.getId(),
                     userInfo.getName(),
                     userInfo.getSurname(),
                     userInfo.getDateOfBirth(),
@@ -30,9 +31,7 @@ public class UserDTOMapper implements Function<UserInfo, UserDetailsDTO> {
                     userInfo.getProfilePhotoSource(),
                     userInfo.getBgPhotoSource()
             );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
     }
