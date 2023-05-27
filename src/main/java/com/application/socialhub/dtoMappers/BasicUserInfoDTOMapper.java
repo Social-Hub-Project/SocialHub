@@ -5,7 +5,6 @@ import com.application.socialhub.dao.UserDAO;
 import com.application.socialhub.dto.BasicUserInfoDTO;
 import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.model.UserInfo;
-import com.application.socialhub.repository.FollowerRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
 
@@ -50,7 +49,7 @@ public class BasicUserInfoDTOMapper implements Function<UserInfo, BasicUserInfoD
         }
     }
 
-    Blob convertImagePathToImage(String path) throws IOException, SQLException {
+    static Blob convertImagePathToImage(String path) throws IOException, SQLException {
         File file = new File(path);
         InputStream inputStream = new FileInputStream(file);
         return new SerialBlob( new InputStreamResource(inputStream).getContentAsByteArray());
