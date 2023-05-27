@@ -17,11 +17,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -258,7 +260,7 @@ public class MainPageService {
         try {
             UserEntity activeUser=userDAO.findUserByEmail(authentication.getName());
             List<Long> friendsId=followerDAO.getFriendsId(activeUser.getId());
-            List<UserEntity> friendsList =new ArrayList<>();
+            List<FriendsListResponse> friendsList =new ArrayList<>();
             if(friendsId.isEmpty()){
                 return new ResponseEntity<>(friendsList,HttpStatus.OK);
             }
@@ -267,7 +269,9 @@ public class MainPageService {
                     UserEntity friend = userDAO.findUserById(id);
                     if(friendsList.size()<8){
                         if(friend.getActive()){
-                            friendsList.add(friend);
+                            FriendsListResponse friends = new FriendsListResponse(friend,
+                                    convertImagePathToImage(friend.getUserInfo().getProfilePhotoSource()));
+                            friendsList.add(friends);
                         }
                     }
                 }
@@ -298,5 +302,11 @@ public class MainPageService {
 
         Event event = new Event(LocalDateTime.now(),message, receiver, creator);
         eventDAO.saveEvent(event);
+    }
+
+    private Blob convertImagePathToImage(String path) throws IOException, SQLException {
+        File file = new File(path);
+        InputStream inputStream = new FileInputStream(file);
+        return new SerialBlob( new InputStreamResource(inputStream).getContentAsByteArray());
     }
 }
