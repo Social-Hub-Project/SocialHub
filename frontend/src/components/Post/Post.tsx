@@ -22,6 +22,7 @@ export interface PostProps {
     liked: boolean;
     disliked: boolean;
     comments: Array<Array<String>>;
+    lickedByUser: number;
     onClick?: () => void;
     photoUrl: string;
     useRef?: RefObject<HTMLInputElement>;
@@ -37,14 +38,40 @@ export interface PostState {
 export default class Post extends Component<PostProps, PostState> {
     private inputRef!: RefObject<HTMLInputElement>;
     private allComments!: Array<JSX.Element>;
+    private likesNum!: number;
+    private dislikesNum!: number;
+
     constructor(props: PostProps) {
         super(props);
-        this.state = {
-            expanded: false,
-            liked: this.props.liked,
-            disliked: this.props.disliked,
-            img: "",
-        };
+        if (this.props.lickedByUser === 1) {
+            this.likesNum = this.props.likes;
+            this.dislikesNum = this.props.dislikes;
+
+            this.state = {
+                expanded: false,
+                liked: true,
+                disliked: false,
+                img: "",
+            };
+        } else if (this.props.lickedByUser === -1) {
+            this.likesNum = this.props.likes;
+            this.dislikesNum = this.props.dislikes;
+            this.state = {
+                expanded: false,
+                liked: false,
+                disliked: true,
+                img: "",
+            };
+        } else {
+            this.likesNum = this.props.likes;
+            this.dislikesNum = this.props.dislikes;
+            this.state = {
+                expanded: false,
+                liked: false,
+                disliked: false,
+                img: "",
+            };
+        }
         if (this.props.useRef === undefined) this.inputRef = createRef();
         else this.inputRef = this.props.useRef;
         this.allComments = [];
@@ -74,7 +101,6 @@ export default class Post extends Component<PostProps, PostState> {
             like: rating,
             idPost: this.props.id,
         };
-
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -99,25 +125,33 @@ export default class Post extends Component<PostProps, PostState> {
 
     private dislikeClick = () => {
         this.setState({ disliked: !this.state.disliked });
-        if (this.state.liked)
+        if (this.state.liked) {
             this.setState({ liked: !this.state.liked });
+            this.likesNum -= 1;
+        }
         this.ratePost(-1);
-
+        this.dislikesNum += 1;
     };
     private likeClick = () => {
         this.setState({ liked: !this.state.liked });
-        if (this.state.disliked)
+        if (this.state.disliked) {
+            this.dislikesNum -= 1;
             this.setState({ disliked: !this.state.disliked });
+        }
         this.ratePost(1);
+        this.likesNum += 1;
+
     };
 
     private bluelikeClick = () => {
         this.setState({ liked: !this.state.liked });
         this.ratePost(0);
+        this.likesNum -= 1;
     };
     private bluedislikeClick = () => {
         this.setState({ disliked: !this.state.disliked });
         this.ratePost(0);
+        this.dislikesNum -= 1;
     };
     private toogleComments = () => {
         this.setState({ expanded: !this.state.expanded });
@@ -172,17 +206,15 @@ export default class Post extends Component<PostProps, PostState> {
 
 
                     {!this.state.liked ?
-                        <><img onClick={this.likeClick} className={style.like} alt="likeGrey" src={likeGrey} />
-                            <p className={style.likeNum}>{this.props.likes}</p>
-                        </>
+                        <><img onClick={this.likeClick} className={style.like} alt="likeGrey" src={likeGrey} /> <p className={style.likeNum}>{this.likesNum}</p>                        </>
                         :
-                        <><img className={style.like} onClick={this.bluelikeClick} alt="likeBlue" src={likeBlue} /><p className={style.likeNym}>{this.props.likes + 1}</p></>
+                        <><img className={style.like} onClick={this.bluelikeClick} alt="likeBlue" src={likeBlue} /><p className={style.likeNym}>{this.likesNum}</p></>
                     }
 
                     {!this.state.disliked ?
-                        <><img className={style.dislike} onClick={this.dislikeClick} alt="dislikeGrey" src={likeGrey} /><p className={style.dislikeNum}>{this.props.dislikes}</p></>
+                        <><img className={style.dislike} onClick={this.dislikeClick} alt="dislikeGrey" src={likeGrey} /><p className={style.dislikeNum}>{this.dislikesNum}</p></>
                         :
-                        <><img className={style.dislike} onClick={this.bluedislikeClick} alt="dislikeGrey" src={likeBlue} /><p className={style.dislikeNum}>{this.props.dislikes + 1}</p></>
+                        <><img className={style.dislike} onClick={this.bluedislikeClick} alt="dislikeGrey" src={likeBlue} /><p className={style.dislikeNum}>{this.dislikesNum}</p></>
                     }
 
 

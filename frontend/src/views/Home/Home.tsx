@@ -25,7 +25,7 @@ function Home() {
       </LeftBar>
       <CenterBar>
         <CreatePost></CreatePost>
-        <RecentPosts />
+        <RecentPosts foruser={false} />
       </CenterBar>
 
 
