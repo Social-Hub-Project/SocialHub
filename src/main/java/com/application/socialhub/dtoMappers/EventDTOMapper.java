@@ -3,17 +3,28 @@ package com.application.socialhub.dtoMappers;
 import com.application.socialhub.dto.EventDTO;
 import com.application.socialhub.model.Event;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.function.Function;
+
+import static com.application.socialhub.dtoMappers.BasicUserInfoDTOMapper.convertImagePathToImage;
 
 public class EventDTOMapper implements Function<Event, EventDTO> {
     @Override
     public EventDTO apply(Event event) {
-        return new EventDTO(event.getId(),
-                            event.getMessage(),
-                            event.getCreated_at().toString(),
-                            event.getEventReceiver().getUserInfo().getName() + " " +
-                                    event.getEventReceiver().getUserInfo().getSurname(),
-                            event.getEventCreator().getUserInfo().getName() + " " +
-                                    event.getEventCreator().getUserInfo().getSurname());
+        try {
+            return new EventDTO(event.getId(),
+                                event.getMessage(),
+                                event.getCreated_at().toString(),
+                     event.getEventReceiver().getUserInfo().getName() + " " +
+                                event.getEventReceiver().getUserInfo().getSurname(),
+                    event.getEventCreator().getUserInfo().getName() + " " +
+                                event.getEventCreator().getUserInfo().getSurname(),
+                    convertImagePathToImage(event.getEventCreator().getUserInfo().getProfilePhotoSource()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
