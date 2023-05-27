@@ -26,20 +26,20 @@ public class UserConfig {
             // add comments
             UserInfo adamDetails = new UserInfo("Adam", "Moscicki",
                     LocalDate.of(2000, MARCH, 29), "Warszawa", false,
-                    "/exampleImages/userIcon.png",
-                    "/exampleImages/background.png",
+                    "exampleImages/userIcon.png",
+                    "exampleImages/background.png",
                     Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
             UserInfo annaDetails = new UserInfo("Anna", "Moscicki",
                     LocalDate.of(2000, MARCH, 29), "Warszawa", false,
-                    "/exampleImages/userIcon.png",
-                    "/exampleImages/background.png",
+                    "exampleImages/userIcon.png",
+                    "exampleImages/background.png",
                     Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
             UserInfo marekDetails = new UserInfo("Marek", "Moscicki",
                     LocalDate.of(2000, MARCH, 29), "Warszawa", false,
-                    "/exampleImages/userIcon.png",
-                    "/exampleImages/background.png",
+                    "exampleImages/userIcon.png",
+                    "exampleImages/background.png",
                     Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
             UserEntity adam = new UserEntity(Role.USER,
@@ -96,8 +96,10 @@ public class UserConfig {
             Followers followers1 = new Followers(LocalDate.now(), adam, anna);
             Followers followers2 = new Followers(LocalDate.now(), adam, marek);
             Followers followers3 = new Followers(LocalDate.now(), anna, marek);
+            Followers followers4 = new Followers(LocalDate.now(), marek, adam);
+            Followers followers5 = new Followers(LocalDate.now(), anna,adam);
 
-            followerRepository.saveAll(List.of(followers1, followers2, followers3));
+            followerRepository.saveAll(List.of(followers1, followers2, followers3, followers4, followers5));
 
         };
 
