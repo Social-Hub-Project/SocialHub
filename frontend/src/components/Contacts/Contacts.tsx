@@ -41,8 +41,6 @@ export default class Contacts extends Component<ContactsProps, ContactsState> {
             const response = fetch(fetchUrl, requestOptions)
                 .then((response) => response.json())
                 .then((body) => {
-                    console.log("dupa")
-                    console.log(body)
                     var array: Array<JSX.Element> = [];
                     body.forEach((p: any) => {
                         array.push(<SingleContact
