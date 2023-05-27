@@ -1,10 +1,9 @@
-import { Component, createRef, RefObject, ChangeEvent, SyntheticEvent } from 'react';
+import { Component, createRef, RefObject, SyntheticEvent } from 'react';
 
 
 import style from './CreatePost.module.css';
 import arrow from '../../resources/arrow.png'
 import Multiline from './Multiline';
-import { SyntheticExpression } from 'typescript';
 
 const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/createPost`;
 
@@ -118,7 +117,5 @@ export default class CreatePost extends Component<CreatePostProps, CreatePostSta
     }
 }
 
-function navigate(arg0: string) {
-    throw new Error('Function not implemented.');
-}
+
 

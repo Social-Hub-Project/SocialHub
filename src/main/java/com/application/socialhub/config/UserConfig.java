@@ -15,13 +15,13 @@ import static java.time.Month.*;
 @Configuration
 public class UserConfig {
 
-    @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                                        PostRepository postRepository, CommentRepository commentRepository,
-                                        RatingRepository ratingRepository, CategoryRepository categoryRepository,
-                                        FollowerRepository followerRepository, PostCategoryRepository postCategoryRepository) {
+        @Bean
+        CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                        PostRepository postRepository, CommentRepository commentRepository,
+                        RatingRepository ratingRepository, CategoryRepository categoryRepository,
+                        FollowerRepository followerRepository, PostCategoryRepository postCategoryRepository) {
 
-        return args -> {
+                return args -> {
 
             // add comments
             UserInfo adamDetails = new UserInfo("Adam", "Moscicki",
@@ -61,47 +61,45 @@ public class UserConfig {
                     LocalDate.of(2001, MARCH, 14), false, marekDetails);
             userRepository.saveAll(List.of(adam, anna, marek));
 
-            // add posts
-            Post post1 = new Post("Post 1", true, LocalDate.of(2022, 5, 1), "/exampleImages/cat.jpg", adam);
-            Post post2 = new Post("Post 2", false, LocalDate.of(2022, 5, 1), "/exampleImages/cat.jpg",
-                    marek);
-            postRepository.saveAll(List.of(post1, post2));
 
-            // add comments
-            Comment comment1 = new Comment("Comment 1", LocalDate.now(), marek, post1);
-            Comment comment2 = new Comment("Comment 2", LocalDate.now(), adam, post2);
+                        // add posts
+                        Post post1 = new Post("Post 1", true, LocalDate.of(2022, 5, 1), "/exampleImages/cat.jpg", adam);
+                        Post post2 = new Post("Post 2", false, LocalDate.of(2022, 5, 1), "/exampleImages/cat.jpg",
+                                        marek);
+                        postRepository.saveAll(List.of(post1, post2));
 
-            commentRepository.saveAll(List.of(comment1, comment2));
+                        // add comments
+                        Comment comment1 = new Comment("Comment 1", LocalDate.now(), marek, post1);
+                        Comment comment2 = new Comment("Comment 2", LocalDate.now(), adam, post2);
 
-            // save ratings
+                        commentRepository.saveAll(List.of(comment1, comment2));
 
-            Rating rating1 = new Rating(-1, LocalDate.now(), LocalDate.now(), adam, post1);
-            Rating rating2 = new Rating(1, LocalDate.now(), LocalDate.now(), marek, post2);
+                        // save ratings
 
-            ratingRepository.saveAll(List.of(rating1, rating2));
+                        Rating rating1 = new Rating(-1, LocalDate.now(), LocalDate.now(), adam, post1);
+                        Rating rating2 = new Rating(1, LocalDate.now(), LocalDate.now(), marek, post2);
 
-            // save categories
-            Category category1 = new Category("Easter");
-            Category category2 = new Category("Christmas");
+                        ratingRepository.saveAll(List.of(rating1, rating2));
 
-            categoryRepository.saveAll(List.of(category1, category2));
+                        // save categories
+                        Category category1 = new Category("Easter");
+                        Category category2 = new Category("Christmas");
 
-            // save postCategory
+                        categoryRepository.saveAll(List.of(category1, category2));
 
-            PostCategory postCategory = new PostCategory(post2, category1);
-            PostCategory postCategory1 = new PostCategory(post1, category2);
+                        // save postCategory
 
-            postCategoryRepository.saveAll(List.of(postCategory, postCategory1));
+                        PostCategory postCategory = new PostCategory(post2, category1);
+                        PostCategory postCategory1 = new PostCategory(post1, category2);
 
-            Followers followers1 = new Followers(LocalDate.now(), adam, anna);
-            Followers followers2 = new Followers(LocalDate.now(), adam, marek);
-            Followers followers3 = new Followers(LocalDate.now(), anna, marek);
-            Followers followers4 = new Followers(LocalDate.now(), marek, adam);
-            Followers followers5 = new Followers(LocalDate.now(), anna,adam);
+                        postCategoryRepository.saveAll(List.of(postCategory, postCategory1));
 
-            followerRepository.saveAll(List.of(followers1, followers2, followers3, followers4, followers5));
+                        Followers followers1 = new Followers(LocalDate.now(), adam, anna);
+                        Followers followers2 = new Followers(LocalDate.now(), adam, marek);
+                        Followers followers3 = new Followers(LocalDate.now(), anna, marek);
 
-        };
+                        followerRepository.saveAll(List.of(followers1, followers2, followers3));
+                };
 
-    }
+        }
 }

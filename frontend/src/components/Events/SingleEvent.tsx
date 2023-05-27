@@ -34,7 +34,7 @@ export default class SingleEvent extends Component<SingleEventProps> {
             <div className={[style.singleEvent, this.props.className].join(' ')} >
                 <div className={style.positionEvent}>
                     <img alt="pg" src={logo} />
-                    <p>{this.props.name} {this.props.surname}</p>
+                    <p>{this.props.name}</p>
                     <p className={style.eventText}>{this.props.eventText}</p>
                 </div>
                 <p className={style.eventDate}>{this.props.date}</p>

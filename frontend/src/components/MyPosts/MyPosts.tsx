@@ -1,9 +1,8 @@
 import { Component, createRef, RefObject } from 'react';
 
-import style from './RecentPosts.module.css';
+import style from './MyPosts.module.css';
 import Post from '../Post/Post';
-export interface RecentPostsProps {
-    foruser: boolean;
+export interface MyPostsProps {
     userId?: string | null;
     onClick?: () => void;
     photoUrl?: string;
@@ -11,59 +10,40 @@ export interface RecentPostsProps {
     className?: string;
 }
 
-export interface RecentPostsState {
+export interface MyPostsState {
     loaded: boolean;
 }
-export default class RecentPosts extends Component<RecentPostsProps, RecentPostsState> {
+export default class MyPosts extends Component<MyPostsProps, MyPostsState> {
 
     private fetchUrl!: string;
     private allPosts!: Array<JSX.Element>;
-    constructor(props: RecentPostsProps) {
+    constructor(props: MyPostsProps) {
         super(props);
         var requestOptions;
         this.state = {
             loaded: false,
         };
 
-        if (!this.props.foruser) {
-            this.fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/getAllPosts`;
+
+        this.fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/getAllPostsForUser`;
+        if (this.props.userId != null) {
+            const body = {
+                token: "" + sessionStorage.getItem("userToken"),
+                userId: parseInt(this.props.userId),
+            };
             requestOptions = {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Credentials': 'true'
                 },
+                body: JSON.stringify(body)
 
             };
         }
-        else {
-            this.fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/getAllPostsForUser`;
-            if (this.props.userId != null) {
-                const body = {
-                    token: "" + sessionStorage.getItem("userToken"),
-                    userId: parseInt(this.props.userId),
-                };
-                requestOptions = {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Credentials': 'true'
-                    },
-                    body: JSON.stringify(body)
-
-                };
-            }
-
-
-        }
-
         this.allPosts = [];
-
-
         try {
             const response = fetch(this.fetchUrl, requestOptions)
                 .then((response) => response.json())
