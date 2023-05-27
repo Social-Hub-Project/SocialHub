@@ -8,8 +8,6 @@ import com.application.socialhub.dtoMappers.UserDTOMapper;
 import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.model.UserInfo;
 import com.application.socialhub.util.JWTUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -32,7 +30,6 @@ public class UserService {
     private final UserInfoDAO userInfoDAO;
     private final UserDTOMapper userDTOMapper;
     private final UserEntityDTOMapper userEntityDTOMapper;
-    private final ConfirmationTokenService confirmationTokenService;
     private final PasswordEncoder passwordEncoder;
     private final JWTUtil jwtUtil;
 
@@ -41,18 +38,15 @@ public class UserService {
                        @Qualifier("userInfoJpa") UserInfoDAO userInfoDAO,
                        UserDTOMapper userDTOMapper,
                        UserEntityDTOMapper userEntityDTOMapper,
-                       ConfirmationTokenService confirmationTokenService,
                        PasswordEncoder passwordEncoder,
                        JWTUtil jwtUtil) {
         this.userDAO = userDAO;
         this.userDTOMapper = userDTOMapper;
         this.userEntityDTOMapper = userEntityDTOMapper;
-        this.confirmationTokenService = confirmationTokenService;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.userInfoDAO = userInfoDAO;
     }
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public List<UserDTO> getAllUsers() {
 

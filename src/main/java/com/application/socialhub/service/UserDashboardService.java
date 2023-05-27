@@ -3,14 +3,11 @@ package com.application.socialhub.service;
 import com.application.socialhub.dao.*;
 import com.application.socialhub.dto.AllPostsForUserRequest;
 import com.application.socialhub.dto.DeletePostRequest;
-import com.application.socialhub.dto.UserInfoIdRequest;
 import com.application.socialhub.model.Post;
 import com.application.socialhub.model.PostWithCommentsAndRating;
 import com.application.socialhub.model.PostsReturns;
 import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.util.JWTUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -28,7 +25,6 @@ import java.util.List;
 @Service
 public class UserDashboardService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserDashboardService.class);
     private final PostDAO postDAO;
     private final UserDAO userDAO;
     private final JWTUtil jwtUtil;
@@ -89,7 +85,7 @@ public class UserDashboardService {
                 return new ResponseEntity<>("You are not the owner of this post", HttpStatus.UNAUTHORIZED);
             }
 
-            postDAO.blcokPost(true, postBlocked.getId());
+            postDAO.blockPost(true, postBlocked.getId());
             return new ResponseEntity<>(" Adding comments blocked successfully",HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -111,7 +107,7 @@ public class UserDashboardService {
                     return new ResponseEntity<>("You are not the owner of this post", HttpStatus.UNAUTHORIZED);
                 }
 
-                postDAO.blcokPost(false, postBlocked.getId());
+                postDAO.blockPost(false, postBlocked.getId());
                 return new ResponseEntity<>(" Adding comments unlock successfully",HttpStatus.OK);
             }
 
@@ -130,8 +126,8 @@ public class UserDashboardService {
                 int likes = ratingDAO.findPostLikes(post.getId());
                 int dislikes = ratingDAO.findPostDislikes(post.getId());
                 String email=jwtUtil.getSubject(request.token());
-                logger.warn(email);
                 UserEntity ratingsUser=userDAO.findUserByEmail(email);
+
                 Integer lickedByUser=ratingDAO.ratingUser(ratingsUser.getId(),post.getId());
 
                 // post images

@@ -40,7 +40,7 @@ public class PostJPADataAccessService implements PostDAO{
     }
 
     @Override
-    public void blcokPost(boolean state, long postId) {
+    public void blockPost(boolean state, long postId) {
         repository.blockPost(state, postId);
     }
 

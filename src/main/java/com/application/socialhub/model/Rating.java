@@ -1,8 +1,6 @@
 package com.application.socialhub.model;
 
 import jakarta.persistence.*;
-
-import java.sql.Date;
 import java.time.LocalDate;
 
 
@@ -18,13 +16,10 @@ public class Rating {
      private long id;
 
      @Column(
-             nullable = true,
              name="assessment"
      )
      private int value;
-     @Column(
-             nullable = true
-     )
+     @Column
      private LocalDate modified_at;
      @Column(
              nullable = false

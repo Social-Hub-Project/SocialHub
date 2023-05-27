@@ -44,19 +44,19 @@ public class UserConfig {
 
             UserEntity adam = new UserEntity(Role.USER,
                     "adam@email.com",
-                    passwordEncoder.encode("password"),
+                    passwordEncoder.encode("Password1!"),
                     true,
                     LocalDate.of(2000, JANUARY, 6), true, adamDetails);
 
             UserEntity anna = new UserEntity(Role.USER,
                     "anna@email.com",
-                    passwordEncoder.encode("anna"),
+                    passwordEncoder.encode("Password1!"),
                     true,
                     LocalDate.of(2002, MARCH, 12), true, annaDetails);
 
             UserEntity marek = new UserEntity(Role.USER,
                     "marek@email.com",
-                    passwordEncoder.encode("marek"),
+                    passwordEncoder.encode("Password1!"),
                     true,
                     LocalDate.of(2001, MARCH, 14), false, marekDetails);
             userRepository.saveAll(List.of(adam, anna, marek));

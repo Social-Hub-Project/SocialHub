@@ -21,9 +21,7 @@ public class EventDTOMapper implements Function<Event, EventDTO> {
                     event.getEventCreator().getUserInfo().getName() + " " +
                                 event.getEventCreator().getUserInfo().getSurname(),
                     convertImagePathToImage(event.getEventCreator().getUserInfo().getProfilePhotoSource()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
     }

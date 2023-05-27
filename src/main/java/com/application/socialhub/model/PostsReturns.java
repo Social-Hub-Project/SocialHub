@@ -1,6 +1,5 @@
 package com.application.socialhub.model;
 
-import java.sql.Blob;
 import java.time.LocalDate;
 
 public class PostsReturns {

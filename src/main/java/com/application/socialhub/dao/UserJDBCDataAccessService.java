@@ -1,13 +1,11 @@
 package com.application.socialhub.dao;
 
-
 import com.application.socialhub.dtoMappers.UserRowMapper;
 import com.application.socialhub.model.UserEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository("jdbc")
 public class UserJDBCDataAccessService implements UserDAO{
@@ -16,7 +14,7 @@ public class UserJDBCDataAccessService implements UserDAO{
     private final UserRowMapper userRowMapper;
 
     public UserJDBCDataAccessService(JdbcTemplate jdbcTemplate,
-                                         UserRowMapper userRowMapper) {
+                                     UserRowMapper userRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.userRowMapper = userRowMapper;
     }

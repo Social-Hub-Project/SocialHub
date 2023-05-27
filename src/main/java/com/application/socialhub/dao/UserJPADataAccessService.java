@@ -5,7 +5,6 @@ import com.application.socialhub.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository("jpa")
 public class UserJPADataAccessService implements UserDAO{

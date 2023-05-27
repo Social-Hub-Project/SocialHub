@@ -2,9 +2,7 @@ package com.application.socialhub.controller;
 
 import com.application.socialhub.dto.AllPostsForUserRequest;
 import com.application.socialhub.dto.DeletePostRequest;
-import com.application.socialhub.dto.UserInfoIdRequest;
 import com.application.socialhub.service.UserDashboardService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/app")
 public class UserDashboardController {
 
-    private UserDashboardService userDashboardService;
+    private final UserDashboardService userDashboardService;
 
     public UserDashboardController(UserDashboardService userDashboardService) {
         this.userDashboardService = userDashboardService;

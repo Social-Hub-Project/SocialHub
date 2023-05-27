@@ -1,9 +1,11 @@
 package com.application.socialhub.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 @Entity
 @Table(
@@ -18,38 +20,45 @@ public class UserInfo {
     @Column(
             nullable = false
     )
+    @NotBlank(message = "name field can't be blank!")
+    @Size(max = 128, message = "name field max size is 128!")
     private String name;
     @Column(
             nullable = false
     )
+    @NotBlank(message = "surname field can't be blank!")
+    @Size(max = 128, message = "surname field max size is 128!")
     private String surname;
     @Column(
             nullable = false
     )
+    @NotNull(message = "dateOfBirth field can't be null!")
     private LocalDate dateOfBirth;
     @Column(
             nullable = false
     )
+    @NotBlank(message = "residence field can't be blank!")
+    @Size(max = 128, message = "residence field max size is 128 characters!")
     private String residence;
     @Column(
             nullable = false
     )
     private boolean blocked;
     @Column(
-            nullable = true,
             columnDefinition = "TEXT"
     )
     private String profilePhotoSource;
     @Column(
-            nullable = true,
             columnDefinition = "TEXT"
     )
     private String bgPhotoSource;
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "sex field can't be null!")
     private Sex sex;
     @Column(
             nullable = false
     )
+    @NotNull(message = "createdAt field can't be null!")
     private LocalDate createdAt;
 
     @OneToOne(mappedBy = "userInfo",fetch =FetchType.EAGER)

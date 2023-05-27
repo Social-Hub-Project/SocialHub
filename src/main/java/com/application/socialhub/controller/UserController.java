@@ -2,10 +2,7 @@ package com.application.socialhub.controller;
 
 import com.application.socialhub.dto.*;
 import com.application.socialhub.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +13,6 @@ import java.util.List;
 @RequestMapping("/app")
 public class UserController {
     private final UserService userService;
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;

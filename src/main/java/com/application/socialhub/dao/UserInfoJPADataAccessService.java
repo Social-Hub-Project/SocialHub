@@ -1,7 +1,5 @@
 package com.application.socialhub.dao;
 
-import com.application.socialhub.dto.BasicUserInfoDTO;
-import com.application.socialhub.model.UserEntity;
 import com.application.socialhub.model.UserInfo;
 import com.application.socialhub.repository.UserInfoRepository;
 import org.springframework.stereotype.Repository;

@@ -1,12 +1,8 @@
 package com.application.socialhub.model;
 
 import jakarta.persistence.*;
-
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(

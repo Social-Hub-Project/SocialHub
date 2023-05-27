@@ -2,9 +2,12 @@ package com.application.socialhub.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+
 
 import java.time.LocalDate;
 import java.util.*;
@@ -16,7 +19,6 @@ import java.util.*;
 public class UserEntity implements UserDetails {
 
     @Id
-
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
@@ -26,24 +28,36 @@ public class UserEntity implements UserDetails {
             nullable = false
     )
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "role field can't be null!")
     private Role role;
     @Column(
             nullable = false,
             unique = true
     )
+    @Email(message = "wrong email!")
+    @Pattern(regexp = ".+@.+\\..+", message = "wrong email pattern!")
+    @NotBlank(message = "email field can't be blank!")
+    @Size(min = 5, max = 64, message = "email field size is between 5 and 64 characters!")
     private String email;
 
     @Column(
             nullable = false
     )
+    @NotBlank(message = "password field can't be blank!")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–\\[\\]{}:;',?/*~$^+=<>]).{8,64}$",
+            message = "Wrong password pattern!\n" +
+                    "Provide at least 1 letter, 1 capital letter, 1 digit, 1 special char,\n" +
+                    "password length is between 8 and 64 chars!\n ")
     private String password;
     @Column(
             nullable = false
     )
+    @NotNull(message = "active field can't be null!")
     private Boolean active;
     @Column(
             nullable = false
     )
+    @NotNull(message = "createdAt field can't be null!")
     private LocalDate createdAt;
 
     private Boolean enabled;
