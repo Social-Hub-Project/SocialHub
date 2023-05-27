@@ -3,6 +3,7 @@ package com.application.socialhub.service;
 import com.application.socialhub.dao.*;
 import com.application.socialhub.dto.*;
 import com.application.socialhub.dtoMappers.BasicUserInfoDTOMapper;
+import com.application.socialhub.dtoMappers.EventDTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.application.socialhub.model.*;
@@ -22,12 +23,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Blob;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
 import javax.sql.rowset.serial.SerialBlob;
 
 @Service
@@ -41,17 +40,18 @@ public class MainPageService {
     private final RatingDAO ratingDAO;
     private final CommentDAO commentDAO;
     private final UserInfoDAO userInfoDAO;
-
     private final FollowerDAO followerDAO;
+    private final EventDAO eventDAO;
 
 
     public MainPageService(@Qualifier("post") PostDAO postDAO,
-            @Qualifier("jpa") UserDAO userDAO,
-            @Qualifier("comment") CommentDAO commentDAO,
-            @Qualifier("ratings") RatingDAO ratingDAO,
-            @Qualifier("userInfoJpa") UserInfoDAO userInfoDAO,
-            @Qualifier("follower") FollowerDAO followerDAO,
-            JWTUtil jwtUtil) {
+                           @Qualifier("jpa") UserDAO userDAO,
+                           @Qualifier("comment") CommentDAO commentDAO,
+                           @Qualifier("ratings") RatingDAO ratingDAO,
+                           @Qualifier("userInfoJpa") UserInfoDAO userInfoDAO,
+                           @Qualifier("follower") FollowerDAO followerDAO,
+                           @Qualifier("event") EventDAO eventDAO,
+                           JWTUtil jwtUtil) {
         this.postDAO = postDAO;
         this.userDAO = userDAO;
         this.jwtUtil = jwtUtil;
@@ -59,6 +59,7 @@ public class MainPageService {
         this.ratingDAO = ratingDAO;
         this.userInfoDAO = userInfoDAO;
         this.followerDAO = followerDAO;
+        this.eventDAO = eventDAO;
     }
 
     public ResponseEntity<?> createPost(CreatePostRequest request) {
@@ -153,6 +154,7 @@ public class MainPageService {
             Comment comment = new Comment(request.description(), LocalDate.now(), user, postCommented);
 
             commentDAO.saveComment(comment);
+            addNewEvent(postCommented.getUserEntity() ,user ," commented your post!");
             return new ResponseEntity<>(comment, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -189,6 +191,11 @@ public class MainPageService {
                 }
             }
 
+            if(request.like() == 1) {
+                addNewEvent(postRated.getUserEntity(),user," liked your post!");
+            }else if(request.like() == -1){
+                addNewEvent(postRated.getUserEntity(),user," disliked your post!");
+            }
             return new ResponseEntity<>(existingRating, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -221,6 +228,7 @@ public class MainPageService {
                 return new ResponseEntity<>("You are already following this user",HttpStatus.BAD_REQUEST);
             }
             Followers followers = new Followers(LocalDate.now(),user,userToFollow);
+            addNewEvent(userToFollow,user, " started following you!");
             followerDAO.addFollower(followers);
             return new ResponseEntity<>("User added to following",HttpStatus.OK);
         }catch (Exception e) {
@@ -238,7 +246,8 @@ public class MainPageService {
             if(followerDAO.checkIfFollowerExists(follower.getId(),following.getId())){
                 Followers followersGroup=followerDAO.findFollowers(follower.getId(),following.getId());
                 followerDAO.deleteFollowers(followersGroup);
-                return new ResponseEntity<>("User stoped being followed",HttpStatus.OK);
+                addNewEvent(following,follower, " stopped following you!");
+                return new ResponseEntity<>("User stopped being followed",HttpStatus.OK);
             }
             return new ResponseEntity<>("Following relation doesn't exists",HttpStatus.BAD_REQUEST);
         }catch (Exception e){
@@ -267,5 +276,27 @@ public class MainPageService {
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public ResponseEntity<?> getLastEvents(GetEventsRequest request) {
+        try {
+            EventDTOMapper mapper = new EventDTOMapper();
+            String email = jwtUtil.getSubject(request.token());
+            UserEntity eventReceiver = userDAO.findUserByEmail(email);
+            List<Event> events = eventDAO.getLastEvents(eventReceiver, request.numberOfEvents());
+            List<EventDTO> eventsDTO = new LinkedList<>();
+            for(Event e: events) {
+                eventsDTO.add(mapper.apply(e));
+            }
+            return new ResponseEntity<>(eventsDTO, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public void addNewEvent(UserEntity receiver, UserEntity creator, String message) {
+
+        Event event = new Event(LocalDateTime.now(),message, receiver, creator);
+        eventDAO.saveEvent(event);
     }
 }

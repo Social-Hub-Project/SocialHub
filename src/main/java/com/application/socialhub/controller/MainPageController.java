@@ -34,10 +34,9 @@ public class MainPageController {
         return mainPageService.getAllPosts(authentication);
     }
 
-    @GetMapping("/getLastEvents")
-    public ResponseEntity<String> getLastEvents(){
-        String str= "getLastEvents";
-        return new ResponseEntity<>(str,HttpStatus.OK);
+    @PostMapping(value = "/getLastEvents", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getLastEvents(@RequestBody GetEventsRequest request){
+        return mainPageService.getLastEvents(request);
     }
 
     @PostMapping(value = "/ratingPost")
