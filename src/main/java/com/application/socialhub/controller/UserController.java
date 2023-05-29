@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.Authentication;
 import java.util.List;
 
 @RestController
@@ -29,8 +29,8 @@ public class UserController {
     }
 
     @PostMapping(path = "/getUserInfoById", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDetailsDTO getUserInfoById(@RequestBody UserInfoIdRequest request) {
-        return  userService.getUserInfoById(request);
+    public UserDetailsDTO getUserInfoById(@RequestBody UserInfoIdRequest request,Authentication authentication) {
+        return  userService.getUserInfoById(request,authentication);
     }
 
     @PostMapping(path = "/changeProfilePhoto", produces = MediaType.APPLICATION_JSON_VALUE)

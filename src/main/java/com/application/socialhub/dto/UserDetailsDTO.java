@@ -14,6 +14,7 @@ public record UserDetailsDTO(
         Blob profilePhoto,
         Blob backgroundPhoto,
         String profilePhotoSource,
-        String backgroundPhotoSource
+        String backgroundPhotoSource,
+        boolean followed
 ){
 }
