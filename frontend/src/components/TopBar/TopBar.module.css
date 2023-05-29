@@ -27,7 +27,7 @@
 .logo {
     height: 60px;
     margin: 5px;
-
+    cursor: pointer;
 }
 
 .menu {

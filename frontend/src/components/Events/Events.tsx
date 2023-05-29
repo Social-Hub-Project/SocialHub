@@ -54,7 +54,7 @@ export default class Events extends Component<EventsProps, EventsState> {
                     var array: Array<JSX.Element> = [];
                     body.forEach((p: any) => {
                         array.push(<SingleEvent
-                            id={p.id} key={p.id} photoUrl={p.photoUrl}
+                            id={p.id} key={p.id} photoUrl={p.profilePhoto}
                             name={p.eventCreator}
                             surname={p.eventCreator} date={p.created_at.slice(0, 10)}
                             eventText={p.message}></SingleEvent>)

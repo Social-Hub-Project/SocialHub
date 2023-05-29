@@ -3,6 +3,7 @@ import { Component, createRef, RefObject } from 'react';
 import style from './ChangePassword.module.css';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
+const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/changePassword `;
 
 export interface ChangePasswordProps {
     text?: string;
@@ -22,11 +23,44 @@ export default class ChangePassword extends Component<ChangePasswordProps> {
 
     constructor(props: ChangePasswordProps) {
         super(props);
-        if (this.props.useRef === undefined) this.inputRef = createRef();
-        else this.inputRef = this.props.useRef;
+        this.inputRef = createRef();
+        this.inputConfRef = createRef();
+
+        this.savePass = this.savePass.bind(this);
+
     };
     savePass() {
-        console.log("save pass");
+        console.log(this.inputRef.current)
+        console.log(this.inputConfRef.current)
+
+        const body = {
+            token: sessionStorage.getItem("userToken"),
+            newPassword: this.inputRef.current?.value,
+            newPasswordConfirm: this.inputConfRef.current?.value
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+            body: JSON.stringify(body),
+        };
+
+        try {
+            const response = fetch(fetchUrl, requestOptions)
+                .then((body) => {
+                    if (body.status == 200)
+                        alert("password changed");
+                    else {
+                        alert("error")
+                    }
+                });
+        } catch (err) {
+            console.log("conn error");
+        }
     }
 
     render() {
