@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long>{
     @Transactional
@@ -24,5 +22,14 @@ public interface RatingRepository extends JpaRepository<Rating, Long>{
     @Query(value="SELECT COUNT(*) FROM rating WHERE posts_id = :postId AND assessment = -1", nativeQuery = true)
     int findPostDislikes(@Param("postId") Long postId);
 
+
+    @Query(value = "SELECT assessment FROM rating WHERE user_entity_id = :userID AND posts_id = :postId",
+            nativeQuery = true)
+    Integer ratingUser(@Param("userID") long userID, @Param("postId") long postID);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from rating where posts_id=:postId",nativeQuery = true)
+    void deleteRatingByPostId(@Param("postId") long postId);
 
 }

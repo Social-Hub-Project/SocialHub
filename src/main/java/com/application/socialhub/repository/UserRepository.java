@@ -4,10 +4,10 @@ import com.application.socialhub.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
@@ -43,4 +43,14 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findUserByEmail(String email);
 
     boolean existsByEmail(String email);
+
+    @Modifying
+    @Transactional
+    @Query(value="UPDATE my_user SET active = :state WHERE email = :email", nativeQuery = true)
+    void updateUserState(@Param("state") boolean state, @Param("email") String email);
+
+    @Transactional
+    @Modifying
+    @Query(value="UPDATE my_user SET password = :newPassword WHERE id = :userId", nativeQuery = true)
+    void changePassword(@Param("userId") long userId,@Param("newPassword") String newPassword);
 }

@@ -12,4 +12,6 @@ public interface CommentDAO {
     void saveComment(Comment newComment);
 
     List<PostsReturns> findCommentsByPostId(long postId);
+
+    void deleteComment(long PostID);
 }

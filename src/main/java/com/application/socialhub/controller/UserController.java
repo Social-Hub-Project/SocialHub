@@ -2,8 +2,6 @@ package com.application.socialhub.controller;
 
 import com.application.socialhub.dto.*;
 import com.application.socialhub.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +13,6 @@ import java.util.List;
 @RequestMapping("/app")
 public class UserController {
     private final UserService userService;
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
@@ -45,4 +42,10 @@ public class UserController {
     public ResponseEntity<?> changeBackgroundPhoto(@ModelAttribute ChangePhotoRequest request) {
         return userService.changeBackgroundPhoto(request);
     }
+
+    @PostMapping(path = "/changePassword", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
+        return userService.changePassword(request);
+    }
+
 }

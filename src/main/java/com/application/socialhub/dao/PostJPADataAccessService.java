@@ -34,6 +34,20 @@ public class PostJPADataAccessService implements PostDAO{
         return repository.findAllPostsOrderedByCreatedAtDesc();
     }
 
+    @Override
+    public void deletePost(Post post) {
+        repository.delete(post);
+    }
+
+    @Override
+    public void blockPost(boolean state, long postId) {
+        repository.blockPost(state, postId);
+    }
+
+    @Override
+    public List<Post> findAllPostsOrderedByCreatedAtDescForDedUser(long userId) {
+        return repository.findAllPostsOrderedByCreatedAtDescForDedUser(userId);
+    }
 
 
 }

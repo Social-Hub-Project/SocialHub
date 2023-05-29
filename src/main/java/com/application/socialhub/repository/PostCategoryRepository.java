@@ -9,9 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 
 @Repository
 public interface PostCategoryRepository extends JpaRepository<PostCategory, Long>{
 
+    @Modifying
+    @Transactional
+    @Query(value = "delete from post_categories where post_id=:postId",nativeQuery = true)
+    void removeCategoryConnection(@Param("postId") long postId);
 }

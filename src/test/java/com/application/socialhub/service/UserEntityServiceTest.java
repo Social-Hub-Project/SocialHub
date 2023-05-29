@@ -27,8 +27,6 @@ class UserEntityServiceTest {
     @Mock
     private UserEntityDTOMapper userEntityDTOMapper;
     @Mock
-    private ConfirmationTokenService confirmationTokenService;
-    @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
     private JWTUtil jwtUtil;
@@ -41,7 +39,6 @@ class UserEntityServiceTest {
                 userInfoDAO,
                 userDTOMapper,
                 userEntityDTOMapper,
-                confirmationTokenService,
                 passwordEncoder,
                 jwtUtil);
     }

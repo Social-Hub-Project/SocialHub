@@ -28,6 +28,7 @@ function User(this: any) {
             </LeftBar>
             <CenterBar>
                 <UserInfo id={userId} userObj={{}} ></UserInfo>
+                <RecentPosts foruser={true} userId={userId} ></RecentPosts>
             </CenterBar>
 
 

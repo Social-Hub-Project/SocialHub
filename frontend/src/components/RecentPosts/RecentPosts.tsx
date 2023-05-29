@@ -2,9 +2,9 @@ import { Component, createRef, RefObject } from 'react';
 
 import style from './RecentPosts.module.css';
 import Post from '../Post/Post';
-const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/getAllPosts`;
 export interface RecentPostsProps {
-
+    foruser: boolean;
+    userId?: string | null;
     onClick?: () => void;
     photoUrl?: string;
     useRef?: RefObject<HTMLInputElement>;
@@ -16,31 +16,61 @@ export interface RecentPostsState {
 }
 export default class RecentPosts extends Component<RecentPostsProps, RecentPostsState> {
 
+    private fetchUrl!: string;
     private allPosts!: Array<JSX.Element>;
     constructor(props: RecentPostsProps) {
         super(props);
+        var requestOptions;
         this.state = {
             loaded: false,
         };
-        this.allPosts = [];
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': 'true'
-            },
 
-        };
+        if (!this.props.foruser) {
+            this.fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/getAllPosts`;
+            requestOptions = {
+                method: 'GET',
+                headers: {
+                    'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Credentials': 'true'
+                },
+
+            };
+        }
+        else {
+            this.fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/getAllPostsForUser`;
+            if (this.props.userId != null) {
+                const body = {
+                    token: "" + sessionStorage.getItem("userToken"),
+                    userId: parseInt(this.props.userId),
+                };
+                requestOptions = {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Credentials': 'true'
+                    },
+                    body: JSON.stringify(body)
+
+                };
+            }
+
+
+        }
+
+        this.allPosts = [];
+
 
         try {
-            const response = fetch(fetchUrl, requestOptions)
+            const response = fetch(this.fetchUrl, requestOptions)
                 .then((response) => response.json())
                 .then((body) => {
-                    console.log(body);
                     body.forEach((p: any) => {
-                        this.allPosts.push(<Post key={p.post.id} id={p.post.id} name={p.post.userEntity.userInfo.name} surname={p.post.userEntity.userInfo.surname}
+                        console.log(p.lickedByUser)
+                        this.allPosts.push(<Post key={p.post.id} lickedByUser={p.lickedByUser} id={p.post.id} name={p.post.userEntity.userInfo.name} surname={p.post.userEntity.userInfo.surname}
                             date={p.post.create_at} content={p.post.description} likes={p.like} photoUrl={p.image} dislikes={p.dislike}
                             liked={false} disliked={false} comments={p.comments} ></Post>);
 

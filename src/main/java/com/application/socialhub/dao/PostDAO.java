@@ -14,5 +14,10 @@ public interface PostDAO {
 
     List<Post> findPostByCreatedAt();
 
+    void deletePost(Post post);
+
+    void blockPost(boolean state, long postId);
+
+    List<Post> findAllPostsOrderedByCreatedAtDescForDedUser(long userId);
 
 }

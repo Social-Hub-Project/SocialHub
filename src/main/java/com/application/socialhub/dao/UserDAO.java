@@ -1,10 +1,8 @@
 package com.application.socialhub.dao;
 
-import com.application.socialhub.dto.UserDetailsDTO;
 import com.application.socialhub.model.UserEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserDAO {
     List<UserEntity> selectAllUsers();
@@ -20,4 +18,10 @@ public interface UserDAO {
     boolean selectUserEnabled(String email);
 
     boolean selectExistsEmail(String email);
+
+    void updateUserState(boolean state, String email);
+
+    UserEntity findUserById(long id);
+
+    void changePassword(long userId, String newPassword);
 }

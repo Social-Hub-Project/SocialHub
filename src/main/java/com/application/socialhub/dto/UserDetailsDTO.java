@@ -4,6 +4,7 @@ import com.application.socialhub.model.Sex;
 import java.sql.Blob;
 
 public record UserDetailsDTO(
+        Long id,
         String name,
         String surname,
         java.time.LocalDate dateOfBirth,

@@ -1,13 +1,11 @@
 package com.application.socialhub.dao;
 
-
 import com.application.socialhub.dtoMappers.UserRowMapper;
 import com.application.socialhub.model.UserEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository("jdbc")
 public class UserJDBCDataAccessService implements UserDAO{
@@ -16,7 +14,7 @@ public class UserJDBCDataAccessService implements UserDAO{
     private final UserRowMapper userRowMapper;
 
     public UserJDBCDataAccessService(JdbcTemplate jdbcTemplate,
-                                         UserRowMapper userRowMapper) {
+                                     UserRowMapper userRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.userRowMapper = userRowMapper;
     }
@@ -72,5 +70,25 @@ public class UserJDBCDataAccessService implements UserDAO{
     @Override
     public boolean selectExistsEmail(String email) {
         return false;
+    }
+
+    @Override
+    public void updateUserState(boolean state, String email) {
+        var sql = """
+                UPDATE my_user
+                SET active = ?
+                WHERE email = ?
+                """;
+        jdbcTemplate.update(sql, state, email);
+    }
+
+    @Override
+    public UserEntity findUserById(long id) {
+        return null;
+    }
+
+    @Override
+    public void changePassword(long userId, String newPassword) {
+        System.out.println("dupa");
     }
 }
