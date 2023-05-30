@@ -63,8 +63,8 @@ public class UserConfig {
 
 
                         // add posts
-                        Post post1 = new Post("Post 1", true, LocalDate.of(2022, 5, 1), "/exampleImages/cat.jpg", adam);
-                        Post post2 = new Post("Post 2", false, LocalDate.of(2022, 5, 1), "/exampleImages/cat.jpg",
+                        Post post1 = new Post("Post 1", true, LocalDate.of(2022, 5, 1), "exampleImages/cat.jpg", adam);
+                        Post post2 = new Post("Post 2", false, LocalDate.of(2022, 5, 1), "exampleImages/cat.jpg",
                                         marek);
                         postRepository.saveAll(List.of(post1, post2));
 
