@@ -49,15 +49,15 @@ export default class Events extends Component<EventsProps, EventsState> {
             const response = fetch(fetchUrl, requestOptions)
                 .then((response) => response.json())
                 .then((body) => {
-                    console.log("dupa")
-                    console.log(body)
                     var array: Array<JSX.Element> = [];
+                    let num = 0;
                     body.forEach((p: any) => {
                         array.push(<SingleEvent
-                            id={p.id} key={p.id} photoUrl={p.profilePhoto}
+                            id={p.id} key={num} photoUrl={p.profilePhoto}
                             name={p.eventCreator}
                             surname={p.eventCreator} date={p.created_at.slice(0, 10)}
                             eventText={p.message}></SingleEvent>)
+                        num++;
                     })
                     this.setState({
                         results: array,

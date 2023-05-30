@@ -159,6 +159,14 @@
 
 .commentsContainer {
     width: 75%;
+    height: 300px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.commentsContainer::-webkit-scrollbar {
+    display: none;
 }
 
 .addComment {

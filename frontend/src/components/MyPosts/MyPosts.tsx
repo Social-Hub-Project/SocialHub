@@ -50,7 +50,8 @@ export default class MyPosts extends Component<MyPostsProps, MyPostsState> {
                 .then((body) => {
 
                     body.forEach((p: any) => {
-                        this.allPosts.push(<Post profilephoto={p.profileImage[0]} myAccount={true}
+                        this.allPosts.push(<Post commentsPhotos={p.profileImage}
+                            profilephoto={p.creatorProfilePhoto} myAccount={true}
                             blocked={p.post.blocked} key={p.post.id}
                             lickedByUser={p.lickedByUser} id={p.post.id} name={p.post.userEntity.userInfo.name}
                             surname={p.post.userEntity.userInfo.surname}

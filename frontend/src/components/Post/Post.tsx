@@ -29,6 +29,7 @@ export interface PostProps {
     dislikes: number;
     liked: boolean;
     disliked: boolean;
+    commentsPhotos: Array<String>;
     comments: Array<Array<String>>;
     lickedByUser: number;
     blocked: boolean;
@@ -86,8 +87,10 @@ export default class Post extends Component<PostProps, PostState> {
         if (this.props.useRef === undefined) this.inputRef = createRef();
         else this.inputRef = this.props.useRef;
         this.allComments = [];
+        let num = 0;
         this.props.comments.forEach(com => {
-            this.allComments.push(<Comment com={com}></Comment>);
+            this.allComments.push(<Comment key={num} photoUrl={this.props.commentsPhotos[num].toString()} com={com}></Comment>);
+            num++;
         })
 
 
@@ -262,7 +265,8 @@ export default class Post extends Component<PostProps, PostState> {
             const response = fetch(commentUrl, requestOptions)
                 .then((response) => response.json())
                 .then((body) => {
-                    console.log(body);
+                    // eslint-disable-next-line no-restricted-globals
+                    location.reload();
                 });
         } catch (err) {
             console.log("conn error");
