@@ -115,7 +115,7 @@ public class MainPageService {
                     InputStream inputStream = new FileInputStream(file);
                     Blob imageBlob = new SerialBlob(new InputStreamResource(inputStream).getContentAsByteArray());
 
-
+                    // creator profile photo
                     File file2 = new File(post.getUserEntity().getUserInfo().getProfilePhotoSource());
                     InputStream inputStream2 = new FileInputStream(file2);
                     Blob creatorProfilePhoto = new SerialBlob(new InputStreamResource(inputStream2).getContentAsByteArray());

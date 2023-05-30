@@ -81,4 +81,12 @@ public class PostWithCommentsAndRating {
     public void setProfileImage(List<Blob> profileImage) {
         this.profileImage = profileImage;
     }
+
+    public Blob getCreatorProfilePhoto() {
+        return creatorProfilePhoto;
+    }
+
+    public void setCreatorProfilePhoto(Blob creatorProfilePhoto) {
+        this.creatorProfilePhoto = creatorProfilePhoto;
+    }
 }

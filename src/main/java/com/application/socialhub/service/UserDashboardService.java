@@ -129,6 +129,10 @@ public class UserDashboardService {
                 UserEntity ratingsUser=userDAO.findUserByEmail(email);
 
                 Integer lickedByUser=ratingDAO.ratingUser(ratingsUser.getId(),post.getId());
+                //creator image
+                File file1 = new File(post.getUserEntity().getUserInfo().getProfilePhotoSource());
+                InputStream inputStream3 = new FileInputStream(file1);
+                Blob creatorBlob = new SerialBlob(new InputStreamResource(inputStream3).getContentAsByteArray());
 
                 // post images
                 File file = new File(post.getPhoto_source());
@@ -152,7 +156,7 @@ public class UserDashboardService {
                 }
 
                 postWithCommentsAndRatingsList.add(new PostWithCommentsAndRating(post, comments, likes, dislikes,lickedByUser,
-                        imageBlob, imagesCommentary));
+                        imageBlob,creatorBlob,imagesCommentary));
 
             }
 
