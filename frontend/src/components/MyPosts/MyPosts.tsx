@@ -48,10 +48,15 @@ export default class MyPosts extends Component<MyPostsProps, MyPostsState> {
             const response = fetch(this.fetchUrl, requestOptions)
                 .then((response) => response.json())
                 .then((body) => {
+
                     body.forEach((p: any) => {
-                        console.log(p.lickedByUser)
-                        this.allPosts.push(<Post key={p.post.id} lickedByUser={p.lickedByUser} id={p.post.id} name={p.post.userEntity.userInfo.name} surname={p.post.userEntity.userInfo.surname}
-                            date={p.post.create_at} content={p.post.description} likes={p.like} photoUrl={p.image} dislikes={p.dislike}
+                        this.allPosts.push(<Post commentsPhotos={p.profileImage}
+                            profilephoto={p.creatorProfilePhoto} myAccount={true}
+                            blocked={p.post.blocked} key={p.post.id}
+                            lickedByUser={p.lickedByUser} id={p.post.id} name={p.post.userEntity.userInfo.name}
+                            surname={p.post.userEntity.userInfo.surname}
+                            date={p.post.create_at} content={p.post.description}
+                            likes={p.like} photoUrl={p.image} dislikes={p.dislike}
                             liked={false} disliked={false} comments={p.comments} ></Post>);
 
                     })

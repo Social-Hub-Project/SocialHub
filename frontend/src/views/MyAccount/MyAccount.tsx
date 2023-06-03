@@ -13,69 +13,94 @@ import Button from '../../components/Button/Button';
 import UserInfo from '../../components/UserInfo/UserInfo';
 import ChangePassword from '../../components/ChangePassword/ChangePassword';
 import MyPosts from '../../components/MyPosts/MyPosts';
+import { Component } from 'react';
+import Information from '../../components/Information/Information';
+import ChangePictures from '../../components/ChangePictures/ChangePictures';
 
 const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/getUser`;
-const ConvertedPhoto = ({ data }: { data: string }) => <img className="postPhoto" src={`data:image/jpeg;base64,${data}`} />
 
-function MyAccount(this: any) {
-    var userId: number;
-    var userObj: any;
-    const body = {
-        token: "" + sessionStorage.getItem("userToken")
-    };
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': 'true'
-        },
-        body: JSON.stringify(body)
+export interface MyAccountProps {
 
-    };
-
-    try {
-        const response = fetch(fetchUrl, requestOptions)
-            .then((response) => response.json())
-            .then((body) => {
-                console.log(body)
-                userObj = body;
-            });
-    } catch (err) {
-        console.log("conn error");
-    }
-
-    return (
-        <Page sidebar={true}>
-            <LeftBar>
-                <Search text={'search'}></Search>
-                <Contacts></Contacts>
-            </LeftBar>
-            <CenterBar>
-                <UserInfo userObj={{}} ></UserInfo>
-                <MyPosts ></MyPosts>
-            </CenterBar>
-
-
-            <RightBar>
-                <h3>Information</h3>
-                <div className={style.userInfo}>
-                    <div></div>
-                    <div>20.09.2000</div>
-                    <div>Krakow</div>
-                    <div>Male</div>
-                </div>
-
-                <Button text='Home Page' onClick={() => { window.location.replace('/'); }}></Button>
-                <ChangePassword></ChangePassword>
-            </RightBar>
-            <TopBar></TopBar>
-
-        </Page>
-    );
 }
+export interface MyAccountState {
+    loaded: boolean;
+}
+export default class MyAccount extends Component<MyAccountProps, MyAccountState> {
+
+    private fetchUrl!: string;
+    private allPosts!: Array<JSX.Element>;
+    private userObj!: any;
+    constructor(props: MyAccountProps) {
+        super(props);
+        this.state = {
+            loaded: false
+        }
+        const body = {
+            token: "" + sessionStorage.getItem("userToken")
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+            body: JSON.stringify(body)
+
+        };
+
+        try {
+            const response = fetch(fetchUrl, requestOptions)
+                .then((response) => response.json())
+                .then((body) => {
+                    console.log(body)
+                    this.userObj = body;
+                    console.log(this.userObj.id)
+                    this.setState({
+                        loaded: true,
+                    })
+                });
+        } catch (err) {
+            console.log("conn error");
+        }
+    }
+    render() {
+        return (
+            <Page sidebar={true}>
+                <LeftBar>
+                    <Search text={'search'}></Search>
+                    <Contacts></Contacts>
+                </LeftBar>
+                <CenterBar>
+
+                    {this.state.loaded ?
+                        <ChangePictures img1={this.userObj.profilePhoto} img2={this.userObj.backgroundPhoto
+                        } userObj={undefined}></ChangePictures>
+
+                        : null
+                    }
+                    {this.state.loaded ?
+                        <MyPosts userId={this.userObj.id}></MyPosts>
+
+                        : null
+                    }
+                </CenterBar>
 
 
-export default MyAccount;
+                <RightBar>
+                    {this.state.loaded ?
+                        <Information id={this.userObj.id}></Information>
+                        : null
+                    }
+
+                    <Button text='Home Page' onClick={() => { window.location.replace('/'); }}></Button>
+                    <ChangePassword></ChangePassword>
+                </RightBar>
+                <TopBar></TopBar>
+
+            </Page>
+        );
+    }
+}
 

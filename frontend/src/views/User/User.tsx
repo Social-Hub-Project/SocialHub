@@ -13,6 +13,7 @@ import Button from '../../components/Button/Button';
 import UserInfo from '../../components/UserInfo/UserInfo';
 import { useSearchParams } from 'react-router-dom';
 import Information from '../../components/Information/Information';
+import ChangePictures from '../../components/ChangePictures/ChangePictures';
 
 
 function User(this: any) {
@@ -27,13 +28,12 @@ function User(this: any) {
                 <Contacts></Contacts>
             </LeftBar>
             <CenterBar>
-                <UserInfo id={userId} userObj={{}} ></UserInfo>
+                <UserInfo id={userId}></UserInfo>
                 <RecentPosts foruser={true} userId={userId} ></RecentPosts>
             </CenterBar>
 
 
             <RightBar>
-                <Information id={userId}></Information>
                 <Button text='Home Page' onClick={() => { window.location.replace('/'); }}></Button>
             </RightBar>
             <TopBar></TopBar>

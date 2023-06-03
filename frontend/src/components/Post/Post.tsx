@@ -7,10 +7,18 @@ import likeGrey from '../../resources/like_grey.png';
 import likeBlue from '../../resources/like_blue.png';
 import commentsImg from '../../resources/comments.png';
 import Comment from './Comment';
+import Button from '../Button/Button';
+import ProfilePhoto from '../ProfilePhoto/ProfilePhoto';
 const commentUrl = `${process.env.REACT_APP_BACKEND_URL}/app/commentPost`;
 const likeUrl = `${process.env.REACT_APP_BACKEND_URL}/app/ratingPost`;
+const unlockUrl = `${process.env.REACT_APP_BACKEND_URL}/app/unlockComments`;
+const blockUrl = `${process.env.REACT_APP_BACKEND_URL}/app/blockComments`;
+const deleteUrl = `${process.env.REACT_APP_BACKEND_URL}/app/deletePost`;
+
+
 // eslint-disable-next-line jsx-a11y/alt-text
 const ConvertedPhoto = ({ data }: { data: string }) => <img className="postPhoto" src={`data:image/jpeg;base64,${data}`} />
+
 export interface PostProps {
     id: number,
     name: string;
@@ -21,8 +29,12 @@ export interface PostProps {
     dislikes: number;
     liked: boolean;
     disliked: boolean;
+    commentsPhotos: Array<String>;
     comments: Array<Array<String>>;
     lickedByUser: number;
+    blocked: boolean;
+    myAccount: boolean;
+    profilephoto: string;
     onClick?: () => void;
     photoUrl: string;
     useRef?: RefObject<HTMLInputElement>;
@@ -75,26 +87,97 @@ export default class Post extends Component<PostProps, PostState> {
         if (this.props.useRef === undefined) this.inputRef = createRef();
         else this.inputRef = this.props.useRef;
         this.allComments = [];
+        let num = 0;
         this.props.comments.forEach(com => {
-            this.allComments.push(<Comment com={com}></Comment>);
+            this.allComments.push(<Comment key={num} photoUrl={this.props.commentsPhotos[num].toString()} com={com}></Comment>);
+            num++;
         })
 
 
 
 
     };
-    // async componentDidMount() {
-    //     var base64Flag = 'data:image/jpeg;base64,';
-    //     var binary = '';
-    //     var bytes = [].slice.call(new Uint8Array(this.props.photoUrl));
-    //     bytes.forEach((b) => binary += String.fromCharCode(b));
-    //     var imageStr = await window.btoa(binary);
-    //     console.log(imageStr.toString())
-    //     this.setState({
-    //         img: base64Flag + imageStr,
-    //     })
+    private unblock = () => {
+        const body = {
+            token: sessionStorage.getItem("userToken"),
+            postId: this.props.id,
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+            body: JSON.stringify(body)
+        };
 
-    // }
+        try {
+            const response = fetch(unlockUrl, requestOptions)
+                .then((body) => {
+                    // eslint-disable-next-line no-restricted-globals
+                    location.reload();
+
+                });
+        } catch (err) {
+            console.log("conn error");
+        }
+    }
+    private block = () => {
+        const body = {
+            token: sessionStorage.getItem("userToken"),
+            postId: this.props.id,
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+            body: JSON.stringify(body)
+        };
+
+        try {
+            const response = fetch(blockUrl, requestOptions)
+                .then((body) => {
+                    // eslint-disable-next-line no-restricted-globals
+                    location.reload();
+
+                });
+        } catch (err) {
+            console.log("conn error");
+        }
+    }
+    private deletePost = () => {
+        const body = {
+            token: sessionStorage.getItem("userToken"),
+            postId: this.props.id,
+        };
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Authorization': "Bearer " + sessionStorage.getItem("userToken"),
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+            body: JSON.stringify(body)
+        };
+
+        try {
+            const response = fetch(deleteUrl, requestOptions)
+                .then((body) => {
+                    // eslint-disable-next-line no-restricted-globals
+                    location.reload();
+
+                });
+        } catch (err) {
+            console.log("conn error");
+        }
+    }
     private ratePost = (rating: number) => {
         const body = {
             token: sessionStorage.getItem("userToken"),
@@ -154,7 +237,8 @@ export default class Post extends Component<PostProps, PostState> {
         this.dislikesNum -= 1;
     };
     private toogleComments = () => {
-        this.setState({ expanded: !this.state.expanded });
+        if (!this.props.blocked)
+            this.setState({ expanded: !this.state.expanded });
     };
     private addComment = () => {
         if (this.inputRef.current?.value === "")
@@ -181,7 +265,8 @@ export default class Post extends Component<PostProps, PostState> {
             const response = fetch(commentUrl, requestOptions)
                 .then((response) => response.json())
                 .then((body) => {
-                    console.log(body);
+                    // eslint-disable-next-line no-restricted-globals
+                    location.reload();
                 });
         } catch (err) {
             console.log("conn error");
@@ -192,18 +277,28 @@ export default class Post extends Component<PostProps, PostState> {
         return (
             <div className={[style.post, this.props.className].join(' ')}>
                 <div className={style.userInfo}>
-                    <img alt="pg" className={style.userPhoto} src={userLogo} />
+                    <ProfilePhoto data={this.props.profilephoto}></ProfilePhoto>
+
                     <div>
                         <p className={style.userNames}>{this.props.name} {this.props.surname}</p>
                         <p className={style.postDate}>{this.props.date}</p>
                     </div>
                 </div>
+                {this.props.myAccount ?
+                    <div className={style.optionsPost}>
+                        {this.props.blocked ?
+                            <Button onClick={this.unblock} text='Unlock comments'></Button>
+                            : <Button onClick={this.block} text='Block comments'></Button>
+
+                        }
+                        <Button onClick={this.deletePost} text='Delete post'></Button>
+                    </div >
+                    : null}
+
+
                 <p className={style.content}>{this.props.content}</p>
                 <ConvertedPhoto data={this.props.photoUrl} />
                 <div className={style.likesContainer}>
-
-
-
 
                     {!this.state.liked ?
                         <><img onClick={this.likeClick} className={style.like} alt="likeGrey" src={likeGrey} /> <p className={style.likeNum}>{this.likesNum}</p>                        </>
@@ -216,11 +311,13 @@ export default class Post extends Component<PostProps, PostState> {
                         :
                         <><img className={style.dislike} onClick={this.bluedislikeClick} alt="dislikeGrey" src={likeBlue} /><p className={style.dislikeNum}>{this.dislikesNum}</p></>
                     }
+                    {!this.props.blocked ?
+                        <>
+                            <img onClick={this.toogleComments} className={style.comments} alt="dislikeGrey" src={commentsImg} />
+                            <p className={style.commentsNum}>{this.props.comments.length}</p>
 
-
-                    <img onClick={this.toogleComments} className={style.comments} alt="dislikeGrey" src={commentsImg} />
-                    <p className={style.commentsNum}>{this.props.comments.length}</p>
-
+                        </>
+                        : null}
 
                 </div>
                 {this.state.expanded ?

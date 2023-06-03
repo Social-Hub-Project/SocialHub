@@ -1,13 +1,13 @@
 import { Component, createRef, RefObject } from 'react';
 
 import style from './Contacts.module.css';
-import logo from '../../resources/logo_user.png';
+import ProfilePhoto from '../ProfilePhoto/ProfilePhoto';
 
 
 export interface SingleContactProps {
     name: string;
     surname: string;
-    photoUrl?: string;
+    photoUrl: string;
     onClick?: () => void;
     className?: string;
     id?: string;
@@ -30,7 +30,7 @@ export default class SingleContact extends Component<SingleContactProps> {
     render() {
         return (
             <div className={[style.singleContact, this.props.className].join(' ')} >
-                <img alt="pg" src={logo} />
+                <ProfilePhoto data={this.props.photoUrl}></ProfilePhoto>
                 <p>{this.props.name} {this.props.surname}</p>
             </div>
         );

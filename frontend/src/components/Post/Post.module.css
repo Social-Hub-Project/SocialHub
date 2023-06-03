@@ -159,6 +159,14 @@
 
 .commentsContainer {
     width: 75%;
+    height: 300px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.commentsContainer::-webkit-scrollbar {
+    display: none;
 }
 
 .addComment {
@@ -209,4 +217,12 @@
     line-height: 18px;
     border: none;
     color: #788292;
+}
+
+.optionsPost {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
 }

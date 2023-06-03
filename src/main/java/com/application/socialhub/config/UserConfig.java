@@ -23,48 +23,47 @@ public class UserConfig {
 
                 return args -> {
 
-            // add comments
-            UserInfo adamDetails = new UserInfo("Adam", "Moscicki",
-                    LocalDate.of(2000, MARCH, 29), "Warszawa", false,
-                    "exampleImages/userIcon.png",
-                    "exampleImages/background.png",
-                    Sex.MALE, LocalDate.of(2023, JANUARY, 22));
+                        // add comments
+                        UserInfo adamDetails = new UserInfo("Adam", "Moscicki",
+                                        LocalDate.of(2000, MARCH, 29), "Warszawa", false,
+                                        "/exampleImages/userIcon.png",
+                                        "/exampleImages/background.png",
+                                        Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
-            UserInfo annaDetails = new UserInfo("Anna", "Moscicki",
-                    LocalDate.of(2000, MARCH, 29), "Warszawa", false,
-                    "exampleImages/userIcon.png",
-                    "exampleImages/background.png",
-                    Sex.MALE, LocalDate.of(2023, JANUARY, 22));
+                        UserInfo annaDetails = new UserInfo("Anna", "Moscicki",
+                                        LocalDate.of(2000, MARCH, 29), "Warszawa", false,
+                                        "/exampleImages/userIcon.png",
+                                        "/exampleImages/background.png",
+                                        Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
-            UserInfo marekDetails = new UserInfo("Marek", "Moscicki",
-                    LocalDate.of(2000, MARCH, 29), "Warszawa", false,
-                    "exampleImages/userIcon.png",
-                    "exampleImages/background.png",
-                    Sex.MALE, LocalDate.of(2023, JANUARY, 22));
+                        UserInfo marekDetails = new UserInfo("Marek", "Moscicki",
+                                        LocalDate.of(2000, MARCH, 29), "Warszawa", false,
+                                        "/exampleImages/userIcon.png",
+                                        "/exampleImages/background.png",
+                                        Sex.MALE, LocalDate.of(2023, JANUARY, 22));
 
-            UserEntity adam = new UserEntity(Role.USER,
-                    "adam@email.com",
-                    passwordEncoder.encode("Password1!"),
-                    true,
-                    LocalDate.of(2000, JANUARY, 6), true, adamDetails);
+                        UserEntity adam = new UserEntity(Role.USER,
+                                        "adam@email.com",
+                                        passwordEncoder.encode("Password1!"),
+                                        true,
+                                        LocalDate.of(2000, JANUARY, 6), true, adamDetails);
 
-            UserEntity anna = new UserEntity(Role.USER,
-                    "anna@email.com",
-                    passwordEncoder.encode("Password1!"),
-                    true,
-                    LocalDate.of(2002, MARCH, 12), true, annaDetails);
+                        UserEntity anna = new UserEntity(Role.USER,
+                                        "anna@email.com",
+                                        passwordEncoder.encode("Password1!"),
+                                        true,
+                                        LocalDate.of(2002, MARCH, 12), true, annaDetails);
 
-            UserEntity marek = new UserEntity(Role.USER,
-                    "marek@email.com",
-                    passwordEncoder.encode("Password1!"),
-                    true,
-                    LocalDate.of(2001, MARCH, 14), false, marekDetails);
-            userRepository.saveAll(List.of(adam, anna, marek));
-
+                        UserEntity marek = new UserEntity(Role.USER,
+                                        "marek@email.com",
+                                        passwordEncoder.encode("Password1!"),
+                                        true,
+                                        LocalDate.of(2001, MARCH, 14), false, marekDetails);
+                        userRepository.saveAll(List.of(adam, anna, marek));
 
                         // add posts
-                        Post post1 = new Post("Post 1", true, LocalDate.of(2022, 5, 1), "exampleImages/cat.jpg", adam);
-                        Post post2 = new Post("Post 2", false, LocalDate.of(2022, 5, 1), "exampleImages/cat.jpg",
+                        Post post1 = new Post("Post 1", true, LocalDate.of(2022, 5, 1), "/exampleImages/cat.jpg", adam);
+                        Post post2 = new Post("Post 2", false, LocalDate.of(2022, 5, 1), "/exampleImages/cat.jpg",
                                         marek);
                         postRepository.saveAll(List.of(post1, post2));
 

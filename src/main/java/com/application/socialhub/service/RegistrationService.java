@@ -36,15 +36,16 @@ public class RegistrationService {
         this.emailSender = emailSender;
     }
 
-    public ResponseEntity<Object> register( UserRegistrationRequest request) {
+    public ResponseEntity<Object> register(UserRegistrationRequest request) {
 
         if (userDAO.existsUserWithEmail(request.email())) {
             // TODO check of attributes are the same and
             // TODO if email not confirmed send confirmation email.
             return new ResponseEntity<>(new AuthenticationFailedResponse("Email is taken!"), HttpStatus.BAD_REQUEST);
         }
-        if(!request.password().equals(request.passwordConfirmation())){
-            return new ResponseEntity<>(new AuthenticationFailedResponse("Passwords should be equal!"), HttpStatus.BAD_REQUEST);
+        if (!request.password().equals(request.passwordConfirmation())) {
+            return new ResponseEntity<>(new AuthenticationFailedResponse("Passwords should be equal!"),
+                    HttpStatus.BAD_REQUEST);
         }
 
         UserInfo userInfo = new UserInfo(
@@ -113,7 +114,7 @@ public class RegistrationService {
                 "\n" +
                 "  <table role=\"presentation\" width=\"100%\" style=\"border-collapse:collapse;min-width:100%;width:100%!important\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n"
                 +
-                "    <tbody><tr>\n" +
+                "    <tboy>d<tr>\n" +
                 "      <td width=\"100%\" height=\"53\" bgcolor=\"#0b0c0c\">\n" +
                 "        \n" +
                 "        <table role=\"presentation\" width=\"100%\" style=\"border-collapse:collapse;max-width:580px\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\">\n"
