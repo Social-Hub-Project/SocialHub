@@ -11,7 +11,11 @@ Create account, add and search posts, comment and like other posts.
 - run "docker-compose build" in project folder
 - run "docker-compose up" in project folder
 
-## Database ERD
-![SocialHub drawio](https://user-images.githubusercontent.com/92308173/226292815-c179287a-9d5b-45a0-911e-76d2164cdaad.png)
+## How to run only frontend for development?
 
-## In case of "PostgreSQL Database directory appears to contain a database; Skipping initialization", delete volumes and containers and run docker again. 
+- install node.js
+- clone repository
+- from "frontend" folder type "npm start"
+
+## Database ERD
+![SocialHub](https://github.com/Social-Hub-Project/SocialHub/assets/92308173/0040faa3-baaa-4943-aff3-a821f9000423)

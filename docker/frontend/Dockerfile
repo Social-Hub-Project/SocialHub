@@ -6,4 +6,4 @@ COPY ./frontend/ /app/
 
 RUN npm ci
 
-ENTRYPOINT [ "npm", "start" ]
+ENTRYPOINT [ "npm" , "start" ]

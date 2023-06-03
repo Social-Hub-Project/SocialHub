@@ -1,0 +1,37 @@
+.resultUser {
+    box-sizing: border-box;
+    width: 363px;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background: #FFFFFF;
+    border: 1.5px solid #F1F2F6;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.resultUser p {
+    /* Name */
+    cursor: pointer;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    /* identical to box height */
+
+
+    /* Slate Grey */
+
+    color: #788292;
+}
+
+.resultUser img {
+    cursor: pointer;
+}
+
+.userPhoto {
+    width: 40px;
+}

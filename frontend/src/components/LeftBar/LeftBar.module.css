@@ -1,0 +1,11 @@
+.leftBar {
+    width: 25%;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 80px;
+
+    justify-content: flex-start;
+}

@@ -1,0 +1,95 @@
+.notExpanded {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+.notExpanded img {
+    rotate: 180deg;
+}
+
+.Expanded {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hideArrow {
+    margin-left: 900px;
+    display: block;
+}
+
+.createPost {
+    margin-top: 60px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px;
+    background: #FFFFFF;
+    border: 1.5px solid #F1F2F6;
+    border-radius: 8px;
+}
+
+.uploadButton {
+    border-radius: 25px;
+    width: 220px;
+    height: 40px;
+    cursor: pointer;
+    background-color: #105E5E;
+    color: white;
+    border: none;
+    display: inline-block;
+}
+
+.uploadPhotoBox {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.comfirmButton {
+    margin-top: 20px;
+    margin-bottom: -20px;
+    border-radius: 25px;
+    width: 220px;
+    height: 40px;
+    cursor: pointer;
+    background-color: #105E5E;
+    color: white;
+    border: none;
+    display: inline-block;
+}
+
+.fileInput {
+    margin: 10px;
+}
+
+::-webkit-file-upload-button {
+    margin-top: 20px;
+    border-radius: 25px;
+    width: 220px;
+    height: 40px;
+    cursor: pointer;
+    background-color: #105E5E;
+    color: white;
+    border: none;
+    display: inline-block;
+}
+
+.providedImage {
+    width: 75%;
+    height: auto;
+    margin-top: 20px;
+
+}
