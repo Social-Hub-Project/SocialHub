@@ -4,6 +4,7 @@ import style from './ResultUser.module.css';
 import userLogo from '../../resources/logo_user.png';
 import Button from '../Button/Button';
 import FollowButton from './FollowButton';
+import ProfilePhoto from '../ProfilePhoto/ProfilePhoto';
 const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/followUser`;
 const unFollowfetchUrl = `${process.env.REACT_APP_BACKEND_URL}/app/unfollowUser`;
 
@@ -13,7 +14,7 @@ export interface ResultUserProps {
     surname: string;
     isFollowed: boolean;
     onClick?: () => void;
-    photoUrl?: string;
+    photoUrl: string;
     useRef?: RefObject<HTMLInputElement>;
     className?: string;
 }
@@ -98,7 +99,7 @@ export default class ResultUser extends Component<ResultUserProps, ResultUserSta
     render() {
         return (
             <div className={[style.resultUser, this.props.className].join(' ')} >
-                <img alt="user_photo" src={userLogo} onClick={this.reload} />
+                <ProfilePhoto onClick={this.reload} data={this.props.photoUrl}></ProfilePhoto>
                 <p onClick={this.reload}>{this.props.name} {this.props.surname}</p>
                 {this.state.isFollowed ?
                     <FollowButton onClick={this.unfollow} text='Unfollow'></FollowButton>

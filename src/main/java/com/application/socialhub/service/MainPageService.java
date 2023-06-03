@@ -115,15 +115,20 @@ public class MainPageService {
                     InputStream inputStream = new FileInputStream(file);
                     Blob imageBlob = new SerialBlob(new InputStreamResource(inputStream).getContentAsByteArray());
 
+                    // creator profile photo
+                    File file2 = new File(post.getUserEntity().getUserInfo().getProfilePhotoSource());
+                    InputStream inputStream2 = new FileInputStream(file2);
+                    Blob creatorProfilePhoto = new SerialBlob(new InputStreamResource(inputStream2).getContentAsByteArray());
+
                     // comments images
                     List<Blob> imagesCommentary = new ArrayList<>();
                     for (PostsReturns comment : comments) {
                         try {
-                            File file2 = new File(comment.getUser_entity_id().getUserInfo().getProfilePhotoSource());
-                            InputStream inputStream2 = new FileInputStream(file2);
-                            Blob imageBlob2 = new SerialBlob(new InputStreamResource(inputStream2).getContentAsByteArray());
+                            File file3 = new File(comment.getUser_entity_id().getUserInfo().getProfilePhotoSource());
+                            InputStream inputStream3 = new FileInputStream(file3);
+                            Blob imageBlob3 = new SerialBlob(new InputStreamResource(inputStream3).getContentAsByteArray());
 
-                            imagesCommentary.add(imageBlob2);
+                            imagesCommentary.add(imageBlob3);
                         } catch (Exception e) {
                             // TODO: handle exception
                             imagesCommentary.add(null);
@@ -132,7 +137,7 @@ public class MainPageService {
                     }
 
                     postWithCommentsAndRatingsList.add(new PostWithCommentsAndRating(post, comments, likes, dislikes, lickedByUser,
-                            imageBlob, imagesCommentary));
+                            imageBlob,creatorProfilePhoto ,imagesCommentary));
                 }
             }
 

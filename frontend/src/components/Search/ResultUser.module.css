@@ -31,3 +31,7 @@
 .resultUser img {
     cursor: pointer;
 }
+
+.userPhoto {
+    width: 40px;
+}

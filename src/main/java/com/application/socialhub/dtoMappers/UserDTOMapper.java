@@ -3,6 +3,7 @@ package com.application.socialhub.dtoMappers;
 import com.application.socialhub.dto.UserDetailsDTO;
 import com.application.socialhub.model.UserInfo;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -29,7 +30,8 @@ public class UserDTOMapper implements Function<UserInfo, UserDetailsDTO> {
                     convertImagePathToImage(userInfo.getProfilePhotoSource()),
                     convertImagePathToImage(userInfo.getBgPhotoSource()),
                     userInfo.getProfilePhotoSource(),
-                    userInfo.getBgPhotoSource()
+                    userInfo.getBgPhotoSource(),
+                    true
             );
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e);

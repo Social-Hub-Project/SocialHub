@@ -11,15 +11,17 @@ public class PostWithCommentsAndRating {
     private int dislike;
     private Integer lickedByUser;
     private Blob image;
+    private Blob creatorProfilePhoto;
     private List<Blob> profileImage;
 
     public PostWithCommentsAndRating(Post post, List<PostsReturns> comments, int like, int dislike, Integer lickedByUser,
-                                     Blob image, List<Blob> profileImage) {
+                                     Blob image, Blob creatorProfilePhoto, List<Blob> profileImage) {
         this.post = post;
         this.comments = comments;
         this.like = like;
         this.dislike = dislike;
         this.image = image;
+        this.creatorProfilePhoto = creatorProfilePhoto;
         this.profileImage = profileImage;
         this.lickedByUser = lickedByUser;
     }
@@ -78,5 +80,13 @@ public class PostWithCommentsAndRating {
 
     public void setProfileImage(List<Blob> profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public Blob getCreatorProfilePhoto() {
+        return creatorProfilePhoto;
+    }
+
+    public void setCreatorProfilePhoto(Blob creatorProfilePhoto) {
+        this.creatorProfilePhoto = creatorProfilePhoto;
     }
 }

@@ -1,5 +1,6 @@
 package com.application.socialhub.service;
 
+import com.application.socialhub.dao.FollowerDAO;
 import com.application.socialhub.dao.UserDAO;
 import com.application.socialhub.dao.UserInfoDAO;
 import com.application.socialhub.dtoMappers.UserEntityDTOMapper;
@@ -29,6 +30,8 @@ class UserEntityServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
+    private FollowerDAO followerDAO;
+    @Mock
     private JWTUtil jwtUtil;
 
     private UserService underTest;
@@ -40,7 +43,9 @@ class UserEntityServiceTest {
                 userDTOMapper,
                 userEntityDTOMapper,
                 passwordEncoder,
-                jwtUtil);
+                followerDAO,
+                jwtUtil
+                );
     }
 
     @Test

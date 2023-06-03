@@ -1,5 +1,6 @@
 package com.application.socialhub.service;
 
+import com.application.socialhub.dao.FollowerDAO;
 import com.application.socialhub.dao.UserDAO;
 import com.application.socialhub.dao.UserInfoDAO;
 import com.application.socialhub.dto.*;
@@ -10,16 +11,23 @@ import com.application.socialhub.model.UserInfo;
 import com.application.socialhub.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 
-
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +38,7 @@ public class UserService {
     private final UserInfoDAO userInfoDAO;
     private final UserDTOMapper userDTOMapper;
     private final UserEntityDTOMapper userEntityDTOMapper;
+    private final FollowerDAO followerDAO;
     private final PasswordEncoder passwordEncoder;
     private final JWTUtil jwtUtil;
 
@@ -39,6 +48,7 @@ public class UserService {
                        UserDTOMapper userDTOMapper,
                        UserEntityDTOMapper userEntityDTOMapper,
                        PasswordEncoder passwordEncoder,
+                       @Qualifier("follower") FollowerDAO followerDAO,
                        JWTUtil jwtUtil) {
         this.userDAO = userDAO;
         this.userDTOMapper = userDTOMapper;
@@ -46,6 +56,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.userInfoDAO = userInfoDAO;
+        this.followerDAO = followerDAO;
     }
 
     public List<UserDTO> getAllUsers() {
@@ -62,9 +73,28 @@ public class UserService {
         return new UserDTOMapper().apply(user);
     }
 
-    public UserDetailsDTO getUserInfoById(UserInfoIdRequest request){
+    public UserDetailsDTO getUserInfoById(UserInfoIdRequest request,Authentication authentication){
+        try {
+        UserEntity activeUser= userDAO.findUserByEmail(authentication.getName());
+        boolean isFollowing=followerDAO.checkIfFollowerExists(activeUser.getId(),request.id());
         UserInfo user = userInfoDAO.findUserInfoById(request.id());
-        return new UserDTOMapper().apply(user);
+
+            return new UserDetailsDTO(user.getId(),
+                    user.getName(),
+                    user.getSurname(),
+                    user.getDateOfBirth(),
+                    user.getResidence(),
+                    user.getSex(),
+                    user.getCreatedAt(),
+                    convertImagePathToImage(user.getProfilePhotoSource()),
+                    convertImagePathToImage(user.getBgPhotoSource()),
+                    user.getProfilePhotoSource(),
+                    user.getBgPhotoSource(),
+                    isFollowing);
+        }catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public ResponseEntity<?> changeProfilePhoto(ChangePhotoRequest request) {
@@ -123,5 +153,11 @@ public class UserService {
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private Blob convertImagePathToImage(String path) throws IOException, SQLException {
+        File file = new File(path);
+        InputStream inputStream = new FileInputStream(file);
+        return new SerialBlob( new InputStreamResource(inputStream).getContentAsByteArray());
     }
 }

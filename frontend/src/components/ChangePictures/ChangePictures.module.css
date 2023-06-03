@@ -1,0 +1,40 @@
+.userInfoBox {
+    width: 100%;
+    margin-bottom: -200px;
+
+}
+
+
+.bgPhoto {
+    width: 100%;
+}
+
+.info {
+    position: relative;
+    top: -200px;
+    height: 500px;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+
+.profilephoto {
+    margin-top: -50px;
+    width: 160px;
+    height: 160px;
+}
+
+.name {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    /* identical to box height */
+    color: #000000;
+
+}
