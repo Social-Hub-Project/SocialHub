@@ -43,9 +43,10 @@ export default class Contacts extends Component<ContactsProps, ContactsState> {
                 .then((body) => {
                     var array: Array<JSX.Element> = [];
                     body.forEach((p: any) => {
+                        console.log(p)
                         array.push(<SingleContact
-                            id={p.id} key={p.id} photoUrl={p.photoUrl}
-                            name={p.userInfo.name} surname={p.userInfo.surname}></SingleContact>)
+                            id={p.id} key={p.id} photoUrl={p.profilePhoto}
+                            name={p.user.userInfo.name} surname={p.user.userInfo.surname}></SingleContact>)
                     })
                     this.setState({
                         results: array,
